@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+        backupGlobals="false"
+        backupStaticAttributes="false"
+        bootstrap="vendor/autoload.php"
+        colors="true"
+        convertErrorsToExceptions="true"
+        convertNoticesToExceptions="true"
+        convertWarningsToExceptions="true"
+        processIsolation="false"
+        stopOnFailure="false"
+        executionOrder="random"
+        failOnWarning="true"
+        failOnRisky="true"
+        failOnEmptyTestSuite="true"
+        beStrictAboutOutputDuringTests="true"
+        verbose="true"
+>
+    <php>
+        <env name="RAY_ENABLED" value="(true)"/>
+        <env name="SEND_CACHE_TO_RAY" value="(false)"/>
+        <env name="SEND_DUMPS_TO_RAY" value="(true)"/>
+        <env name="SEND_JOBS_TO_RAY" value="(false)"/>
+        <env name="SEND_LOG_CALLS_TO_RAY" value="(true)"/>
+        <env name="SEND_QUERIES_TO_RAY" value="(false)"/>
+        <env name="SEND_REQUESTS_TO_RAY" value="(false)"/>
+        <env name="SEND_VIEWS_TO_RAY" value="(false)"/>
+        <env name="SEND_EXCEPTIONS_TO_RAY" value="(true)"/>
+    </php>
+    <testsuites>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">./tests/Unit</directory>
+        </testsuite>
+    </testsuites>
+    <coverage>
+        <include>
+            <directory suffix=".php">./src</directory>
+        </include>
+        <report>
+            <html outputDirectory="build/coverage"/>
+            <text outputFile="build/coverage.txt"/>
+            <clover outputFile="build/logs/clover.xml"/>
+        </report>
+    </coverage>
+    <logging>
+        <junit outputFile="build/report.junit.xml"/>
+    </logging>
+</phpunit>

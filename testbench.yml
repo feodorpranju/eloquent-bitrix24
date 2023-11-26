@@ -1,0 +1,2 @@
+providers:
+  - Feodorpranju\Eloquent\Bitrix24\Bitrix24ServiceProvider

@@ -6,12 +6,13 @@ namespace Feodorpranju\Eloquent\Bitrix24\Core;
 
 use Feodorpranju\Eloquent\Bitrix24\Contracts\Client;
 use Feodorpranju\Eloquent\Bitrix24\Contracts\Command;
+use Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\BatchResponse;
 use Feodorpranju\Eloquent\Bitrix24\Traits\GetsDefaultClient;
 use Feodorpranju\Eloquent\Bitrix24\Traits\HasStaticMake;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
+use Feodorpranju\Eloquent\Bitrix24\Contracts\Batch as BatchInterface;
 
 /**
  * Class Batch
@@ -19,7 +20,7 @@ use JetBrains\PhpStorm\Pure;
  *
  * @method static static make(Command[]|Collection $commands = [], ?Client $client = null, bool $halt = true)
  */
-class Batch extends Collection implements Command
+class Batch extends Collection implements BatchInterface
 {
     use HasStaticMake, GetsDefaultClient;
 
@@ -43,10 +44,10 @@ class Batch extends Collection implements Command
     /**
      * @inheritDoc
      */
-    public function call(): array
+    public function call(): BatchResponse
     {
         //TODO throw on empty client
-        return $this->client->call($this->getAction(), $this->getData());
+        return $this->client->call($this->getAction(), $this->getData(), $this);
     }
 
     /**
@@ -70,9 +71,7 @@ class Batch extends Collection implements Command
     }
 
     /**
-     * Returns halt value
-     *
-     * @return bool
+     * @inheritDoc
      */
     public function getHalt(): bool
     {
@@ -136,12 +135,18 @@ class Batch extends Collection implements Command
         $this->client = $client;
     }
 
+    /**
+     * Gets commands array as strings
+     *
+     * @return array
+     */
     protected function commands(): array
     {
         return $this
             ->filter(fn($value) => $this->isCommand($value))
             ->map(fn(Command $cmd) => (string)$cmd)
-            ->slice(0, static::BATCH_CMD_LIMIT)->toArray();
+            ->slice(0, static::BATCH_CMD_LIMIT)
+            ->toArray();
     }
 
     /**
@@ -152,7 +157,7 @@ class Batch extends Collection implements Command
         return $this->getAction().(empty($this->getData()) ? "" : "?".http_build_query($this->getData()));
     }
 
-    public function push(...$values)
+    public function push(...$values): static
     {
         return parent::push(...array_filter(
             $values,
@@ -160,7 +165,7 @@ class Batch extends Collection implements Command
         ));
     }
 
-    public function put($key, $value)
+    public function put($key, $value): static
     {
         if (!$this->isCommand($value)) {
             return $this;
@@ -184,9 +189,10 @@ class Batch extends Collection implements Command
      * @param mixed $value
      * @return bool
      */
-    #[Pure] protected function isCommand(mixed $value): bool
+    #[Pure]
+    protected function isCommand(mixed $value): bool
     {
-        return is_object($value) && $value instanceof Command;
+        return $value instanceof Command;
     }
 
     /**

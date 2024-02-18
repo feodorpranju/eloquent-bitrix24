@@ -6,14 +6,16 @@ use Composer\InstalledVersions;
 use Feodorpranju\Eloquent\Bitrix24\Core\Authorization\Webhook;
 use Feodorpranju\Eloquent\Bitrix24\Concerns\ManagesTransactions;
 use Illuminate\Database\Connection as BaseConnection;
+use InvalidArgumentException;
 use JetBrains\PhpStorm\Pure;
 use Feodorpranju\Eloquent\Bitrix24\Core\Client;
 use Throwable;
+use Feodorpranju\Eloquent\Bitrix24\Contracts\Client as ClientInterface;
 
 /**
  * Class Connection
  * @package Feodorpranju\Eloquent\Bitrix24
- * @mixin Client
+ * @mixin ClientInterface
  */
 class Connection extends BaseConnection
 {
@@ -24,18 +26,19 @@ class Connection extends BaseConnection
     /**
      * The MongoDB connection handler.
      *
-     * @var Client
+     * @var ClientInterface
      */
-    protected Client $connection;
+    protected ClientInterface $client;
 
     /**
      * Create a new database connection instance.
+     * @param array $config
      */
     public function __construct(array $config)
     {
         $this->config = $config;
 
-        $this->connection = $this->createConnection($config);
+        $this->client = $this->createClient($config);
 
         $this->useDefaultPostProcessor();
 
@@ -47,22 +50,22 @@ class Connection extends BaseConnection
     /**
      * Begin a fluent query against a database collection.
      *
-     * @param string $collection
+     * @param string $table
      *
      * @return Query\Builder
      */
-    public function collection(string $collection): Query\Builder
+    public function collection(string $table): Query\Builder
     {
         $query = new Query\Builder($this, $this->getQueryGrammar(), $this->getPostProcessor());
 
-        return $query->from($collection);
+        return $query->from($table);
     }
 
     /**
      * Begin a fluent query against a database collection.
      *
-     * @param  string      $table
-     * @param  string|null $as
+     * @param  string      $table Table name
+     * @param  string|null $as Unused
      *
      * @return Query\Builder
      */
@@ -71,32 +74,20 @@ class Connection extends BaseConnection
         return $this->collection($table);
     }
 
-    /**
-     * Get a MongoDB collection.
-     *
-     * @param string $name
-     *
-     * @return Collection
-     */
-    public function getCollection(string $name): Collection
-    {
-        return new Collection($this, $this->db->selectCollection($name));
-    }
-
     /** @inheritdoc */
-    #[Pure] public function getSchemaBuilder(): Schema\Builder
+    public function getSchemaBuilder(): Schema\Builder
     {
         return new Schema\Builder($this);
     }
 
     /**
-     * return MongoDB object.
+     * Return Bitrix24 client.
      *
-     * @return Client
+     * @return ClientInterface
      */
-    public function getClient(): Client
+    public function getClient(): ClientInterface
     {
-        return $this->connection;
+        return $this->client;
     }
 
     /**
@@ -104,28 +95,64 @@ class Connection extends BaseConnection
      */
     public function getDatabaseName(): string
     {
-        return $this->connection->getToken()->getSubdomain();
+        return $this->client->getToken()->getSubdomain();
     }
 
     /**
-     * Create a new MongoDB connection.
+     * Create a new Bitrix24 connection.
      * @param array $config
      * @return Client
      */
-    protected function createConnection(array $config): Client
+    protected function createClient(array $config): Client
     {
-        if (!empty($config['webhook'])) {
-            return new Client(new Webhook($config['webhook']));
-        } else {
-            throw new \Exception('bad config');
-            //TODO: add OAuth
+        $this->validateConfig($config);
+
+        $client = match ($config['type']) {
+            'webhook' => new Client(new Webhook($config['webhook'])),
+            default => null,
+        };
+
+        if (!$client) {
+            throw new InvalidArgumentException('Database is not properly configured.');
         }
+
+        return $client;
+    }
+
+    /**
+     * @param array $config
+     * @throws InvalidArgumentException
+     */
+    protected function validateConfig(array $config): void
+    {
+        $exception = new InvalidArgumentException('Database is not properly configured.');
+
+        switch ($config['type'] ?? '') {
+            case 'webhook':
+                if (!empty($config['webhook'])) {
+                    return;
+                }
+                break;
+            case 'oauth':
+                if (
+                    !empty($config['client_id'])
+                    && !empty($config['client_secret'])
+                    && !empty($config['host'])
+                ) {
+                    return;
+                }
+                break;
+            case 'placement':
+                break;
+        }
+
+        throw $exception;
     }
 
     /** @inheritdoc */
     public function disconnect()
     {
-        unset($this->connection);
+        unset($this->client);
     }
 
     /** @inheritdoc */
@@ -168,7 +195,7 @@ class Connection extends BaseConnection
      */
     public function __call($method, $parameters)
     {
-        return $this->connection->$method(...$parameters);
+        return $this->client->$method(...$parameters);
     }
 
     /**

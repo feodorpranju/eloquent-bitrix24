@@ -4,14 +4,17 @@
 namespace Feodorpranju\Eloquent\Bitrix24\Contracts;
 
 
+use Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\BatchResponse;
+use Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\Response;
+
 interface Command
 {
     /**
      * Calls action on client
      *
-     * @return array
+     * @return BatchResponse|Response
      */
-    public function call(): array;
+    public function call(): BatchResponse|Response;
 
     /**
      * Returns action

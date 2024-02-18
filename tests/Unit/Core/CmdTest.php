@@ -6,6 +6,7 @@ namespace Feodorpranju\Eloquent\Bitrix24\Tests\Unit\Core;
 
 use Feodorpranju\Eloquent\Bitrix24\Core\Client;
 use Feodorpranju\Eloquent\Bitrix24\Core\Cmd;
+use Feodorpranju\Eloquent\Bitrix24\Core\Responses\Response;
 use Feodorpranju\Eloquent\Bitrix24\Tests\TestCase;
 use Illuminate\Support\Facades\DB;
 use Mockery\MockInterface;
@@ -37,14 +38,16 @@ class CmdTest extends TestCase
 
     public function testCall(): void
     {
-        $response = ['result' => true];
+        $response = ['result' => []];
+        $cmd = Cmd::make('test');
 
-        $client = $this->mock(Client::class, function (MockInterface $mock) use ($response) {
-            $mock->shouldReceive('call')->withArgs(['test', []])->andReturn($response);
+        $client = $this->mock(Client::class, function (MockInterface $mock) use ($response, $cmd) {
+            $mock->shouldReceive('call')->withArgs(['test', [], $cmd])->andReturn(new Response($response));
         });
 
-        $cmd = Cmd::make('test', [], $client);
-        $this->assertEquals($response, $cmd->call(), 'Call client method through cmd');
+        $cmd->setClient($client);
+
+        $this->assertEquals($response, $cmd->call()->toArray(), 'Call client method through cmd');
     }
 
     public function testSetAction()

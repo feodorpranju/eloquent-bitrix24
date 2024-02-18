@@ -1,0 +1,21 @@
+providers:
+  - Workbench\App\Providers\WorkbenchServiceProvider
+  - Feodorpranju\Eloquent\Bitrix24\Bitrix24ServiceProvider
+
+migrations:
+  - workbench/database/migrations
+
+seeders:
+  - Workbench\Database\Seeders\DatabaseSeeder
+
+workbench:
+  start: '/'
+  install: true
+  discovers:
+    web: true
+    api: false
+    commands: true
+    views: false
+  build: []
+  assets: []
+  sync: []

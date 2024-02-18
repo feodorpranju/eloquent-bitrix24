@@ -8,6 +8,7 @@ use Feodorpranju\Eloquent\Bitrix24\Contracts\Command;
 use Feodorpranju\Eloquent\Bitrix24\Core\Batch;
 use Feodorpranju\Eloquent\Bitrix24\Core\Client;
 use Feodorpranju\Eloquent\Bitrix24\Core\Cmd;
+use Feodorpranju\Eloquent\Bitrix24\Core\Responses\BatchResponse;
 use Feodorpranju\Eloquent\Bitrix24\Tests\TestCase;
 use Mockery\MockInterface;
 
@@ -40,27 +41,28 @@ class BatchTest extends TestCase
 
     public function testCall(): void
     {
-        $response = ['result' => true];
+        $response = ['result' => []];
         $halt = true;
 
-        $client = $this->mock(Client::class, function (MockInterface $mock) use ($response, $halt) {
+        $cmd = Cmd::make('test', ['test' => 'test']);
+        $batch = Batch::make([
+            $cmd,
+            'q1' => $cmd,
+        ]);
+
+        $client = $this->mock(Client::class, function (MockInterface $mock) use ($response, $halt, $batch) {
             $mock->shouldReceive('call')->withArgs(['batch', [
                 'halt' => (int)$halt,
                 'cmd' => [
                     'test?'.http_build_query(['test' => 'test']),
                     'q1' => 'test?'.http_build_query(['test' => 'test'])
                 ]
-            ]])->andReturn($response);
+            ], $batch])->andReturn(new BatchResponse($response));
         });
 
-        $cmd = Cmd::make('test', ['test' => 'test']);
+        $batch->setClient($client);
 
-        $batch = Batch::make([
-            $cmd,
-            'q1' => $cmd,
-        ], $client);
-
-        $this->assertEquals($response, $batch->call(), 'Call client method through batch');
+        $this->assertEquals($response, $batch->call()->toArray(), 'Call client method through batch');
     }
 
     public function testSetClient()

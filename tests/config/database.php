@@ -1,14 +1,18 @@
 <?php
 
+
+use Illuminate\Support\Str;
+
 return [
-    'defaultB24' => 'bitrix24',
+    'default' => 'bitrix24',
 
     'connections' => [
         'bitrix24' => [
             'driver' => 'bitrix24',
+            'type' => env('BX24_TYPE', 'webhook'),
 
             //Webhook auth
-            'webhook' => env('DB_HOST', 'https://example.bitrix24.ru/rest/1/token'),
+            'webhook' => env('BX24_WEBHOOK', 'https://example.bitrix24.ru/rest/1/token'),
 
             //Oauth2
             'client_id' => env('DB_USERNAME', 'forge'),

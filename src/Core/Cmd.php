@@ -6,6 +6,9 @@ namespace Feodorpranju\Eloquent\Bitrix24\Core;
 
 use Feodorpranju\Eloquent\Bitrix24\Contracts\Client;
 use Feodorpranju\Eloquent\Bitrix24\Contracts\Command;
+use Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\BatchResponse;
+use Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\ListResponse;
+use Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\Response;
 use Feodorpranju\Eloquent\Bitrix24\Traits\GetsDefaultClient;
 use Feodorpranju\Eloquent\Bitrix24\Traits\HasStaticMake;
 use Illuminate\Support\Facades\DB;
@@ -23,10 +26,10 @@ class Cmd implements Command
     /**
      * @inheritDoc
      */
-    public function call(): array
+    public function call(): Response|ListResponse|BatchResponse
     {
         //TODO throw on empty client
-        return $this->client->call($this->action, $this->data);
+        return $this->client->call($this->action, $this->data, $this);
     }
 
     public function __construct(protected string $action, protected array $data = [], protected ?Client $client = null)

@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Feodorpranju\Eloquent\Bitrix24\Scopes\Crm;
+namespace Pranju\Bitrix24\Scopes\Crm;
 
 
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Client;
-use Feodorpranju\Eloquent\Bitrix24\Core\Cmd;
+use Pranju\Bitrix24\Contracts\Client;
+use Pranju\Bitrix24\Core\Cmd;
 use Illuminate\Support\Str;
 
 class Item extends AbstractCrmScope

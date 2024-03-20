@@ -1,13 +1,13 @@
 <?php
 
-namespace Feodorpranju\Eloquent\Bitrix24\Query;
+namespace Pranju\Bitrix24\Query;
 
 use ArgumentCountError;
 use BadMethodCallException;
 use Carbon\CarbonPeriod;
 use Closure;
 use DateTimeInterface;
-use Feodorpranju\Eloquent\Bitrix24\Connection;
+use Pranju\Bitrix24\Connection;
 use Illuminate\Database\Query\Builder as BaseBuilder;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Arr;
@@ -600,13 +600,15 @@ class Builder extends BaseBuilder
     }
 
     /** @inheritdoc */
-    public function from($collection, $as = null)
+    public function from($table, $as = null)
     {
-        if ($collection) {
-            $this->collection = $this->connection->getCollection($collection);
+        if ($this->isQueryable($table)) {
+            return $this->fromSub($table, $as);
         }
 
-        return parent::from($collection);
+        $this->from = $table;
+
+        return $this;
     }
 
     public function truncate(): bool

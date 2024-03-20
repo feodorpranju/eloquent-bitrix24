@@ -1,17 +1,24 @@
 <?php
 
-namespace Feodorpranju\Eloquent\Bitrix24\Core\Responses;
+namespace Pranju\Bitrix24\Core\Responses;
 
-use Exception;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\Response;
-use \Feodorpranju\Eloquent\Bitrix24\Contracts\Exceptions\ResponseException as ResponseExceptionInterface;
+use Pranju\Bitrix24\Bitrix24Exception;
+use Pranju\Bitrix24\Contracts\Responses\Response;
+use Pranju\Bitrix24\Core\QueryException;
 
-class ResponseException extends Exception implements ResponseExceptionInterface
+class ResponseException extends Bitrix24Exception
 {
     public function __construct(protected Response $response)
     {
         parent::__construct();
         $this->code = $response->httpResponse()->status();
         $this->message = $this->response->httpResponse()->json('error', 'Undefined error');
+    }
+
+    public function toQueryException(): QueryException
+    {
+        return new QueryException(
+            $this->response->command()
+        );
     }
 }

@@ -1,8 +1,9 @@
 <?php
 
-namespace Feodorpranju\Eloquent\Bitrix24\Contracts\Repositories;
+namespace Pranju\Bitrix24\Contracts\Repositories;
 
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Command;
+use Pranju\Bitrix24\Contracts\Command;
+use Pranju\Bitrix24\Contracts\Responses\Response;
 
 interface CanSelectItems extends Repository
 {
@@ -43,4 +44,11 @@ interface CanSelectItems extends Repository
         int $offset = -1,
         ?int $limit = null,
     ): Command;
+
+    /**
+     * Gets selected items
+     *
+     * @return array[]
+     */
+    public function getSelectedItems(Response $response): array;
 }

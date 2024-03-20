@@ -1,9 +1,9 @@
 <?php
 
-namespace Feodorpranju\Eloquent\Bitrix24\Core\Responses;
+namespace Pranju\Bitrix24\Core\Responses;
 
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\ListResponse as ListResponseInterface;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\ResponsePagination as ResponsePaginationInterface;
+use Pranju\Bitrix24\Contracts\Responses\ListResponse as ListResponseInterface;
+use Pranju\Bitrix24\Contracts\Responses\ResponsePagination as ResponsePaginationInterface;
 
 class ListResponse extends Response implements ListResponseInterface
 {

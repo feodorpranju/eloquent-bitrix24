@@ -1,41 +1,48 @@
 <?php
 
 
-namespace Feodorpranju\Eloquent\Bitrix24\Core;
+namespace Pranju\Bitrix24\Core;
 
 
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Repositories\Repository;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\Response as ResponseInterface;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\ListResponse as ListResponseInterface;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\BatchResponse as BatchResponseInterface;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Token;
-use Feodorpranju\Eloquent\Bitrix24\Core\Authorization\Webhook;
-use Feodorpranju\Eloquent\Bitrix24\Core\Responses\BatchResponse;
-use Feodorpranju\Eloquent\Bitrix24\Core\Responses\Response;
-use Feodorpranju\Eloquent\Bitrix24\Scopes\Crm\Item;
-use Feodorpranju\Eloquent\Bitrix24\Traits\HasStaticMake;
+use Pranju\Bitrix24\Contracts\Repositories\Repository;
+use Pranju\Bitrix24\Contracts\Responses\Response as ResponseInterface;
+use Pranju\Bitrix24\Contracts\Responses\ListResponse as ListResponseInterface;
+use Pranju\Bitrix24\Contracts\Responses\BatchResponse as BatchResponseInterface;
+use Pranju\Bitrix24\Contracts\Token;
+use Pranju\Bitrix24\Core\Authorization\Webhook;
+use Pranju\Bitrix24\Core\Responses\BatchResponse;
+use Pranju\Bitrix24\Core\Responses\Response;
+use Pranju\Bitrix24\Scopes\Crm\Item;
+use Pranju\Bitrix24\Traits\HasStaticMake;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use JetBrains\PhpStorm\Pure;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Client as ClientInterface;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Command as CommandInterface;
-use \Feodorpranju\Eloquent\Bitrix24\Contracts\Batch as BatchInterface;
+use Pranju\Bitrix24\Contracts\Client as ClientInterface;
+use Pranju\Bitrix24\Contracts\Command as CommandInterface;
+use \Pranju\Bitrix24\Contracts\Batch as BatchInterface;
 
 /**
  * Class Client
- * @package Feodorpranju\Eloquent\Bitrix24\Core
+ * @package Pranju\Bitrix24\Core
  *
- * @method static static make(string|Token $token)
+ * @method static static make(string|Token $token, ?string $connectionName = null)
  */
 class Client implements ClientInterface
 {
     use HasStaticMake;
 
-    public const REPOSITORY_NAMESPACE = 'Feodorpranju\\Eloquent\\Bitrix24\\Scopes';
-
+    /**
+     * Auth Token
+     *
+     * @var Token
+     */
     protected Token $token;
 
-    public function __construct(string|Token $token)
+    /**
+     * @param string|Token $token Auth Token
+     * @param string|null $connectionName Eloquent connection name
+     */
+    public function __construct(string|Token $token, protected ?string $connectionName = null)
     {
         $this->token = is_string($token)
             ? new Webhook($token)
@@ -47,6 +54,7 @@ class Client implements ClientInterface
      *
      * @param string $method
      * @param array $data
+     * @param CommandInterface|null $command
      * @return ResponseInterface|ListResponseInterface|BatchResponseInterface
      */
     public function call(
@@ -75,7 +83,6 @@ class Client implements ClientInterface
      * @param string $method
      * @return string
      */
-    #[Pure]
     protected function getMethodUrl(string $method): string
     {
         return $this->token->getUrl().$method.'.json';
@@ -107,13 +114,27 @@ class Client implements ClientInterface
         return new $class($this, $collection);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function cmd(string $method, array $data): CommandInterface
     {
         return new Cmd($method, $data, $this);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function batch(array $commands, bool $halt = true): BatchInterface
     {
         return new Batch($commands, $this, $halt);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getConnectionName(): string
+    {
+        return $this->connectionName ?? 'undefined';
     }
 }

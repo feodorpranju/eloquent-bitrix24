@@ -1,0 +1,64 @@
+<?php
+
+namespace Pranju\Bitrix24\Core;
+
+use JetBrains\PhpStorm\ArrayShape;
+
+trait ConvertsCmd
+{
+    /**
+     * Converts command to string
+     */
+    public function toString(): string
+    {
+        return $this->getMethod().(empty($this->getData()) ? "" : "?".http_build_query($this->getData()));
+    }
+
+    /**
+     * @see ConvertsCmd::toString()
+     */
+    public function __toString(): string
+    {
+        return $this->toString();
+    }
+
+    /**
+     * Gets command params as array
+     *
+     * @return array
+     */
+    #[ArrayShape([
+        'host' => 'string',
+        'method' => 'string',
+        'data' => 'array',
+    ])]
+    public function toArray(): array
+    {
+        return [
+            'host' => $this->getClient()->getToken()->getHost(),
+            'method' => $this->getMethod(),
+            'data' => $this->getData(),
+        ];
+    }
+
+    /**
+     * Returns command params as json
+     *
+     * @param int $options
+     * @return string
+     */
+    public function toJson($options = 0): string
+    {
+        return json_encode($this->toArray(), $options);
+    }
+
+    /**
+     * Returns command params as json
+     *
+     * @return string
+     */
+    public function jsonSerialize(): string
+    {
+        return $this->toJson(JSON_UNESCAPED_UNICODE);
+    }
+}

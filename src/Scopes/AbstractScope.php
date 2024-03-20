@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Feodorpranju\Eloquent\Bitrix24\Scopes;
+namespace Pranju\Bitrix24\Scopes;
 
 
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Client;
-use \Feodorpranju\Eloquent\Bitrix24\Core\Client as BaseClient;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Scope;
-use Feodorpranju\Eloquent\Bitrix24\Core\Cmd;
+use Pranju\Bitrix24\Contracts\Client;
+use \Pranju\Bitrix24\Core\Client as BaseClient;
+use Pranju\Bitrix24\Contracts\Scope;
+use Pranju\Bitrix24\Core\Cmd;
 use Illuminate\Support\Str;
 
 abstract class AbstractScope implements Scope

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Feodorpranju\Eloquent\Bitrix24\Traits;
+namespace Pranju\Bitrix24\Traits;
 
 
 trait HasStaticMake

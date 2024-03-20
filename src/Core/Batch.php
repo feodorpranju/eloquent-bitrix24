@@ -1,28 +1,28 @@
 <?php
 
 
-namespace Feodorpranju\Eloquent\Bitrix24\Core;
+namespace Pranju\Bitrix24\Core;
 
 
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Client;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Command;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\BatchResponse;
-use Feodorpranju\Eloquent\Bitrix24\Traits\GetsDefaultClient;
-use Feodorpranju\Eloquent\Bitrix24\Traits\HasStaticMake;
+use Pranju\Bitrix24\Contracts\Client;
+use Pranju\Bitrix24\Contracts\Command;
+use Pranju\Bitrix24\Contracts\Responses\BatchResponse;
+use Pranju\Bitrix24\Traits\GetsDefaultClient;
+use Pranju\Bitrix24\Traits\HasStaticMake;
 use Illuminate\Support\Collection;
 use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Batch as BatchInterface;
+use Pranju\Bitrix24\Contracts\Batch as BatchInterface;
 
 /**
  * Class Batch
- * @package Feodorpranju\Eloquent\Bitrix24\Core
+ * @package Pranju\Bitrix24\Core
  *
  * @method static static make(Command[]|Collection $commands = [], ?Client $client = null, bool $halt = true)
  */
 class Batch extends Collection implements BatchInterface
 {
-    use HasStaticMake, GetsDefaultClient;
+    use HasStaticMake, GetsDefaultClient, ConvertsCmd;
 
     public const BATCH_CMD_LIMIT = 50;
     public const LIST_ITEMS_LIMIT = 50;
@@ -47,13 +47,13 @@ class Batch extends Collection implements BatchInterface
     public function call(): BatchResponse
     {
         //TODO throw on empty client
-        return $this->client->call($this->getAction(), $this->getData(), $this);
+        return $this->client->call($this->getMethod(), $this->getData(), $this);
     }
 
     /**
      * @inheritDoc
      */
-    public function getAction(): string
+    public function getMethod(): string
     {
         return 'batch';
     }
@@ -90,7 +90,7 @@ class Batch extends Collection implements BatchInterface
     /**
      * @inheritDoc
      */
-    public function setAction(string $action): void
+    public function setMethod(string $method): void
     {
 
     }
@@ -150,13 +150,8 @@ class Batch extends Collection implements BatchInterface
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function __toString(): string
-    {
-        return $this->getAction().(empty($this->getData()) ? "" : "?".http_build_query($this->getData()));
-    }
-
     public function push(...$values): static
     {
         return parent::push(...array_filter(
@@ -165,6 +160,9 @@ class Batch extends Collection implements BatchInterface
         ));
     }
 
+    /**
+     * @inheritDoc
+     */
     public function put($key, $value): static
     {
         if (!$this->isCommand($value)) {
@@ -174,6 +172,9 @@ class Batch extends Collection implements BatchInterface
         return parent::put($key, $value);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function offsetSet($key, $value): void
     {
         if (!$this->isCommand($value)) {

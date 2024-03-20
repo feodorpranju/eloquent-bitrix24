@@ -1,10 +1,10 @@
 <?php
 
-namespace Feodorpranju\Eloquent\Bitrix24\Core\Responses;
+namespace Pranju\Bitrix24\Core\Responses;
 
 use Carbon\Carbon;
 
-class ResponseTime implements \Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\ResponseTime
+class ResponseTime implements \Pranju\Bitrix24\Contracts\Responses\ResponseTime
 {
     /**
      * @inheritDoc

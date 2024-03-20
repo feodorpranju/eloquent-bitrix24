@@ -1,20 +1,20 @@
 <?php
 
-namespace Feodorpranju\Eloquent\Bitrix24;
+namespace Pranju\Bitrix24;
 
 use Composer\InstalledVersions;
-use Feodorpranju\Eloquent\Bitrix24\Core\Authorization\Webhook;
-use Feodorpranju\Eloquent\Bitrix24\Concerns\ManagesTransactions;
+use Pranju\Bitrix24\Core\Authorization\Webhook;
+use Pranju\Bitrix24\Concerns\ManagesTransactions;
 use Illuminate\Database\Connection as BaseConnection;
 use InvalidArgumentException;
 use JetBrains\PhpStorm\Pure;
-use Feodorpranju\Eloquent\Bitrix24\Core\Client;
+use Pranju\Bitrix24\Core\Client;
 use Throwable;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Client as ClientInterface;
+use Pranju\Bitrix24\Contracts\Client as ClientInterface;
 
 /**
  * Class Connection
- * @package Feodorpranju\Eloquent\Bitrix24
+ * @package Pranju\Bitrix24
  * @mixin ClientInterface
  */
 class Connection extends BaseConnection
@@ -38,7 +38,9 @@ class Connection extends BaseConnection
     {
         $this->config = $config;
 
-        $this->client = $this->createClient($config);
+        $this->validateConfig($this->config);
+
+        $this->client = $this->createClient();
 
         $this->useDefaultPostProcessor();
 
@@ -100,15 +102,15 @@ class Connection extends BaseConnection
 
     /**
      * Create a new Bitrix24 connection.
-     * @param array $config
      * @return Client
      */
-    protected function createClient(array $config): Client
+    protected function createClient(): Client
     {
-        $this->validateConfig($config);
-
-        $client = match ($config['type']) {
-            'webhook' => new Client(new Webhook($config['webhook'])),
+        $client = match ($this->getConfig('type')) {
+            'webhook' => Client::make(
+                new Webhook($this->getConfig('webhook')),
+                $this->getName()
+            ),
             default => null,
         };
 

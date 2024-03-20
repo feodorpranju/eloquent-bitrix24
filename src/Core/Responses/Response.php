@@ -1,11 +1,10 @@
 <?php
 
-namespace Feodorpranju\Eloquent\Bitrix24\Core\Responses;
+namespace Pranju\Bitrix24\Core\Responses;
 
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Command;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Exceptions\ResponseException as ResponseExceptionInterface;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\Response as ResponseInterface;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\ResponseTime as ResponseTimeInterface;
+use Pranju\Bitrix24\Contracts\Command;
+use Pranju\Bitrix24\Contracts\Responses\Response as ResponseInterface;
+use Pranju\Bitrix24\Contracts\Responses\ResponseTime as ResponseTimeInterface;
 use Illuminate\Http\Client\Response as HttpResponse;
 use Illuminate\Support\Arr;
 
@@ -13,7 +12,7 @@ class Response implements ResponseInterface
 {
     protected ResponseTimeInterface $time;
 
-    protected ?array $result = null;
+    protected mixed $result = null;
     protected array $responseArray;
 
     /**
@@ -60,9 +59,10 @@ class Response implements ResponseInterface
      * @param mixed|null $default
      * @inheritDoc
      */
-    public function result(?string $key = null, mixed $default = null): array
+    public function result(?string $key = null, mixed $default = null): mixed
     {
-        $this->result ??= $this->httpResponse()?->json()['result']
+        $this->result
+            ??= $this->httpResponse()?->json()['result']
             ?? $this->response['result']
             ?? [];
 
@@ -100,7 +100,7 @@ class Response implements ResponseInterface
     /**
      * @inheritDoc
      */
-    public function toException(): ?ResponseExceptionInterface
+    public function toException(): ?ResponseException
     {
         return new ResponseException($this);
     }

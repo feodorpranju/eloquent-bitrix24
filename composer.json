@@ -1,58 +1,82 @@
 {
-  "name": "feodorpranju/eloquent-bitrix24",
-  "description": "Eloquent driver for Bitrix24",
-  "license": "MIT",
-  "keywords": [
-    "laravel",
-    "eloquent",
-    "model",
-    "btitrix24"
-  ],
-  "authors": [
-    {
-      "name": "Fiodor Pranju",
-      "email": "general@dif.md"
+    "name": "feodorpranju/eloquent-bitrix24",
+    "description": "Eloquent driver for Bitrix24",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "eloquent",
+        "model",
+        "btitrix24"
+    ],
+    "authors": [
+        {
+            "name": "Fiodor Pranju",
+            "email": "general@dif.md"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "guzzlehttp/guzzle": "^7.8",
+        "illuminate/container": "^10.0",
+        "illuminate/database": "^10.30",
+        "illuminate/support": "^10.0",
+        "mockery/mockery": "^1.6"
+    },
+    "require-dev": {
+        "nunomaduro/collision": "^7.10",
+        "nunomaduro/larastan": "^2.6",
+        "orchestra/testbench": "3.8.* || 3.9.* || ^4.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0",
+        "phpstan/extension-installer": "^1.3",
+        "phpstan/phpstan-deprecation-rules": "^1.1",
+        "phpstan/phpstan-phpunit": "^1.3",
+        "phpunit/phpunit": "^7.5 || ^8.4 || ^9.0 || ^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pranju\\Bitrix24\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Pranju\\Bitrix24\\Tests\\": "tests/",
+            "Workbench\\App\\": "workbench/app/",
+            "Workbench\\Database\\Factories\\": "workbench/database/factories/",
+            "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Pranju\\Bitrix24\\Bitrix24ServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "post-autoload-dump": [
+            "@clear",
+            "@prepare"
+        ],
+        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "build": "@php vendor/bin/testbench workbench:build --ansi",
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "@build",
+            "@php vendor/bin/testbench serve"
+        ],
+        "lint": [
+            "@php vendor/bin/phpstan analyse"
+        ],
+        "test": [
+            "@php vendor/bin/phpunit"
+        ]
     }
-  ],
-  "require": {
-    "php": "^7.4|^8.0",
-    "illuminate/container": "^10.0",
-    "illuminate/database": "^10.30",
-    "illuminate/support": "^10.0",
-    "mockery/mockery": "^1.6"
-  },
-  "require-dev": {
-    "nunomaduro/collision": "^7.10",
-    "nunomaduro/larastan": "^2.6",
-    "orchestra/testbench": "3.8.* || 3.9.* || ^4.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0",
-    "phpstan/extension-installer": "^1.3",
-    "phpstan/phpstan-deprecation-rules": "^1.1",
-    "phpstan/phpstan-phpunit": "^1.3",
-    "phpunit/phpunit": "^7.5 || ^8.4 || ^9.0 || ^10.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "Feodorpranju\\Eloquent\\Bitrix24\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Feodorpranju\\Eloquent\\Bitrix24\\Tests\\": "tests/"
-    }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Feodorpranju\\Eloquent\\Bitrix24\\Bitrix24ServiceProvider"
-      ]
-    }
-  },
-  "config": {
-    "sort-packages": true,
-    "allow-plugins": {
-      "phpstan/extension-installer": true
-    }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true
 }

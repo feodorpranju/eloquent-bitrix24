@@ -1,6 +1,6 @@
 <?php
 
-namespace Feodorpranju\Eloquent\Bitrix24\Contracts\Responses;
+namespace Pranju\Bitrix24\Contracts\Responses;
 
 use Carbon\Carbon;
 

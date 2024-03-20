@@ -1,14 +1,27 @@
 <?php
 
 
-namespace Feodorpranju\Eloquent\Bitrix24\Core\Authorization;
+namespace Pranju\Bitrix24\Core\Authorization;
 
 
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Token;
+use Pranju\Bitrix24\Contracts\Token;
+use Illuminate\Support\Str;
 
 abstract class AbstractToken implements Token
 {
+    /**
+     * API URL
+     *
+     * @var string
+     */
     protected string $url;
+
+    /**
+     * API URL host
+     *
+     * @var string
+     */
+    protected string $host;
 
     public function __construct(string $url)
     {
@@ -16,9 +29,7 @@ abstract class AbstractToken implements Token
     }
 
     /**
-     * Sets bitrix24 url
-     *
-     * @param string $url
+     * @inheritDoc
      */
     public function setUrl(string $url): void
     {
@@ -26,9 +37,7 @@ abstract class AbstractToken implements Token
     }
 
     /**
-     * Returns bitrix24 url
-     *
-     * @return string
+     * @inheritDoc
      */
     public function getUrl(): string
     {
@@ -36,14 +45,18 @@ abstract class AbstractToken implements Token
     }
 
     /**
-     * Gets subdomain for bitrix24 urls
-     *
-     * @return string
+     * @inheritDoc
      */
     public function getSubdomain(): string
     {
-        preg_match('/\/([a-zA-z0-9-]+)./', $this->getUrl(), $matches);
+        return Str::before($this->getHost(), '.');
+    }
 
-        return $matches[1] ?? 'unknown';
+    /**
+     * @inheritDoc
+     */
+    public function getHost(): string
+    {
+        return $this->host ??= parse_url($this->getUrl(), PHP_URL_HOST);
     }
 }

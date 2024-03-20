@@ -1,27 +1,27 @@
 <?php
 
 
-namespace Feodorpranju\Eloquent\Bitrix24\Core;
+namespace Pranju\Bitrix24\Core;
 
 
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Client;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Command;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\BatchResponse;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\ListResponse;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\Response;
-use Feodorpranju\Eloquent\Bitrix24\Traits\GetsDefaultClient;
-use Feodorpranju\Eloquent\Bitrix24\Traits\HasStaticMake;
+use Pranju\Bitrix24\Contracts\Client;
+use Pranju\Bitrix24\Contracts\Command;
+use Pranju\Bitrix24\Contracts\Responses\BatchResponse;
+use Pranju\Bitrix24\Contracts\Responses\ListResponse;
+use Pranju\Bitrix24\Contracts\Responses\Response;
+use Pranju\Bitrix24\Traits\GetsDefaultClient;
+use Pranju\Bitrix24\Traits\HasStaticMake;
 use Illuminate\Support\Facades\DB;
 
 /**
  * Class Cmd
- * @package Feodorpranju\Eloquent\Bitrix24\Core
+ * @package Pranju\Bitrix24\Core
  *
  * @method static static make(string $action, array $data = [], ?Client $client = null)
  */
 class Cmd implements Command
 {
-    use HasStaticMake, GetsDefaultClient;
+    use HasStaticMake, GetsDefaultClient, ConvertsCmd;
 
     /**
      * @inheritDoc
@@ -40,7 +40,7 @@ class Cmd implements Command
     /**
      * @inheritDoc
      */
-    public function getAction(): string
+    public function getMethod(): string
     {
         return $this->action;
     }
@@ -65,9 +65,9 @@ class Cmd implements Command
     /**
      * @inheritDoc
      */
-    public function setAction(string $action): void
+    public function setMethod(string $method): void
     {
-        $this->action = $action;
+        $this->action = $method;
     }
 
     /**
@@ -84,13 +84,5 @@ class Cmd implements Command
     public function setClient(Client $client): void
     {
         $this->client = $client;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function __toString(): string
-    {
-        return $this->action.(empty($this->data) ? "" : "?".http_build_query($this->data));
     }
 }

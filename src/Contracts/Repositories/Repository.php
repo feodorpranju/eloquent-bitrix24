@@ -1,10 +1,17 @@
 <?php
 
-namespace Feodorpranju\Eloquent\Bitrix24\Contracts\Repositories;
+namespace Pranju\Bitrix24\Contracts\Repositories;
 
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Client;
+use Pranju\Bitrix24\Contracts\Client;
 
 interface Repository
 {
     public function __construct(Client $client);
+
+    /**
+     * Retrieves repository's client
+     *
+     * @return Client
+     */
+    public function getClient(): Client;
 }

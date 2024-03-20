@@ -1,6 +1,6 @@
 <?php
 
-namespace Feodorpranju\Eloquent\Bitrix24\Concerns;
+namespace Pranju\Bitrix24\Concerns;
 
 trait ManagesTransactions
 {

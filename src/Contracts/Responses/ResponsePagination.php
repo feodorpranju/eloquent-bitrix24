@@ -1,6 +1,6 @@
 <?php
 
-namespace Feodorpranju\Eloquent\Bitrix24\Contracts\Responses;
+namespace Pranju\Bitrix24\Contracts\Responses;
 
 interface ResponsePagination
 {
@@ -17,12 +17,12 @@ interface ResponsePagination
      *
      * @return int
      */
-    public function getNext(): int;
+    public function next(): int;
 
     /**
      * Returns total number of items for filter in command
      *
      * @return int
      */
-    public function getTotal(): int;
+    public function total(): int;
 }

@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Feodorpranju\Eloquent\Bitrix24\Traits;
+namespace Pranju\Bitrix24\Traits;
 
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Client;
+use Pranju\Bitrix24\Contracts\Client;
 use Illuminate\Support\Facades\DB;
 
 trait GetsDefaultClient

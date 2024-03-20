@@ -1,9 +1,9 @@
 <?php
 
-namespace Feodorpranju\Eloquent\Bitrix24\Core\Responses;
+namespace Pranju\Bitrix24\Core\Responses;
 
 
-use \Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\ResponsePagination as ResponsePaginationInterface;
+use \Pranju\Bitrix24\Contracts\Responses\ResponsePagination as ResponsePaginationInterface;
 
 class ResponsePagination implements ResponsePaginationInterface
 {
@@ -18,7 +18,7 @@ class ResponsePagination implements ResponsePaginationInterface
     /**
      * @inheritDoc
      */
-    public function getNext(): int
+    public function next(): int
     {
         return $this->next;
     }
@@ -26,7 +26,7 @@ class ResponsePagination implements ResponsePaginationInterface
     /**
      * @inheritDoc
      */
-    public function getTotal(): int
+    public function total(): int
     {
         return $this->total;
     }

@@ -1,13 +1,13 @@
 <?php
 
-namespace Feodorpranju\Eloquent\Bitrix24;
+namespace Pranju\Bitrix24;
 
 use Exception;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Scope;
+use Pranju\Bitrix24\Contracts\Scope;
 
 /**
  * Class Collection
- * @package Feodorpranju\Eloquent\Bitrix24
+ * @package Pranju\Bitrix24
  */
 class Collection
 {

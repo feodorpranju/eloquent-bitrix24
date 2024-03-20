@@ -1,13 +1,17 @@
 <?php
 
 
-namespace Feodorpranju\Eloquent\Bitrix24\Contracts;
+namespace Pranju\Bitrix24\Contracts;
 
 
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\BatchResponse;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\Response;
+use Pranju\Bitrix24\Contracts\Responses\BatchResponse;
+use Pranju\Bitrix24\Contracts\Responses\Response;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
+use JsonSerializable;
+use Stringable;
 
-interface Command
+interface Command extends JsonSerializable, Jsonable, Stringable, Arrayable
 {
     /**
      * Calls action on client
@@ -21,7 +25,7 @@ interface Command
      *
      * @return string
      */
-    public function getAction(): string;
+    public function getMethod(): string;
 
     /**
      * Returns data
@@ -40,10 +44,10 @@ interface Command
     /**
      * Sets data
      *
-     * @param string $action
+     * @param string $method
      * @return mixed
      */
-    public function setAction(string $action): void;
+    public function setMethod(string $method): void;
 
     /**
      * Sets data

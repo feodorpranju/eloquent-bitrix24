@@ -1,6 +1,6 @@
 providers:
   - Workbench\App\Providers\WorkbenchServiceProvider
-  - Feodorpranju\Eloquent\Bitrix24\Bitrix24ServiceProvider
+  - Pranju\Bitrix24\Bitrix24ServiceProvider
 
 migrations:
   - workbench/database/migrations

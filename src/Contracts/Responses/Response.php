@@ -1,10 +1,10 @@
 <?php
 
-namespace Feodorpranju\Eloquent\Bitrix24\Contracts\Responses;
+namespace Pranju\Bitrix24\Contracts\Responses;
 
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Command;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Exceptions\ResponseException;
+use Pranju\Bitrix24\Contracts\Command;
 use ArrayAccess;
+use Pranju\Bitrix24\Core\Responses\ResponseException;
 use Illuminate\Contracts\Support\Arrayable;
 use \Illuminate\Http\Client\Response as HttpResponse;
 
@@ -34,9 +34,9 @@ interface Response extends ArrayAccess, Arrayable
      *
      * @param string|null $key
      * @param mixed|null $default
-     * @return array
+     * @return array|mixed
      */
-    public function result(?string $key = null, mixed $default = null): array;
+    public function result(?string $key = null, mixed $default = null): mixed;
 
     /**
      * Gets request time info

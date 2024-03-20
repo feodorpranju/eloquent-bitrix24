@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Feodorpranju\Eloquent\Bitrix24\Contracts;
+namespace Pranju\Bitrix24\Contracts;
 
 
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\BatchResponse;
+use Pranju\Bitrix24\Contracts\Responses\BatchResponse;
 
 interface Batch extends Command
 {

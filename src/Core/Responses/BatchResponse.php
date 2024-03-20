@@ -1,9 +1,9 @@
 <?php
 
-namespace Feodorpranju\Eloquent\Bitrix24\Core\Responses;
+namespace Pranju\Bitrix24\Core\Responses;
 
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\BatchResponse as BatchResponseInterface;
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Responses\Response as ResponseInterface;
+use Pranju\Bitrix24\Contracts\Responses\BatchResponse as BatchResponseInterface;
+use Pranju\Bitrix24\Contracts\Responses\Response as ResponseInterface;
 
 class BatchResponse extends Response implements BatchResponseInterface
 {

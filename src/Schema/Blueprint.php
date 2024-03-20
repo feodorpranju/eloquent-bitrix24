@@ -1,8 +1,8 @@
 <?php
 
-namespace Feodorpranju\Eloquent\Bitrix24\Schema;
+namespace Pranju\Bitrix24\Schema;
 
-use Feodorpranju\Eloquent\Bitrix24\Connection;
+use Pranju\Bitrix24\Connection;
 
 use Illuminate\Database\Schema\ColumnDefinition;
 use function array_flip;

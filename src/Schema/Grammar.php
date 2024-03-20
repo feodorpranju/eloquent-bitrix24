@@ -1,6 +1,6 @@
 <?php
 
-namespace Feodorpranju\Eloquent\Bitrix24\Schema;
+namespace Pranju\Bitrix24\Schema;
 
 use Illuminate\Database\Schema\Grammars\Grammar as BaseGrammar;
 

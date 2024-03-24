@@ -34,7 +34,7 @@ class QueryException extends Bitrix24Exception
      */
     protected function formatMessage(string $connectionName, Command $command, Throwable $previous): string
     {
-        return $previous->getMessage().' (Connection: '.$connectionName.', Bitrix24: '.$command->jsonSerialize().')';
+        return $previous->getMessage().' (Connection: '.$connectionName.', Bitrix24: '.$command->toJson(JSON_UNESCAPED_UNICODE).')';
     }
 
     /**

@@ -49,16 +49,17 @@ trait ConvertsCmd
      */
     public function toJson($options = 0): string
     {
-        return json_encode($this->toArray(), $options);
+        return json_encode($this->jsonSerialize(), $options);
     }
 
     /**
-     * Returns command params as json
+     * Returns command params as json serializable data type
      *
-     * @return string
+     * @inheritDoc
+     * @return array
      */
-    public function jsonSerialize(): string
+    public function jsonSerialize(): array
     {
-        return $this->toJson(JSON_UNESCAPED_UNICODE);
+        return $this->toArray();
     }
 }

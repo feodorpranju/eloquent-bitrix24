@@ -9,6 +9,7 @@ use Pranju\Bitrix24\Contracts\Command;
 use Pranju\Bitrix24\Contracts\Responses\BatchResponse;
 use Pranju\Bitrix24\Contracts\Responses\ListResponse;
 use Pranju\Bitrix24\Contracts\Responses\Response;
+use Pranju\Bitrix24\Traits\Dumps;
 use Pranju\Bitrix24\Traits\GetsDefaultClient;
 use Pranju\Bitrix24\Traits\HasStaticMake;
 use Illuminate\Support\Facades\DB;
@@ -21,7 +22,7 @@ use Illuminate\Support\Facades\DB;
  */
 class Cmd implements Command
 {
-    use HasStaticMake, GetsDefaultClient, ConvertsCmd;
+    use HasStaticMake, GetsDefaultClient, ConvertsCmd, Dumps;
 
     /**
      * @inheritDoc

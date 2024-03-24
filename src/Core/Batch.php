@@ -11,6 +11,8 @@ use Pranju\Bitrix24\Contracts\Client;
 use Pranju\Bitrix24\Contracts\Command;
 use Pranju\Bitrix24\Contracts\Responses\BatchResponse;
 use Pranju\Bitrix24\Contracts\Responses\Response;
+use Pranju\Bitrix24\Core\Responses\UnlimitedBatchResponse;
+use Pranju\Bitrix24\Traits\Dumps;
 use Pranju\Bitrix24\Traits\GetsDefaultClient;
 use Pranju\Bitrix24\Traits\HasStaticMake;
 use Illuminate\Support\Collection;
@@ -26,7 +28,7 @@ use Pranju\Bitrix24\Contracts\Batch as BatchInterface;
  */
 class Batch extends Collection implements BatchInterface
 {
-    use HasStaticMake, GetsDefaultClient, ConvertsCmd;
+    use HasStaticMake, GetsDefaultClient, ConvertsCmd, Dumps;
 
     public const BATCH_CMD_LIMIT = 50;
     public const LIST_ITEMS_LIMIT = 50;
@@ -51,7 +53,39 @@ class Batch extends Collection implements BatchInterface
     public function call(): BatchResponse
     {
         //TODO throw on empty client
-        return $this->client->call($this->getMethod(), $this->getData(), $this);
+
+        $count = $this->count();
+
+        $response = $this->client->call($this->getMethod(), $this->getData(), $this);
+
+        if ($count <= static::BATCH_CMD_LIMIT) {
+            return $response;
+        }
+
+        $pages = ceil($count / self::BATCH_CMD_LIMIT);
+        $responses = $response->responses();
+
+        /**
+         * If we have more commands than can be executed in a batch
+         * we interpolate results ourselves and executes next batches
+         */
+        for ($i = 2; $i <= $pages; $i++) {
+
+            $data = $this->getData($i);
+
+            $key = array_key_first($data['cmd']);
+            try {
+                $data['cmd'][$key] = $this->interpolateCommand($responses, $data['cmd'][$key]);
+            } catch (Bitrix24Exception $e) {}
+
+            $response = $this->client->call($this->getMethod(), $data, $this);
+
+            //TODO: увеличить номер запроса на номер запроса для имитации номера
+
+            $responses = array_merge($responses, $response->responses());
+        }
+
+        return new UnlimitedBatchResponse($responses);
     }
 
     /**
@@ -63,14 +97,16 @@ class Batch extends Collection implements BatchInterface
     }
 
     /**
+     * @param int $page Chunk number due to limit
      * @inheritDoc
+     * @see Batch::BATCH_CMD_LIMIT
      */
     #[ArrayShape(["halt" => "int", "cmd" => "array"])]
-    public function getData(): array
+    public function getData(int $page = 1): array
     {
         return [
             "halt" => (int)$this->halt,
-            "cmd" => $this->commands()
+            "cmd" => $this->commands($page),
         ];
     }
 
@@ -142,15 +178,36 @@ class Batch extends Collection implements BatchInterface
     /**
      * Gets commands array as strings
      *
+     * @param int $page Chunk number due to limit
      * @return array
+     * @see Batch::BATCH_CMD_LIMIT
      */
-    protected function commands(): array
+    protected function commands(int $page): array
     {
         return $this
-            ->filter(fn($value) => $this->isCommand($value))
+            ->clear()
             ->map(fn(Command $cmd) => (string)$cmd)
-            ->slice(0, static::BATCH_CMD_LIMIT)
+            ->forPage($page, static::BATCH_CMD_LIMIT)
             ->toArray();
+    }
+
+    /**
+     * Removes all not command items
+     *
+     * @return static
+     */
+    protected function clear(): static
+    {
+        return $this
+            ->filter(fn($value) => $this->isCommand($value));
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function count(): int
+    {
+        return $this->clear()->count();
     }
 
     /**

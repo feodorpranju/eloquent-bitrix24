@@ -4,6 +4,7 @@ namespace Pranju\Bitrix24\Contracts\Responses;
 
 use Pranju\Bitrix24\Contracts\Command;
 use ArrayAccess;
+use Pranju\Bitrix24\Contracts\Dumpable;
 use Pranju\Bitrix24\Core\Responses\ResponseException;
 use Illuminate\Contracts\Support\Arrayable;
 use \Illuminate\Http\Client\Response as HttpResponse;
@@ -11,7 +12,7 @@ use \Illuminate\Http\Client\Response as HttpResponse;
 /**
  * @mixin Response
  */
-interface Response extends ArrayAccess, Arrayable
+interface Response extends ArrayAccess, Arrayable, Dumpable
 {
     public function __construct(HttpResponse|array $response, ?Command $command);
 

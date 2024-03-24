@@ -1,20 +1,20 @@
 <?php
 
 
-namespace Feodorpranju\Eloquent\Bitrix24\Tests\Unit\Query;
+namespace Pranju\Bitrix24\Tests\Unit\Query;
 
 
 use Carbon\Carbon;
 use Closure;
-use Feodorpranju\Eloquent\Bitrix24\Connection;
-use Feodorpranju\Eloquent\Bitrix24\Core\Client;
-use Feodorpranju\Eloquent\Bitrix24\Query\Builder;
-use Feodorpranju\Eloquent\Bitrix24\Query\Grammar;
-use Feodorpranju\Eloquent\Bitrix24\Query\Processor;
-use Feodorpranju\Eloquent\Bitrix24\Tests\TestCase;
+use Pranju\Bitrix24\Connection;
+use Pranju\Bitrix24\Core\Client;
+use Pranju\Bitrix24\Query\Builder;
+use Pranju\Bitrix24\Query\Grammar;
+use Pranju\Bitrix24\Query\Processor;
+use Pranju\Bitrix24\Tests\TestCase;
 use Mockery;
 
-class BuilderTest extends TestCase
+class BuilderTest0 extends TestCase
 {
     /**
      * @param array $expected

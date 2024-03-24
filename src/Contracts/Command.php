@@ -11,7 +11,7 @@ use Illuminate\Contracts\Support\Jsonable;
 use JsonSerializable;
 use Stringable;
 
-interface Command extends JsonSerializable, Jsonable, Stringable, Arrayable
+interface Command extends JsonSerializable, Jsonable, Stringable, Arrayable, Dumpable
 {
     /**
      * Calls action on client

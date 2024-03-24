@@ -7,9 +7,17 @@ use Pranju\Bitrix24\Contracts\Responses\Response as ResponseInterface;
 use Pranju\Bitrix24\Contracts\Responses\ResponseTime as ResponseTimeInterface;
 use Illuminate\Http\Client\Response as HttpResponse;
 use Illuminate\Support\Arr;
+use Pranju\Bitrix24\Traits\Dumps;
+use Pranju\Bitrix24\Traits\HasStaticMake;
 
+/**
+ *
+ * @method static static make( HttpResponse|array $response, ?Command $command = null)
+ */
 class Response implements ResponseInterface
 {
+    use HasStaticMake, Dumps;
+
     protected ResponseTimeInterface $time;
 
     protected mixed $result = null;

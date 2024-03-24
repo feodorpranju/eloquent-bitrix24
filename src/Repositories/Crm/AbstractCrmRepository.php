@@ -39,7 +39,7 @@ abstract class AbstractCrmRepository extends AbstractRepository implements CanCr
      */
     public function getCreatedItemId(Response $response): int|string
     {
-        return $response->result('id');
+        return $response->result();
     }
 
     /**
@@ -150,7 +150,7 @@ abstract class AbstractCrmRepository extends AbstractRepository implements CanCr
      */
     public function makeUpdateCommand(int|string $id, array $attributes, ?array $options = null): Command
     {
-        return $this->cmd('add', [
+        return $this->cmd('update', [
             'id' => $id,
             'fields' => $attributes,
             'params' => $options ?? [],

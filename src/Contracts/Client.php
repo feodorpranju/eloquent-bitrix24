@@ -40,10 +40,10 @@ interface Client
     /**
      * Gets repository for given collection
      *
-     * @param string $collection
+     * @param string $table
      * @return Repository
      */
-    public function getRepository(string $collection): Repository;
+    public function getRepository(string $table): Repository;
 
     /**
      * Creates Command instance

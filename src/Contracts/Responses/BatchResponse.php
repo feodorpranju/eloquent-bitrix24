@@ -7,7 +7,7 @@ interface BatchResponse extends Response
     /**
      * Gets array of separated responses
      *
-     * @return Response|ListResponse|BatchResponse[]
+     * @return Response[]|ListResponse[]|BatchResponse[]
      */
     public function responses(): array;
 }

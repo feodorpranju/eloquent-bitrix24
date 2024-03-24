@@ -16,6 +16,7 @@ use Pranju\Bitrix24\Contracts\Client as ClientInterface;
  * Class Connection
  * @package Pranju\Bitrix24
  * @mixin ClientInterface
+ * @method \Pranju\Bitrix24\Contracts\Repositories\Repository getRepository(string $table)
  */
 class Connection extends BaseConnection
 {
@@ -52,20 +53,6 @@ class Connection extends BaseConnection
     /**
      * Begin a fluent query against a database collection.
      *
-     * @param string $table
-     *
-     * @return Query\Builder
-     */
-    public function collection(string $table): Query\Builder
-    {
-        $query = new Query\Builder($this, $this->getQueryGrammar(), $this->getPostProcessor());
-
-        return $query->from($table);
-    }
-
-    /**
-     * Begin a fluent query against a database collection.
-     *
      * @param  string      $table Table name
      * @param  string|null $as Unused
      *
@@ -73,7 +60,13 @@ class Connection extends BaseConnection
      */
     public function table($table, $as = null): Query\Builder
     {
-        return $this->collection($table);
+        return $this->query()->from($table);
+    }
+
+    /** @inheritDoc */
+    public function query(): Query\Builder
+    {
+        return new Query\Builder($this, $this->getQueryGrammar(), $this->getPostProcessor());
     }
 
     /** @inheritdoc */
@@ -97,7 +90,7 @@ class Connection extends BaseConnection
      */
     public function getDatabaseName(): string
     {
-        return $this->client->getToken()->getSubdomain();
+        return $this->client->getToken()->getHost();
     }
 
     /**
@@ -223,4 +216,5 @@ class Connection extends BaseConnection
 
         return self::$version = 'unknown';
     }
+
 }

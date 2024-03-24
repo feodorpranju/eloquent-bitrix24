@@ -4,9 +4,13 @@
 namespace Pranju\Bitrix24\Core;
 
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use Pranju\Bitrix24\Bitrix24Exception;
 use Pranju\Bitrix24\Contracts\Client;
 use Pranju\Bitrix24\Contracts\Command;
 use Pranju\Bitrix24\Contracts\Responses\BatchResponse;
+use Pranju\Bitrix24\Contracts\Responses\Response;
 use Pranju\Bitrix24\Traits\GetsDefaultClient;
 use Pranju\Bitrix24\Traits\HasStaticMake;
 use Illuminate\Support\Collection;
@@ -219,5 +223,71 @@ class Batch extends Collection implements BatchInterface
     {
         $this->items = [];
         return $this;
+    }
+
+    /**
+     * Interpolates response into command
+     *
+     * @param Response[] $responses
+     * @param string $command
+     * @return string
+     * @throws Bitrix24Exception
+     */
+    private function interpolateCommand(array $responses, string $command): string
+    {
+        $items = preg_match_all('/\$result(\[[a-zA-Z0-9_]*\])*/', $command, $data);
+
+        if (!$items) {
+            return $command;
+        }
+
+        foreach ($data[0] as $search) {
+            $command = $this->interpolateResult($responses, $search, $command);
+        }
+
+        return $command;
+    }
+
+    /**
+     * Interpolates result value
+     *
+     * @param Response[] $responses
+     * @param string $search
+     * @param string $command
+     * @return string
+     * @throws Bitrix24Exception
+     */
+    private function interpolateResult(array $responses, string $search, string $command): string
+    {
+        return Str::replace(
+            $search,
+            $this->getInterpolationValue($responses, $search),
+            $command
+        );
+    }
+
+    /**
+     * Retrieves interpolation value for search
+     *
+     * @param Response[] $responses
+     * @param string $search
+     * @return string
+     * @throws Bitrix24Exception
+     */
+    private function getInterpolationValue(array $responses, string $search): string
+    {
+        preg_match_all('/\[([a-zA-Z0-9_]*)/', $search, $data);
+
+        $key = array_shift($data[1]);
+
+        if (!$key || !isset($responses[$key])) {
+            throw new Bitrix24Exception("Undefined response '$key' on batch interpolation");
+        }
+
+        $value = Arr::get($responses[$key], join('.', $data[1]));
+
+        return is_array($value)
+            ? http_build_query($value)
+            : $value;
     }
 }

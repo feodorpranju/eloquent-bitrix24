@@ -16,11 +16,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
 use InvalidArgumentException;
 use LogicException;
-use MongoDB\BSON\Binary;
-use MongoDB\BSON\ObjectID;
-use MongoDB\BSON\Regex;
-use MongoDB\BSON\UTCDateTime;
-use MongoDB\Driver\Cursor;
 use RuntimeException;
 
 class Builder extends BaseBuilder
@@ -33,7 +28,7 @@ class Builder extends BaseBuilder
      *
      * @var string
      */
-    protected string $collection;
+    protected string $table;
 
     /**
      * The column projections.
@@ -71,7 +66,7 @@ class Builder extends BaseBuilder
     public $connection;
 
     /**
-     * All of the available clause operators.
+     * All the available clause operators.
      *
      * @var array
      */
@@ -89,36 +84,6 @@ class Builder extends BaseBuilder
         'not like',
         'between',
         'ilike',
-//        '&',
-//        '|',
-//        '^',
-//        '<<',
-//        '>>',
-//        'rlike',
-//        'regexp',
-//        'not regexp',
-//        'exists',
-//        'type',
-//        'mod',
-//        'where',
-//        'all',
-//        'size',
-//        'regex',
-//        'not regex',
-//        'text',
-//        'slice',
-//        'elemmatch',
-//        'geowithin',
-//        'geointersects',
-//        'near',
-//        'nearsphere',
-//        'geometry',
-//        'maxdistance',
-//        'center',
-//        'centersphere',
-//        'box',
-//        'polygon',
-//        'uniquedocs',
     ];
 
     /**
@@ -130,6 +95,18 @@ class Builder extends BaseBuilder
         'like' => '',
         'ilike' => '',
         'not like' => '!',
+    ];
+
+
+    /**
+     * @inheritdoc
+     */
+    public $bindings = [
+        'select' => [],
+        'from' => [],
+        'where' => [],
+        'groupBy' => [],
+        'order' => [],
     ];
 
     /**
@@ -177,17 +154,9 @@ class Builder extends BaseBuilder
     /** @inheritdoc */
     public function find($id, $columns = [])
     {
-        $item = $this->connection->getClient()->getScope($this->collection)->get($id);
+        $command = $this->grammar->compileFind($this, $id);
 
-        if (!$item) {
-            return null;
-        }
-
-        if (empty($columns) || in_array('*', $columns)) {
-            return $item;
-        }
-
-        return Arr::only($item, $columns);
+        return $this->processor->processFind($this, $command, $columns);
     }
 
     /** @inheritdoc */
@@ -216,11 +185,11 @@ class Builder extends BaseBuilder
     }
 
     /**
-     * Return the MongoDB query to be run in the form of an element array like ['method' => [arguments]].
+     * Return the Bitrix24 query to be run in the form of an element array like ['method' => [arguments]].
      *
      * Example: ['find' => [['name' => 'John Doe'], ['projection' => ['birthday' => 1]]]]
      *
-     * @return array<string, mixed[]>
+     * @return array<string, array>
      */
     public function toB24(): array
     {
@@ -272,6 +241,8 @@ class Builder extends BaseBuilder
      */
     public function getFresh($columns = [], $returnLazy = false)
     {
+        dd($this->wheres);
+        dd(collect(debug_backtrace())->pluck('line', 'file'));
         // If no columns have been specified for the select statement, we will set them
         // here to either the passed columns, or the standard default of retrieving
         // all of the columns on the table using the "wildcard" column character.
@@ -285,22 +256,6 @@ class Builder extends BaseBuilder
         }
 
         $command = $this->toCmd();
-//        assert(count($command) >= 1, 'At least one method call is required to execute a query');
-
-        $result = $this->collection;
-        foreach ($command as $method => $arguments) {
-            $result = call_user_func_array([$result, $method], $arguments);
-        }
-
-        // countDocuments method returns int, wrap it to the format expected by the framework
-        if (is_int($result)) {
-            $result = [
-                [
-                    '_id'       => null,
-                    'aggregate' => $result,
-                ],
-            ];
-        }
 
         if ($returnLazy) {
             return LazyCollection::make(function () use ($result) {
@@ -310,11 +265,23 @@ class Builder extends BaseBuilder
             });
         }
 
-        if ($result instanceof Cursor) {
-            $result = $result->toArray();
+        return new Collection($result);
+    }
+
+    /**
+     * @return int|string|null
+     */
+    public function getIdFromWheres(): int|string|null
+    {
+        if (
+            count($this->wheres) === 1
+            && strtolower($this->wheres[0]['column']) === 'id'
+            && $this->wheres[0]['operator'] === '='
+        ) {
+            return $this->wheres[0]['value'];
         }
 
-        return new Collection($result);
+        return null;
     }
 
     /**
@@ -326,7 +293,7 @@ class Builder extends BaseBuilder
     {
         $key = [
             'connection' => $this->connection->getDatabaseName(),
-            'collection' => $this->collection,
+            'table' => $this->table,
             'wheres' => $this->wheres,
             'columns' => $this->columns,
             'groups' => $this->groups,
@@ -470,45 +437,29 @@ class Builder extends BaseBuilder
 
         $options = $this->inheritConnectionOptions();
 
-        $result = $this->collection->insertMany($values, $options);
+        $result = $this->table->insertMany($values, $options);
 
         return $result->isAcknowledged();
     }
 
     /** @inheritdoc */
-    public function insertGetId(array $values, $sequence = null)
+    public function insertGetId(array $values, $sequence = null): int
     {
-        $options = $this->inheritConnectionOptions();
+        $this->applyBeforeQueryCallbacks();
 
-        $result = $this->collection->insertOne($values, $options);
+        $sql = $this->grammar->compileInsertGetId($this, $values, $sequence);
 
-        if (! $result->isAcknowledged()) {
-            return null;
-        }
-
-        if ($sequence === null || $sequence === '_id') {
-            return $result->getInsertedId();
-        }
-
-        return $values[$sequence];
+        return $this->processor->processInsertGetId($this, $sql, $values, $sequence);
     }
 
     /** @inheritdoc */
     public function update(array $values, array $options = [])
     {
-        // Use $set as default operator for field names that are not in an operator
-        foreach ($values as $key => $value) {
-            if (is_string($key) && str_starts_with($key, '$')) {
-                continue;
-            }
+        $this->applyBeforeQueryCallbacks();
 
-            $values['$set'][$key] = $value;
-            unset($values[$key]);
-        }
+        $sql = $this->grammar->compileUpdate($this, $values);
 
-        $options = $this->inheritConnectionOptions($options);
-
-        return $this->performUpdate($values, $options);
+        return $this->processor->processUpdate($this, $sql);
     }
 
     /** @inheritdoc */
@@ -587,9 +538,9 @@ class Builder extends BaseBuilder
                 throw new LogicException(sprintf('Delete limit can be 1 or null (unlimited). Got %d', $this->limit));
             }
 
-            $result = $this->collection->deleteOne($wheres, $options);
+            $result = $this->table->deleteOne($wheres, $options);
         } else {
-            $result = $this->collection->deleteMany($wheres, $options);
+            $result = $this->table->deleteMany($wheres, $options);
         }
 
         if ($result->isAcknowledged()) {
@@ -614,7 +565,7 @@ class Builder extends BaseBuilder
     public function truncate(): bool
     {
         $options = $this->inheritConnectionOptions();
-        $result  = $this->collection->deleteMany([], $options);
+        $result  = $this->table->deleteMany([], $options);
 
         return $result->isAcknowledged();
     }
@@ -639,7 +590,7 @@ class Builder extends BaseBuilder
     {
         // Execute the closure on the mongodb collection
         if ($value instanceof Closure) {
-            return call_user_func($value, $this->collection);
+            return call_user_func($value, $this->table);
         }
 
         // Create an expression for the given value
@@ -648,7 +599,7 @@ class Builder extends BaseBuilder
         }
 
         // Quick access to the mongodb collection
-        return $this->collection;
+        return $this->table;
     }
 
     /**
@@ -759,7 +710,7 @@ class Builder extends BaseBuilder
         $options = $this->inheritConnectionOptions($options);
 
         $wheres = $this->compileWheres();
-        $result = $this->collection->updateMany($wheres, $query, $options);
+        $result = $this->table->updateMany($wheres, $query, $options);
         if ($result->isAcknowledged()) {
             return $result->getModifiedCount() ? $result->getModifiedCount() : $result->getUpsertedCount();
         }
@@ -1046,6 +997,7 @@ class Builder extends BaseBuilder
     /** @internal This method is not supported by Bitrix24. */
     public function whereFullText($columns, $value, array $options = [], $boolean = 'and')
     {
+        //TODO enable
         throw new BadMethodCallException('This method is not supported by Bitrix24');
     }
 

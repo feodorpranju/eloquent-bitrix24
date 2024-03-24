@@ -4,6 +4,8 @@
 namespace Pranju\Bitrix24\Core;
 
 
+use Illuminate\Support\Collection;
+use Pranju\Bitrix24\Bitrix24Exception;
 use Pranju\Bitrix24\Contracts\Repositories\Repository;
 use Pranju\Bitrix24\Contracts\Responses\Response as ResponseInterface;
 use Pranju\Bitrix24\Contracts\Responses\ListResponse as ListResponseInterface;
@@ -37,6 +39,13 @@ class Client implements ClientInterface
      * @var Token
      */
     protected Token $token;
+
+    /**
+     * Cached repositories
+     *
+     * @var Repository[]
+     */
+    protected array $repositories = [];
 
     /**
      * @param string|Token $token Auth Token
@@ -98,20 +107,23 @@ class Client implements ClientInterface
 
     /**
      * @inheritDoc
+     * @throws Bitrix24Exception
      */
-    public function getRepository(string $collection): Repository
+    public function getRepository(string $table): Repository
     {
-        if (Str::startsWith($collection, 'crm.item.')) {
-            return new Item($this, $collection);
+        if (isset($this->repositories[$table])) {
+            return $this->repositories[$table];
         }
 
-        $parts = explode('.', strtolower($collection));
+        $scope = Str::studly(Str::before($table, '_'));
+        $repository = Str::studly(Str::after($table, '_')).'Repository';
+        $class = Str::beforeLast(__NAMESPACE__, '\\')."\\Repositories\\$scope\\$repository";
 
-        $class = static::SCOPE."\\".join("\\", array_map(fn($part) => ucfirst($part), $parts));
+        if (!class_exists($class)) {
+            throw new Bitrix24Exception("Undefined repository '$scope\\$repository' for '$table' table");
+        }
 
-        throw_unless(class_exists($class), new \Exception("Undefined collection $collection"));
-
-        return new $class($this, $collection);
+        return $this->repositories[$table] = new $class($this);
     }
 
     /**

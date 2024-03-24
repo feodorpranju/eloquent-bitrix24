@@ -31,9 +31,12 @@ abstract class AbstractRepository implements Repository
      */
     protected function getItemName(): string
     {
-        return $this->name ??= Str::dot(
-            Str::after(static::class, __NAMESPACE__."\\")
-        );
+        return $this->name ??= Str::replace('\\', '', Str::dot(
+            Str::after(
+                Str::beforeLast(static::class, 'Repository'),
+                __NAMESPACE__.'\\'
+            )
+        ));
     }
 
     /**

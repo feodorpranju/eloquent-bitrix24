@@ -4,7 +4,6 @@ namespace Pranju\Bitrix24\Eloquent;
 
 
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model as BaseModel;
 use Illuminate\Support\Str;
 
@@ -40,17 +39,19 @@ class Model extends BaseModel
      */
     public $timestamps = false;
 
-    /**
-     * @inheritDoc
-     */
+    /** @inheritDoc */
+    public function newEloquentBuilder($query): Builder
+    {
+        return new Builder($query);
+    }
+
+    /** @inheritDoc */
     public function getQualifiedKeyName(): string
     {
         return $this->getKeyName();
     }
 
-    /**
-     * @inheritDoc
-     */
+    /** @inheritDoc */
     public function getTable(): string
     {
         return $this->table ??= Str::contains(static::class, 'Models')

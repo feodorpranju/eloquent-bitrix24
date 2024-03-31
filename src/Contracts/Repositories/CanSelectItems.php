@@ -51,4 +51,11 @@ interface CanSelectItems extends Repository
      * @return array[]
      */
     public function getSelectedItems(Response $response): array;
+
+    /**
+     * Retrieves list of column aliases to select all columns
+     *
+     * @return array
+     */
+    public function getAllColumnsSelect(): array;
 }

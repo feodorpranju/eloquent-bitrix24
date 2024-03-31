@@ -30,8 +30,8 @@ class Batch extends Collection implements BatchInterface
 {
     use HasStaticMake, GetsDefaultClient, ConvertsCmd, Dumps;
 
+    /** @const Limit of commands in one batch*/
     public const BATCH_CMD_LIMIT = 50;
-    public const LIST_ITEMS_LIMIT = 50;
 
     /**
      * Batch constructor.
@@ -79,8 +79,6 @@ class Batch extends Collection implements BatchInterface
             } catch (Bitrix24Exception $e) {}
 
             $response = $this->client->call($this->getMethod(), $data, $this);
-
-            //TODO: увеличить номер запроса на номер запроса для имитации номера
 
             $responses = array_merge($responses, $response->responses());
         }
@@ -269,17 +267,6 @@ class Batch extends Collection implements BatchInterface
         parse_str($parts[1] ?? '', $data);
 
         return Cmd::make($parts[0], $data, $this->getClient());
-    }
-
-    /**
-     * Removes all commands
-     *
-     * @return $this
-     */
-    public function clear(): static
-    {
-        $this->items = [];
-        return $this;
     }
 
     /**

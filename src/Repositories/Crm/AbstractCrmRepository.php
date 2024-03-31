@@ -138,6 +138,14 @@ abstract class AbstractCrmRepository extends AbstractRepository implements CanCr
     /**
      * @inheritDoc
      */
+    public function getAllColumnsSelect(): array
+    {
+        return ['*', 'UF_*'];
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function update(int|string $id, array $attributes, ?array $options = null): bool
     {
         return $this->updatedSuccessfully(

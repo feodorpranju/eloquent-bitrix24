@@ -365,13 +365,6 @@ class Builder extends BaseBuilder
     }
 
     /** @internal This method is not supported by Bitrix24. */
-    public function whereFullText($columns, $value, array $options = [], $boolean = 'and')
-    {
-        //TODO enable
-        throw new BadMethodCallException('This method is not supported by Bitrix24');
-    }
-
-    /** @internal This method is not supported by Bitrix24. */
     public function groupByRaw($sql, array $bindings = [])
     {
         throw new BadMethodCallException('This method is not supported by Bitrix24');

@@ -2,6 +2,8 @@
 
 namespace Pranju\Bitrix24\Query;
 
+use DateTimeInterface;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\Grammars\Grammar as BaseGrammar;
 use Pranju\Bitrix24\Bitrix24Exception;
@@ -12,6 +14,7 @@ use Pranju\Bitrix24\Contracts\Repositories\CanGetItem;
 use Pranju\Bitrix24\Contracts\Repositories\CanSelectItems;
 use Pranju\Bitrix24\Contracts\Repositories\CanUpdateItem;
 use Pranju\Bitrix24\Core\Batch;
+use Stringable;
 
 class Grammar extends BaseGrammar
 {
@@ -183,9 +186,102 @@ class Grammar extends BaseGrammar
         return ['='.$where['column'] => null];
     }
 
-    protected function whereIn(Builder $query, $where)
+    /**
+     * @inheritDoc
+     * @return null[]
+     */
+    protected function whereNotNull(Builder $query, $where): array
     {
-        return [$where['operator'].$where['column'] => $this->parameter($where['value'])];
+        return ['!='.$where['column'] => null];
+    }
+
+    /**
+     * @inheritDoc
+     * @return array[]
+     */
+    protected function whereIn(Builder $query, $where): array
+    {
+        return ['='.$where['column'] => $this->parameter($where['value'])];
+    }
+
+    /**
+     * @inheritDoc
+     * @return array[]
+     */
+    protected function whereNotIn(Builder $query, $where): array
+    {
+        return ['!='.$where['column'] => $this->parameter($where['value'])];
+    }
+
+    /**
+     * @inheritDoc
+     * @return array
+     */
+    protected function whereBetween(Builder $query, $where): array
+    {
+        $min = $this->parameter(is_array($where['values']) ? reset($where['values']) : $where['values'][0]);
+        $max = $this->parameter(is_array($where['values']) ? end($where['values']) : $where['values'][1]);
+
+        return [
+            '>='.$where['column'] => $where['not'] ? $max : $min,
+            '<='.$where['column'] => $where['not'] ? $min : $max,
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     * @return array
+     */
+    protected function whereDate(Builder $query, $where): array
+    {
+        return $this->whereBasic($query, $where);
+    }
+
+    /**
+     * @inheritDoc
+     * @return null[]
+     */
+    protected function whereExists(Builder $query, $where): array
+    {
+        return $this->whereNotNull($query, $where);
+    }
+
+    /**
+     * @inheritDoc
+     * @return null[]
+     */
+    protected function whereNotExists(Builder $query, $where): array
+    {
+        return $this->whereNull($query, $where);
+    }
+
+    /**
+     * @inheritDoc
+     * @return string[]
+     */
+    public function whereFullText(Builder $query, $where): array
+    {
+        $filters = [];
+
+        foreach ($where['columns'] as $column) {
+            $filters[$column] = $where['value'];
+        }
+
+        return $filters;
+    }
+
+    /**
+     * @inheritDoc
+     * @return array
+     */
+    protected function whereYear(Builder $query, $where): array
+    {
+        $where['values'] = [
+            $where['value'].'-01-01',
+            $where['value'].'-12-31 23:59:59'
+        ];
+
+        return $this->whereBetween($query, $where);
     }
 
     /**
@@ -258,5 +354,30 @@ class Grammar extends BaseGrammar
         $limit += $query->offset - $this->compileOffset($query, $query->offset);
 
         return ceil($limit / 50) * 50;
+    }
+
+    /**
+     * @param $expression
+     * @return float|\Illuminate\Contracts\Database\Query\Expression|int|string
+     */
+    public function getValue($expression): mixed
+    {
+        if ($expression instanceof DateTimeInterface) {
+            if ($expression->format('H:i:s') === '00:00:00') {
+                return $expression->format('Y-m-d');
+            }
+
+            return $expression->format('Y-m-d H:i:s');
+        }
+
+        if ($expression instanceof Arrayable) {
+            return $expression->toArray();
+        }
+
+        if ($expression instanceof Stringable) {
+            return $expression->__toString();
+        }
+
+        return parent::getValue($expression);
     }
 }

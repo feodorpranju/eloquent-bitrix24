@@ -309,7 +309,7 @@ class Builder extends BaseBuilder
     }
 
     /** @inheritdoc */
-    public function exists()
+    public function exists(): bool
     {
         $this->applyBeforeQueryCallbacks();
 
@@ -336,16 +336,6 @@ class Builder extends BaseBuilder
         return $this->processor->processUpdate($this, $sql);
     }
 
-    /** @inheritdoc */
-    public function __call($method, $parameters)
-    {
-        if ($method === 'unset') {
-            return $this->drop(...$parameters);
-        }
-
-        return parent::__call($method, $parameters);
-    }
-
     /** @internal This method is not supported by Bitrix24. */
     public function toSql()
     {
@@ -359,74 +349,425 @@ class Builder extends BaseBuilder
     }
 
     /** @internal This method is not supported by Bitrix24. */
-    public function whereColumn($first, $operator = null, $second = null, $boolean = 'and')
+    public function whereColumn($first, $operator = null, $second = null, $boolean = 'and'): void
     {
-        throw new BadMethodCallException('This method is not supported by Bitrix24');
+        $this->throwMethodNotSupported('whereColumn');
     }
 
     /** @internal This method is not supported by Bitrix24. */
-    public function groupByRaw($sql, array $bindings = [])
+    public function whereIntegerInRaw($column, $values, $boolean = 'and', $not = false): void
     {
-        throw new BadMethodCallException('This method is not supported by Bitrix24');
+        $this->throwMethodNotSupported('whereIntegerInRaw');
     }
 
     /** @internal This method is not supported by Bitrix24. */
-    public function orderByRaw($sql, $bindings = [])
+    public function orWhereIntegerInRaw($column, $values): void
     {
-        throw new BadMethodCallException('This method is not supported by Bitrix24');
+        $this->throwMethodNotSupported('whereIntegerInRaw');
     }
 
     /** @internal This method is not supported by Bitrix24. */
-    public function unionAll($query)
+    public function whereIntegerNotInRaw($column, $values, $boolean = 'and'): void
     {
-        throw new BadMethodCallException('This method is not supported by Bitrix24');
+        $this->throwMethodNotSupported('whereIntegerNotInRaw');
     }
 
     /** @internal This method is not supported by Bitrix24. */
-    public function union($query, $all = false)
+    public function orWhereIntegerNotInRaw($column, $values, $boolean = 'and'): void
     {
-        throw new BadMethodCallException('This method is not supported by Bitrix24');
+        $this->throwMethodNotSupported('whereIntegerNotInRaw');
     }
 
     /** @internal This method is not supported by Bitrix24. */
-    public function having($column, $operator = null, $value = null, $boolean = 'and')
+    public function whereBetweenColumns($column, array $values, $boolean = 'and', $not = false): void
     {
-        throw new BadMethodCallException('This method is not supported by Bitrix24');
+        $this->throwMethodNotSupported('whereBetweenColumns');
     }
 
     /** @internal This method is not supported by Bitrix24. */
-    public function havingRaw($sql, array $bindings = [], $boolean = 'and')
+    public function whereDay($column, $operator, $value = null, $boolean = 'and'): void
     {
-        throw new BadMethodCallException('This method is not supported by Bitrix24');
+        $this->throwMethodNotSupported('whereDay');
     }
 
     /** @internal This method is not supported by Bitrix24. */
-    public function havingBetween($column, iterable $values, $boolean = 'and', $not = false)
+    public function whereExists($callback, $boolean = 'and', $not = false): void
     {
-        throw new BadMethodCallException('This method is not supported by Bitrix24');
+        $this->throwMethodNotSupported('whereExists');
     }
 
     /** @internal This method is not supported by Bitrix24. */
-    public function whereIntegerInRaw($column, $values, $boolean = 'and', $not = false)
+    public function whereJsonContains($column, $value, $boolean = 'and', $not = false): void
     {
-        throw new BadMethodCallException('This method is not supported by Bitrix24');
+        $this->throwMethodNotSupported('whereExists');
     }
 
     /** @internal This method is not supported by Bitrix24. */
-    public function orWhereIntegerInRaw($column, $values)
+    public function whereJsonContainsKey($column, $boolean = 'and', $not = false): void
     {
-        throw new BadMethodCallException('This method is not supported by Bitrix24');
+        $this->throwMethodNotSupported('whereJsonContainsKey');
     }
 
     /** @internal This method is not supported by Bitrix24. */
-    public function whereIntegerNotInRaw($column, $values, $boolean = 'and')
+    public function whereJsonDoesntContain($column, $value, $boolean = 'and'): void
     {
-        throw new BadMethodCallException('This method is not supported by Bitrix24');
+        $this->throwMethodNotSupported('whereJsonDoesntContain');
     }
 
     /** @internal This method is not supported by Bitrix24. */
-    public function orWhereIntegerNotInRaw($column, $values, $boolean = 'and')
+    public function whereJsonDoesntContainKey($column, $boolean = 'and'): void
     {
-        throw new BadMethodCallException('This method is not supported by Bitrix24');
+        $this->throwMethodNotSupported('whereJsonDoesntContainKey');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function whereJsonLength($column, $operator, $value = null, $boolean = 'and'): void
+    {
+        $this->throwMethodNotSupported('whereJsonLength');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function whereMonth($column, $operator, $value = null, $boolean = 'and'): void
+    {
+        $this->throwMethodNotSupported('whereMonth');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function whereNotBetweenColumns($column, array $values, $boolean = 'and'): void
+    {
+        $this->throwMethodNotSupported('whereNotBetweenColumns');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function whereNotExists($callback, $boolean = 'and'): void
+    {
+        $this->throwMethodNotSupported('whereNotExists');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function whereRaw($sql, $bindings = [], $boolean = 'and'): void
+    {
+        $this->throwMethodNotSupported('whereRaw');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function whereRowValues($columns, $operator, $values, $boolean = 'and'): void
+    {
+        $this->throwMethodNotSupported('whereRowValues');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function whereTime($column, $operator, $value = null, $boolean = 'and'): void
+    {
+        $this->throwMethodNotSupported('whereTime');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereColumn($first, $operator = null, $second = null): void
+    {
+        $this->throwMethodNotSupported('whereColumn');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereBetween($column, iterable $values): void
+    {
+        $this->throwLogicNotSupported();
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereBetweenColumns($column, array $values): void
+    {
+        $this->throwMethodNotSupported('whereBetweenColumns');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereDate($column, $operator, $value = null): void
+    {
+        $this->throwLogicNotSupported();
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereDay($column, $operator, $value = null): void
+    {
+        $this->throwMethodNotSupported('whereDay');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhere($column, $operator = null, $value = null)
+    {
+        $this->throwLogicNotSupported();
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereExists($callback, $not = false): void
+    {
+        $this->throwMethodNotSupported('whereExists');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereFullText($columns, $value, array $options = []): void
+    {
+        $this->throwLogicNotSupported();
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereIn($column, $values): void
+    {
+        $this->throwLogicNotSupported();
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereJsonContains($column, $value): void
+    {
+        $this->throwMethodNotSupported('whereJsonContains');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereJsonContainsKey($column): void
+    {
+        $this->throwMethodNotSupported('whereJsonContainsKey');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereJsonDoesntContain($column, $value): void
+    {
+        $this->throwMethodNotSupported('whereJsonDoesntContain');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereJsonDoesntContainKey($column): void
+    {
+        $this->throwMethodNotSupported('whereJsonDoesntContainKey');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereJsonLength($column, $operator, $value = null): void
+    {
+        $this->throwMethodNotSupported('whereJsonLength');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereNot($column, $operator = null, $value = null): void
+    {
+        $this->throwLogicNotSupported();
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereMonth($column, $operator, $value = null): void
+    {
+        $this->throwMethodNotSupported('whereMonth');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereNotBetween($column, iterable $values): void
+    {
+        $this->throwLogicNotSupported();
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereNotBetweenColumns($column, array $values): void
+    {
+        $this->throwMethodNotSupported('whereNotBetweenColumns');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereNotExists($callback): void
+    {
+        $this->throwMethodNotSupported('whereNotExists');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereNotIn($column, $values): void
+    {
+        $this->throwLogicNotSupported();
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereNotNull($column): void
+    {
+        $this->throwLogicNotSupported();
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereNull($column): void
+    {
+        $this->throwLogicNotSupported();
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereRaw($sql, $bindings = []): void
+    {
+        $this->throwMethodNotSupported('whereRaw');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereTime($column, $operator, $value = null): void
+    {
+        $this->throwMethodNotSupported('whereTime');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orWhereYear($column, $operator, $value = null): void
+    {
+        $this->throwLogicNotSupported();
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function groupByRaw($sql, array $bindings = []): void
+    {
+        $this->throwMethodNotSupported('group');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orderByRaw($sql, $bindings = []): void
+    {
+        $this->throwMethodNotSupported('orderByRaw');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function unionAll($query): void
+    {
+        $this->throwMethodNotSupported('union');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function union($query, $all = false): void
+    {
+        $this->throwMethodNotSupported('union');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function setUnions(array $unions): void
+    {
+        $this->throwMethodNotSupported('union');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function getUnionLimit(): int
+    {
+        $this->throwMethodNotSupported('union');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function getUnionOffset(): int
+    {
+        $this->throwMethodNotSupported('union');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function getUnionOrders(): array
+    {
+        $this->throwMethodNotSupported('union');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function getUnions(): array
+    {
+        $this->throwMethodNotSupported('union');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function setUnionLimit(int $unionLimit): void
+    {
+        $this->throwMethodNotSupported('union');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function setUnionOffset(int $unionOffset): void
+    {
+        $this->throwMethodNotSupported('union');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function setUnionOrders(array $unionOrders): void
+    {
+        $this->throwMethodNotSupported('union');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function having($column, $operator = null, $value = null, $boolean = 'and'): void
+    {
+        $this->throwMethodNotSupported('having');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function havingRaw($sql, array $bindings = [], $boolean = 'and'): void
+    {
+        $this->throwMethodNotSupported('having');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function havingBetween($column, iterable $values, $boolean = 'and', $not = false): void
+    {
+        $this->throwMethodNotSupported('having');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function havingNested(Closure $callback, $boolean = 'and'): void
+    {
+        $this->throwMethodNotSupported('having');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function havingNotNull($columns, $boolean = 'and'): void
+    {
+        $this->throwMethodNotSupported('having');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function havingNull($columns, $boolean = 'and', $not = false): void
+    {
+        $this->throwMethodNotSupported('having');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orHaving($column, $operator = null, $value = null)
+    {
+        $this->throwMethodNotSupported('having');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function addNestedHavingQuery($query, $boolean = 'and'): void
+    {
+        $this->throwMethodNotSupported('having');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orHavingNotNull($column): void
+    {
+        $this->throwMethodNotSupported('having');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orHavingNull($column): void
+    {
+        $this->throwMethodNotSupported('having');
+    }
+
+    /** @internal This method is not supported by Bitrix24. */
+    public function orHavingRaw($sql, array $bindings = []): void
+    {
+        $this->throwMethodNotSupported('having');
+    }
+
+    /**
+     * Throws Method not supported exception
+     *
+     * @param string $method
+     * @return void
+     */
+    private function throwMethodNotSupported(string $method): void
+    {
+        throw new BadMethodCallException("Method '$method' is not supported by this version of Bitrix24 Eloquent package");
+    }
+
+    /**
+     * Throws logic is not supported exception
+     *
+     * @return void
+     */
+    private function throwLogicNotSupported(): void
+    {
+        throw new BadMethodCallException('Logic is not supported by this version of Bitrix24 Eloquent package');
     }
 }

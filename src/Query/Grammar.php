@@ -2,10 +2,12 @@
 
 namespace Pranju\Bitrix24\Query;
 
+use Carbon\Carbon;
 use DateTimeInterface;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\Grammars\Grammar as BaseGrammar;
+use Illuminate\Support\Str;
 use Pranju\Bitrix24\Bitrix24Exception;
 use Pranju\Bitrix24\Contracts\Command;
 use Pranju\Bitrix24\Contracts\Repositories\CanCreateItem;
@@ -169,12 +171,28 @@ class Grammar extends BaseGrammar
     /**
      * @inheritDoc
      * @param Builder $query
-     * @param array{column: string, operator: string, value:mixed} $where
+     * @param array{column: string, operator: string, value:mixed, boolean: string, not: ?bool} $where
      * @return array
      */
     protected function whereBasic(Builder $query, $where): array
     {
-        return [$where['operator'].$where['column'] => $this->parameter($where['value'])];
+        $negative = $where['not'] ?? Str::endsWith($where['boolean'] ?? '', 'not');
+
+        $map = [
+            '' => '!',
+            'like' => '!',
+            '=' => '!=',
+            '>' => '<=',
+            '<' => '>=',
+            '>=' => '<',
+            '<=' => '>',
+        ];
+
+        $operator = $negative
+            ? $map[$where['operator']]
+            : $where['operator'];
+
+        return [$operator.$where['column'] => $this->parameter($where['value'])];
     }
 
     /**
@@ -201,7 +219,7 @@ class Grammar extends BaseGrammar
      */
     protected function whereIn(Builder $query, $where): array
     {
-        return ['='.$where['column'] => $this->parameter($where['value'])];
+        return ['='.$where['column'] => $this->parameter($where['values'])];
     }
 
     /**
@@ -210,7 +228,7 @@ class Grammar extends BaseGrammar
      */
     protected function whereNotIn(Builder $query, $where): array
     {
-        return ['!='.$where['column'] => $this->parameter($where['value'])];
+        return ['!='.$where['column'] => $this->parameter($where['values'])];
     }
 
     /**
@@ -223,36 +241,9 @@ class Grammar extends BaseGrammar
         $max = $this->parameter(is_array($where['values']) ? end($where['values']) : $where['values'][1]);
 
         return [
-            '>='.$where['column'] => $where['not'] ? $max : $min,
-            '<='.$where['column'] => $where['not'] ? $min : $max,
+            '>='.$where['column'] => @$where['not'] ? $max : $min,
+            '<='.$where['column'] => @$where['not'] ? $min : $max,
         ];
-    }
-
-    /**
-     * @inheritDoc
-     * @return array
-     */
-    protected function whereDate(Builder $query, $where): array
-    {
-        return $this->whereBasic($query, $where);
-    }
-
-    /**
-     * @inheritDoc
-     * @return null[]
-     */
-    protected function whereExists(Builder $query, $where): array
-    {
-        return $this->whereNotNull($query, $where);
-    }
-
-    /**
-     * @inheritDoc
-     * @return null[]
-     */
-    protected function whereNotExists(Builder $query, $where): array
-    {
-        return $this->whereNull($query, $where);
     }
 
     /**
@@ -280,6 +271,22 @@ class Grammar extends BaseGrammar
             $where['value'].'-01-01',
             $where['value'].'-12-31 23:59:59'
         ];
+        $where['not'] = false;
+
+        return $this->whereBetween($query, $where);
+    }
+
+    /**
+     * @inheritDoc
+     * @return array
+     */
+    protected function whereDate(Builder $query, $where): array
+    {
+        $where['values'] = [
+            Carbon::make($where['value'])->startOfDay(),
+            Carbon::make($where['value'])->endOfDay()
+        ];
+        $where['not'] = false;
 
         return $this->whereBetween($query, $where);
     }
@@ -354,6 +361,14 @@ class Grammar extends BaseGrammar
         $limit += $query->offset - $this->compileOffset($query, $query->offset);
 
         return ceil($limit / 50) * 50;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function parameter($value): mixed
+    {
+        return $this->getValue($value);
     }
 
     /**

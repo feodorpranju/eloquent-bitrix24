@@ -173,9 +173,14 @@ class Builder extends BaseBuilder implements Arrayable
     /** @inheritdoc */
     public function get($columns = [])
     {
-        $wheres = $this->grammar->compileWheres($this);
+        $results = $this->processor->processSelect(
+            $this,
+            $this->getRepository()->getSelectedItems(
+                $this->grammar->compileSelect($this)->call()
+            ),
+        );
 
-        dd($wheres);
+        return collect($results);
     }
 
     /** @inheritdoc */

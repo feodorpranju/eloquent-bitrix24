@@ -13,6 +13,7 @@ use Pranju\Bitrix24\Contracts\Responses\BatchResponse as BatchResponseInterface;
 use Pranju\Bitrix24\Contracts\Token;
 use Pranju\Bitrix24\Core\Authorization\Webhook;
 use Pranju\Bitrix24\Core\Responses\BatchResponse;
+use Pranju\Bitrix24\Core\Responses\ListResponse;
 use Pranju\Bitrix24\Core\Responses\Response;
 use Pranju\Bitrix24\Scopes\Crm\Item;
 use Pranju\Bitrix24\Traits\HasStaticMake;
@@ -80,7 +81,7 @@ class Client implements ClientInterface
         }
 
         if (Str::endsWith($method, 'list')) {
-            return new BatchResponse($response, $command);
+            return new ListResponse($response, $command);
         }
 
         return new Response($response, $command);

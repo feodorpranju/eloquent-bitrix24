@@ -5,6 +5,7 @@ namespace Pranju\Bitrix24\Contracts;
 
 
 use Pranju\Bitrix24\Contracts\Responses\BatchResponse;
+use Pranju\Bitrix24\Contracts\Responses\ListResponse;
 use Pranju\Bitrix24\Contracts\Responses\Response;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
@@ -16,9 +17,9 @@ interface Command extends JsonSerializable, Jsonable, Stringable, Arrayable, Dum
     /**
      * Calls action on client
      *
-     * @return BatchResponse|Response
+     * @return BatchResponse|Response|ListResponse
      */
-    public function call(): BatchResponse|Response;
+    public function call(): BatchResponse|Response|ListResponse;
 
     /**
      * Returns action

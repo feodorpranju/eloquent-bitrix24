@@ -54,9 +54,9 @@ class Batch extends Collection implements BatchInterface
     {
         //TODO throw on empty client
 
-        $count = $this->count();
-
         $response = $this->client->call($this->getMethod(), $this->getData(1), $this);
+
+        $count = $this->count();
 
         if ($count <= static::BATCH_CMD_LIMIT) {
             return $response;
@@ -199,8 +199,9 @@ class Batch extends Collection implements BatchInterface
      */
     protected function clear(): static
     {
-        return $this
-            ->filter(fn($value) => $this->isCommand($value));
+        $this->items = array_filter($this->items, fn($value) => $this->isCommand($value));
+
+        return $this;
     }
 
     /**
@@ -208,7 +209,7 @@ class Batch extends Collection implements BatchInterface
      */
     public function count(): int
     {
-        return $this->clear()->count();
+        return count($this->clear()->all());
     }
 
     /**

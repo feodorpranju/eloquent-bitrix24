@@ -30,9 +30,9 @@ class ListCommandsGenerator
     {
         $data = $command->getData();
         $data['start'] = -1;
+        $data['limit'] = 50;
         $data['order'] = array_replace(['ID' => 'ASC'], $data['order'] ?? []);
         $condition = ">$primaryKey";
-        $filters = $this->generateFilters($limit, $startId, $primaryKey, $pattern);
 
         return Batch::make(
             array_map(
@@ -43,7 +43,7 @@ class ListCommandsGenerator
                         ['filter' => [$condition => $filter]],
                     ),
                 ),
-                $filters
+                $this->generateFilters($limit, $startId, $primaryKey, $pattern)
             ),
             $command->getClient(),
         );

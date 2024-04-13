@@ -58,4 +58,12 @@ interface CanSelectItems extends Repository
      * @return array
      */
     public function getAllColumnsSelect(): array;
+
+    /**
+     * Retrieves count of items by filter
+     *
+     * @param array $filter
+     * @return int
+     */
+    public function count(array $filter): int;
 }

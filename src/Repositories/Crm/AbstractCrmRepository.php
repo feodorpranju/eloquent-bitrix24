@@ -9,6 +9,9 @@ use Pranju\Bitrix24\Contracts\Repositories\CanGetItem;
 use Pranju\Bitrix24\Contracts\Repositories\CanSelectItems;
 use Pranju\Bitrix24\Contracts\Repositories\CanUpdateItem;
 use Pranju\Bitrix24\Contracts\Responses\Response;
+use Pranju\Bitrix24\Core\Cmd;
+use Pranju\Bitrix24\Core\Responses\BatchResponse;
+use Pranju\Bitrix24\Helpers\ListCommandsGenerator;
 use Pranju\Bitrix24\Repositories\AbstractRepository;
 
 abstract class AbstractCrmRepository extends AbstractRepository implements CanCreateItem, CanGetItem, CanDeleteItem, CanSelectItems, CanUpdateItem
@@ -115,15 +118,20 @@ abstract class AbstractCrmRepository extends AbstractRepository implements CanCr
      */
     public function makeSelectCommand(?array $filter = null, ?array $select = null, ?array $order = null, int $offset = -1, ?int $limit = null): Command
     {
-        return $this->cmd(
-            'list',
-            [
-                'filter' => $filter,
-                'order' => $order,
-                'select' => $select,
-                'start' => $offset,
-                'limit' => $limit,
-            ]
+        $count = $this->count($filter);
+
+        return (new ListCommandsGenerator())->generateBatch(
+            $this->cmd(
+                'list',
+                [
+                    'filter' => $filter,
+                    'order' => $order,
+                    'select' => $select,
+                    'start' => $offset,
+                    'limit' => $limit,
+                ]
+            ),
+            min($count, $limit ?? $count),
         );
     }
 
@@ -132,7 +140,14 @@ abstract class AbstractCrmRepository extends AbstractRepository implements CanCr
      */
     public function getSelectedItems(Response $response): array
     {
-        return (array)$response->result('result');
+        if ($response instanceof BatchResponse) {
+            return collect($response->responses())
+                ->map(fn(Response $response) => $response->result())
+                ->flatten(1)
+                ->all();
+        }
+
+        return (array)$response->result();
     }
 
     /**
@@ -141,6 +156,14 @@ abstract class AbstractCrmRepository extends AbstractRepository implements CanCr
     public function getAllColumnsSelect(): array
     {
         return ['*', 'UF_*'];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function count(array $filter): int
+    {
+        return $this->cmd('list', ['filter' => $filter])->call()?->pagination()->total() ?? 0;
     }
 
     /**

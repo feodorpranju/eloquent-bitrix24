@@ -35,6 +35,7 @@ trait ConvertsCmd
     public function toArray(): array
     {
         return [
+            'connection' => $this->getClient()->getConnectionName(),
             'host' => $this->getClient()->getToken()->getHost(),
             'method' => $this->getMethod(),
             'data' => $this->getData(),

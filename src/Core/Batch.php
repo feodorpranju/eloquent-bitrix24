@@ -56,7 +56,7 @@ class Batch extends Collection implements BatchInterface
 
         $count = $this->count();
 
-        $response = $this->client->call($this->getMethod(), $this->getData(), $this);
+        $response = $this->client->call($this->getMethod(), $this->getData(1), $this);
 
         if ($count <= static::BATCH_CMD_LIMIT) {
             return $response;
@@ -95,12 +95,12 @@ class Batch extends Collection implements BatchInterface
     }
 
     /**
-     * @param int $page Chunk number due to limit
+     * @param null|int $page Chunk number due to limit
      * @inheritDoc
      * @see Batch::BATCH_CMD_LIMIT
      */
     #[ArrayShape(["halt" => "int", "cmd" => "array"])]
-    public function getData(int $page = 1): array
+    public function getData(?int $page = null): array
     {
         return [
             "halt" => (int)$this->halt,
@@ -176,17 +176,20 @@ class Batch extends Collection implements BatchInterface
     /**
      * Gets commands array as strings
      *
-     * @param int $page Chunk number due to limit
+     * @param int|null $page Chunk number due to limit. Null to retrieve all
      * @return array
      * @see Batch::BATCH_CMD_LIMIT
      */
-    protected function commands(int $page): array
+    protected function commands(?int $page = null): array
     {
         return $this
             ->clear()
-            ->map(fn(Command $cmd) => (string)$cmd)
-            ->forPage($page, static::BATCH_CMD_LIMIT)
-            ->toArray();
+            ->when(
+                !is_null($page),
+                fn(Batch $batch) => $batch->forPage($page, static::BATCH_CMD_LIMIT)
+            )
+            ->map(fn(Command $cmd) => $cmd->toString())
+            ->all();
     }
 
     /**

@@ -7,6 +7,7 @@ use BadMethodCallException;
 use Carbon\CarbonPeriod;
 use Closure;
 use DateTimeInterface;
+use Illuminate\Contracts\Support\Arrayable;
 use Pranju\Bitrix24\Bitrix24Exception;
 use Pranju\Bitrix24\Connection;
 use Illuminate\Database\Query\Builder as BaseBuilder;
@@ -17,11 +18,15 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
 use InvalidArgumentException;
 use LogicException;
+use Pranju\Bitrix24\Contracts\Command;
 use Pranju\Bitrix24\Contracts\Repositories\Repository;
+use Pranju\Bitrix24\Traits\Dumps;
 use RuntimeException;
 
-class Builder extends BaseBuilder
+class Builder extends BaseBuilder implements Arrayable
 {
+    use Dumps;
+
     private const REGEX_DELIMITERS = ['/', '#', '~'];
     public const DATETIME_FORMAT = 'Y-m-d H:i:s';
 
@@ -334,6 +339,26 @@ class Builder extends BaseBuilder
         $sql = $this->grammar->compileUpdate($this, $values);
 
         return $this->processor->processUpdate($this, $sql);
+    }
+
+    /**
+     * Retrieves select command as array
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return $this->toCmd()->toArray();
+    }
+
+    /**
+     * Retrieves select command
+     *
+     * @return Command
+     */
+    public function toCmd(): Command
+    {
+        return $this->grammar->compileSelect($this);
     }
 
     /** @internal This method is not supported by Bitrix24. */

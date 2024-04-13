@@ -316,7 +316,7 @@ class Grammar extends BaseGrammar
      */
     public function compileOrders(Builder $query, $orders): array
     {
-        return $this->compileOrdersToArray($query, $orders);
+        return $this->compileOrdersToArray($query, (array)$orders);
     }
 
     /**

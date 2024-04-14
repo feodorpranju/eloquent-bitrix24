@@ -334,6 +334,10 @@ class Grammar extends BaseGrammar
      */
     protected function compileColumns(Builder $query, $columns): array
     {
+        if (!empty($columns) || !in_array('*', $columns)) {
+            return $columns;
+        }
+
         $repository = $query->getRepository();
 
         if ($repository instanceof CanSelectItems) {

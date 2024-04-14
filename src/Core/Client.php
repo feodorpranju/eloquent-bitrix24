@@ -73,7 +73,7 @@ class Client implements ClientInterface
         ?CommandInterface $command = null
     ): ResponseInterface|ListResponseInterface|BatchResponseInterface
     {
-        $response = Http::post($this->getMethodUrl($method), $data);
+        $response = Http::asJson()->post($this->getMethodUrl($method), $data);
         $command = $command ?? $this->cmd($method, $data);
 
         if ($method === 'batch') {

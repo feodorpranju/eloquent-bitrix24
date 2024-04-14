@@ -2,22 +2,14 @@
 
 namespace Pranju\Bitrix24\Query;
 
-use ArgumentCountError;
 use BadMethodCallException;
-use Carbon\CarbonPeriod;
 use Closure;
-use DateTimeInterface;
 use Illuminate\Contracts\Support\Arrayable;
-use Pranju\Bitrix24\Bitrix24Exception;
 use Pranju\Bitrix24\Connection;
 use Illuminate\Database\Query\Builder as BaseBuilder;
-use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
-use InvalidArgumentException;
-use LogicException;
 use Pranju\Bitrix24\Contracts\Command;
 use Pranju\Bitrix24\Contracts\Repositories\Repository;
 use Pranju\Bitrix24\Traits\Dumps;
@@ -195,90 +187,6 @@ class Builder extends BaseBuilder implements Arrayable
     }
 
     /**
-     * Return the Bitrix24 query to be run in the form of an element array like ['method' => [arguments]].
-     *
-     * Example: ['find' => [['name' => 'John Doe'], ['projection' => ['birthday' => 1]]]]
-     *
-     * @return array<string, array>
-     */
-    public function toB24(): array
-    {
-        $columns = $this->columns ?? [];
-
-        // Drop all columns if * is present, MongoDB does not work this way.
-        if (in_array('*', $columns)) {
-            $columns = [];
-        }
-
-        $wheres = $this->compileWheres();
-
-        $options = [];
-
-        if ($this->columns) {
-            $options['select'] = $this->columns;
-        }
-
-        if ($this->orders) {
-            $options['order'] = $this->orders;
-        }
-
-        if ($this->offset) {
-            $options['start'] = $this->offset;
-        }
-
-        if ($this->limit) {
-            $options['limit'] = $this->limit;
-        }
-
-        if (count($this->options)) {
-            $options = array_merge($options, $this->options);
-        }
-
-        if ($wheres) {
-            $options['filter'] = $wheres;
-        }
-
-        return $options;
-    }
-
-    /**
-     * Execute the query as a fresh "select" statement.
-     *
-     * @param  array $columns
-     * @param  bool  $returnLazy
-     *
-     * @return array|static[]|Collection|LazyCollection
-     */
-    public function getFresh($columns = [], $returnLazy = false)
-    {
-        dd($this->wheres);
-        dd(collect(debug_backtrace())->pluck('line', 'file'));
-        // If no columns have been specified for the select statement, we will set them
-        // here to either the passed columns, or the standard default of retrieving
-        // all of the columns on the table using the "wildcard" column character.
-        if ($this->columns === null) {
-            $this->columns = $columns;
-        }
-
-        // Drop all columns if * is present, MongoDB does not work this way.
-        if (in_array('*', $this->columns)) {
-            $this->columns = [];
-        }
-
-        $command = $this->toCmd();
-
-        if ($returnLazy) {
-            return LazyCollection::make(function () use ($result) {
-                foreach ($result as $item) {
-                    yield $item;
-                }
-            });
-        }
-
-        return new Collection($result);
-    }
-
-    /**
      * Gets ID value if it is set in wheres
      *
      * @return int|string|null
@@ -294,6 +202,13 @@ class Builder extends BaseBuilder implements Arrayable
         }
 
         return null;
+    }
+
+    public function insert(array $values)
+    {
+        $this->applyBeforeQueryCallbacks();
+
+        return $this->grammar->compileInsert($this, $values)->call()->successful();
     }
 
     /**

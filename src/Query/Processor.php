@@ -11,6 +11,7 @@ use Pranju\Bitrix24\Contracts\Repositories\CanCreateItem;
 use Pranju\Bitrix24\Contracts\Repositories\CanGetItem;
 use Pranju\Bitrix24\Contracts\Repositories\CanUpdateItem;
 use Pranju\Bitrix24\Contracts\Repositories\Repository;
+use Pranju\Bitrix24\Contracts\Responses\Response;
 
 class Processor extends BaseProcessor
 {

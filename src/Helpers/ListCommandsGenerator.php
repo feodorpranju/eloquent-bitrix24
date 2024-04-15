@@ -70,10 +70,9 @@ class ListCommandsGenerator
             : ["q0" => $startId];
 
         for ($i = 0; $limit > 0; $i++) {
-            $idx = min(50, $limit);
             $limit -= 50;
 
-            $filters['q'.($i+1)] = '$result'."[q$i]".str_replace('{index}', $idx - 1, $pattern)."[$primaryKey]";
+            $filters['q'.($i+1)] = '$result'."[q$i]".str_replace('{index}', 49, $pattern)."[$primaryKey]";
         }
 
         return $filters;

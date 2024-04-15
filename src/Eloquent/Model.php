@@ -4,8 +4,10 @@ namespace Pranju\Bitrix24\Eloquent;
 
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model as BaseModel;
 use Illuminate\Support\Str;
+use Pranju\Bitrix24\Eloquent\Factories\Factory;
 
 /**
  * \Pranju\Bitrix24\Eloquent\Model
@@ -24,6 +26,8 @@ use Illuminate\Support\Str;
  */
 class Model extends BaseModel
 {
+    use HasFactory;
+
     /**
      * @inheritDoc
      */
@@ -57,5 +61,15 @@ class Model extends BaseModel
         return $this->table ??= Str::contains(static::class, 'Models')
             ? Str::snake(Str::replace("\\", '', Str::after(static::class, "Models\\")))
             : Str::snake(class_basename($this));
+    }
+
+    /**
+     * Retrieves new model factory
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory(): \Illuminate\Database\Eloquent\Factories\Factory
+    {
+        return Factory::factoryForModel(get_called_class());
     }
 }

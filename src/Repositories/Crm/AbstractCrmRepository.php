@@ -131,7 +131,7 @@ abstract class AbstractCrmRepository extends AbstractRepository implements CanCr
                     'limit' => $limit,
                 ]
             ),
-            min($count, $limit ?? $count),
+            min($count, $limit ?: $count),
         );
     }
 

@@ -16,7 +16,7 @@ class ListResponse extends Response implements ListResponseInterface
     {
         return $this->responsePagination ??= new ResponsePagination(
             $this['next'] ?? 0,
-            $this['next'] ?? 0,
+            $this['total'] ?? 0,
         );
     }
 }

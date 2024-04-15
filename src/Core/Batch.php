@@ -54,36 +54,44 @@ class Batch extends Collection implements BatchInterface
     {
         //TODO throw on empty client
 
-        $response = $this->client->call($this->getMethod(), $this->getData(1), $this);
+        $responses = [];
 
-        $count = $this->count();
+        foreach ($this->chunkData() as $data) {
+            if (!empty($responses)) {
+                $key = array_key_first($data['cmd']);
 
-        if ($count <= static::BATCH_CMD_LIMIT) {
-            return $response;
-        }
+                try {
+                    $data['cmd'][$key] = $this->interpolateCommand($responses, $data['cmd'][$key]);
+                } catch (Bitrix24Exception $e) {
+                    //
+                }
+            }
 
-        $pages = ceil($count / self::BATCH_CMD_LIMIT);
-        $responses = $response->responses();
-
-        /**
-         * If we have more commands than can be executed in a batch
-         * we interpolate results ourselves and executes next batches
-         */
-        for ($i = 2; $i <= $pages; $i++) {
-
-            $data = $this->getData($i);
-
-            $key = array_key_first($data['cmd']);
-            try {
-                $data['cmd'][$key] = $this->interpolateCommand($responses, $data['cmd'][$key]);
-            } catch (Bitrix24Exception $e) {}
-
-            $response = $this->client->call($this->getMethod(), $data, $this);
-
-            $responses = array_merge($responses, $response->responses());
+            $responses = array_merge(
+                $responses,
+                $this->client->call($this->getMethod(), $data, $this)->responses(),
+            );
         }
 
         return new UnlimitedBatchResponse($responses);
+    }
+
+    /**
+     * Generates batch for each chunk of commands.
+     * First command in batch must be interpolated.
+     *
+     * @return array[]
+     */
+    public function chunkData(): array
+    {
+        $count = $this->count();
+        $result = [];
+
+        for ($i = 1; $i <= $count; $i++) {
+            $result[] = $this->getData($i);
+        }
+
+        return $result;
     }
 
     /**
@@ -332,7 +340,7 @@ class Batch extends Collection implements BatchInterface
             throw new Bitrix24Exception("Undefined response '$key' on batch interpolation");
         }
 
-        $value = Arr::get($responses[$key], join('.', $data[1]));
+        $value = Arr::get((array)$responses[$key]->result(), join('.', $data[1]));
 
         return is_array($value)
             ? http_build_query($value)

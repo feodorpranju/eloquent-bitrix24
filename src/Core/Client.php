@@ -4,25 +4,20 @@
 namespace Pranju\Bitrix24\Core;
 
 
-use Illuminate\Support\Collection;
-use Pranju\Bitrix24\Bitrix24Exception;
-use Pranju\Bitrix24\Contracts\Repositories\Repository;
-use Pranju\Bitrix24\Contracts\Responses\Response as ResponseInterface;
-use Pranju\Bitrix24\Contracts\Responses\ListResponse as ListResponseInterface;
-use Pranju\Bitrix24\Contracts\Responses\BatchResponse as BatchResponseInterface;
-use Pranju\Bitrix24\Contracts\Token;
-use Pranju\Bitrix24\Core\Authorization\Webhook;
-use Pranju\Bitrix24\Core\Responses\BatchResponse;
-use Pranju\Bitrix24\Core\Responses\ListResponse;
-use Pranju\Bitrix24\Core\Responses\Response;
-use Pranju\Bitrix24\Scopes\Crm\Item;
-use Pranju\Bitrix24\Traits\HasStaticMake;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
-use JetBrains\PhpStorm\Pure;
+use Pranju\Bitrix24\Bitrix24Exception;
+use Pranju\Bitrix24\Contracts\Batch as BatchInterface;
 use Pranju\Bitrix24\Contracts\Client as ClientInterface;
 use Pranju\Bitrix24\Contracts\Command as CommandInterface;
-use \Pranju\Bitrix24\Contracts\Batch as BatchInterface;
+use Pranju\Bitrix24\Contracts\Repositories\Repository;
+use Pranju\Bitrix24\Contracts\Responses\BatchResponse as BatchResponseInterface;
+use Pranju\Bitrix24\Contracts\Responses\ListResponse as ListResponseInterface;
+use Pranju\Bitrix24\Contracts\Responses\Response as ResponseInterface;
+use Pranju\Bitrix24\Contracts\Token;
+use Pranju\Bitrix24\Core\Authorization\Webhook;
+use Pranju\Bitrix24\Factories\RepositoryFactory;
+use Pranju\Bitrix24\Factories\ResponseFactory;
+use Pranju\Bitrix24\Traits\HasStaticMake;
 
 /**
  * Class Client
@@ -42,11 +37,11 @@ class Client implements ClientInterface
     protected Token $token;
 
     /**
-     * Cached repositories
+     * Repository factory
      *
-     * @var Repository[]
+     * @var RepositoryFactory
      */
-    protected array $repositories = [];
+    protected RepositoryFactory $repositoryFactory;
 
     /**
      * @param string|Token $token Auth Token
@@ -73,18 +68,10 @@ class Client implements ClientInterface
         ?CommandInterface $command = null
     ): ResponseInterface|ListResponseInterface|BatchResponseInterface
     {
-        $response = Http::asJson()->post($this->getMethodUrl($method), $data);
-        $command = $command ?? $this->cmd($method, $data);
-
-        if ($method === 'batch') {
-            return new BatchResponse($response, $command);
-        }
-
-        if (Str::endsWith($method, 'list')) {
-            return new ListResponse($response, $command);
-        }
-
-        return new Response($response, $command);
+        return ResponseFactory::make(
+            Http::asJson()->post($this->getMethodUrl($method), $data),
+            $command ?? $this->cmd($method, $data),
+        );
     }
 
     /**
@@ -112,19 +99,9 @@ class Client implements ClientInterface
      */
     public function getRepository(string $table): Repository
     {
-        if (isset($this->repositories[$table])) {
-            return $this->repositories[$table];
-        }
+        $this->repositoryFactory ??= new RepositoryFactory($this);
 
-        $scope = Str::studly(Str::before($table, '_'));
-        $repository = Str::studly(Str::after($table, '_')).'Repository';
-        $class = Str::beforeLast(__NAMESPACE__, '\\')."\\Repositories\\$scope\\$repository";
-
-        if (!class_exists($class)) {
-            throw new Bitrix24Exception("Undefined repository '$scope\\$repository' for '$table' table");
-        }
-
-        return $this->repositories[$table] = new $class($this);
+        return $this->repositoryFactory->make($table);
     }
 
     /**

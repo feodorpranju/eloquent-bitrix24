@@ -1,8 +1,8 @@
 <?php
 
-namespace Feodorpranju\Eloquent\Bitrix24\Tests;
+namespace Pranju\Bitrix24\Tests;
 
-use Feodorpranju\Eloquent\Bitrix24\Bitrix24ServiceProvider;
+use Pranju\Bitrix24\Bitrix24ServiceProvider;
 use Illuminate\Foundation\Application;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use function Orchestra\Testbench\workbench_path;

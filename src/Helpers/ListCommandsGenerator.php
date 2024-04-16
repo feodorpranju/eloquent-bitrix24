@@ -2,6 +2,8 @@
 
 namespace Pranju\Bitrix24\Helpers;
 
+use Illuminate\Support\Str;
+use InvalidArgumentException;
 use Pranju\Bitrix24\Contracts\Batch as BatchInterface;
 use Pranju\Bitrix24\Contracts\Command;
 use Pranju\Bitrix24\Core\Batch;
@@ -13,11 +15,10 @@ class ListCommandsGenerator
      * Generates Batch command with list commands
      *
      * @param Command $command
-     * @param int $total
      * @param int $limit
      * @param int $startId
-     * @param int $primaryKey
-     * @param string $pattern Pattern between result and primary key
+     * @param string $primaryKey
+     * @param string $pattern Pattern between '$result[key]' and primary key
      * @return BatchInterface
      */
     public function generateBatch(
@@ -43,7 +44,11 @@ class ListCommandsGenerator
                         ['filter' => [$condition => $filter]],
                     ),
                 ),
-                $this->generateFilters($limit, $startId, $primaryKey, $pattern)
+                $this->generateFilters(
+                    $limit,
+                    max($data['filter'][$condition] ?? 0, $startId),
+                    $pattern."[$primaryKey]"
+                )
             ),
             $command->getClient(),
         );
@@ -54,25 +59,30 @@ class ListCommandsGenerator
      *
      * @param int $limit
      * @param int $startId
-     * @param string $primaryKey
-     * @param string $pattern
+     * @param string $pattern Pattern after '$result[key]'. {index} is interpolated with index
      * @return array
      */
     public function generateFilters(
         int $limit,
         int $startId = 0,
-        string $primaryKey = 'ID',
-        string $pattern = '[{index}]'
+        string $pattern = '[{index}][ID]'
     ): array {
+        if ($limit < 1) {
+            throw new InvalidArgumentException('Limit must be greater than 0');
+        }
+
+        if (!Str::contains($pattern, '{index}')) {
+            throw new InvalidArgumentException('Pattern must contain "{index}" substring');
+        }
+
         $limit -= 50;
-        $filters = isset($data['filter'][">$primaryKey"])
-            ? []
-            : ["q0" => $startId];
+        $filters = ["q0" => $startId];
+        $pattern = Str::replace('{index}', 49, $pattern);
 
         for ($i = 0; $limit > 0; $i++) {
             $limit -= 50;
 
-            $filters['q'.($i+1)] = '$result'."[q$i]".str_replace('{index}', 49, $pattern)."[$primaryKey]";
+            $filters['q'.($i+1)] = '$result'."[q$i]".$pattern;
         }
 
         return $filters;

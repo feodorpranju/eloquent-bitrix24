@@ -2,10 +2,11 @@
 
 namespace Core\Responses;
 
-use Feodorpranju\Eloquent\Bitrix24\Core\Responses\Response;
-use Feodorpranju\Eloquent\Bitrix24\Core\Responses\ResponseTime;
+use Pranju\Bitrix24\Core\Responses\Response;
+use Pranju\Bitrix24\Core\Responses\ResponseTime;
+use Pranju\Bitrix24\Tests\TestCase;
 
-class ResponseTest extends \Feodorpranju\Eloquent\Bitrix24\Tests\TestCase
+class ResponseTest extends TestCase
 {
     /**
      * @return void
@@ -31,7 +32,6 @@ class ResponseTest extends \Feodorpranju\Eloquent\Bitrix24\Tests\TestCase
      */
     public function testTime(): void
     {
-
         $responseArray = [
             'result' => [true],
             'time' => [

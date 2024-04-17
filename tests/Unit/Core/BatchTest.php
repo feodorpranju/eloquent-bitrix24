@@ -1,20 +1,20 @@
 <?php
 
 
-namespace Feodorpranju\Eloquent\Bitrix24\Tests\Unit\Core;
+namespace Pranju\Bitrix24\Tests\Unit\Core;
 
 
-use Feodorpranju\Eloquent\Bitrix24\Contracts\Command;
-use Feodorpranju\Eloquent\Bitrix24\Core\Batch;
-use Feodorpranju\Eloquent\Bitrix24\Core\Client;
-use Feodorpranju\Eloquent\Bitrix24\Core\Cmd;
-use Feodorpranju\Eloquent\Bitrix24\Core\Responses\BatchResponse;
-use Feodorpranju\Eloquent\Bitrix24\Tests\TestCase;
+use Pranju\Bitrix24\Contracts\Command;
+use Pranju\Bitrix24\Core\Batch;
+use Pranju\Bitrix24\Core\Client;
+use Pranju\Bitrix24\Core\Cmd;
+use Pranju\Bitrix24\Core\Responses\BatchResponse;
+use Pranju\Bitrix24\Tests\TestCase;
 use Mockery\MockInterface;
 
 /**
  * Class BatchTest
- * @package Feodorpranju\Eloquent\Bitrix24\Tests\Unit\Core
+ * @package Pranju\Bitrix24\Tests\Unit\Core
  * @tag core
  * @author Fiodor Pranju
  */

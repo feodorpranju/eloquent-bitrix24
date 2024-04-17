@@ -1,8 +1,6 @@
 <?php
 
 
-use Illuminate\Support\Str;
-
 return [
     'defaultB24' => 'bitrix24',
 

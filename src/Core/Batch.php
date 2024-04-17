@@ -14,7 +14,6 @@ use Pranju\Bitrix24\Contracts\Responses\Response;
 use Pranju\Bitrix24\Core\Responses\UnlimitedBatchResponse;
 use Pranju\Bitrix24\Traits\Dumps;
 use Pranju\Bitrix24\Traits\GetsDefaultClient;
-use Pranju\Bitrix24\Traits\HasStaticMake;
 use Illuminate\Support\Collection;
 use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
@@ -24,11 +23,10 @@ use Pranju\Bitrix24\Contracts\Batch as BatchInterface;
  * Class Batch
  * @package Pranju\Bitrix24\Core
  *
- * @method static static make(Command[]|Collection $commands = [], ?Client $client = null, bool $halt = true)
  */
 class Batch extends Collection implements BatchInterface
 {
-    use HasStaticMake, GetsDefaultClient, ConvertsCmd, Dumps;
+    use GetsDefaultClient, ConvertsCmd, Dumps;
 
     /** @const Limit of commands in one batch*/
     public const BATCH_CMD_LIMIT = 50;
@@ -45,6 +43,19 @@ class Batch extends Collection implements BatchInterface
         parent::__construct($items);
 
         $this->client ??= $this->getDefaultClient();
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @param Command[]|Collection $items
+     * @param Client|null $client
+     * @param bool $halt
+     * @return static
+     */
+    public static function make($items = [], ?Client $client = null, bool $halt = true): static
+    {
+        return new static($items, $client, $halt);
     }
 
     /**

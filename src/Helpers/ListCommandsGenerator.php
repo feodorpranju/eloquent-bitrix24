@@ -41,7 +41,11 @@ class ListCommandsGenerator
                     $command->getMethod(),
                     array_replace_recursive(
                         $data,
-                        ['filter' => [$condition => $filter]],
+                        [
+                            'filter' => $filter === 0
+                                ? []
+                                : [$condition => $filter]
+                        ],
                     ),
                 ),
                 $this->generateFilters(

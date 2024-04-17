@@ -16,7 +16,7 @@ class TestCase extends OrchestraTestCase
      *
      * @return array
      */
-    protected function getApplicationProviders($app)
+    protected function getApplicationProviders($app): array
     {
         return parent::getApplicationProviders($app);
     }
@@ -28,7 +28,7 @@ class TestCase extends OrchestraTestCase
      *
      * @return array
      */
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
             Bitrix24ServiceProvider::class
@@ -42,7 +42,7 @@ class TestCase extends OrchestraTestCase
      *
      * @return void
      */
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         // reset base path to point to our package's src directory
         //$app['path.base'] = __DIR__ . '/../src';

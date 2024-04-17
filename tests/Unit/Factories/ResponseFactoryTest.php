@@ -24,13 +24,13 @@ class ResponseFactoryTest extends TestCase
      * @return void
      * @dataProvider responseDataProvider
      */
-    public function testFactory(Command $command, string $class, false|int $total = false): void
+    public function testFactory(Command $command, string $class, ?HttpResponse $response = null): void
     {
         $this->assertInstanceOf(
             $class,
             ResponseFactory::make(
-                $this->mock(HttpResponse::class, function (MockInterface $mock) use ($total) {
-                    $mock->shouldReceive('json')->withArgs(['total', false])->andReturn($total);
+                $response ?? $this->mock(HttpResponse::class, function (MockInterface $mock) {
+                    $mock->shouldReceive('json')->andReturn(false);
                 }),
                 $command
             ),
@@ -47,7 +47,13 @@ class ResponseFactoryTest extends TestCase
         return [
             'basic' => [Cmd::make('crm.lead.get', [], $client), Response::class],
             'list' => [Cmd::make('crm.lead.list', [], $client), ListResponse::class],
-            'list_by_total' => [Cmd::make('user.get', [], $client), ListResponse::class, 45],
+            'list_by_total' => [
+                Cmd::make('user.get', [], $client),
+                ListResponse::class,
+                Mockery::mock(HttpResponse::class, function (MockInterface $mock) {
+                    $mock->shouldReceive('json')->withArgs(['total', false])->andReturn(45);
+                }),
+            ],
             'batch_basic' => [Cmd::make('batch', [], $client), BatchResponse::class],
             'batch_command' => [Batch::make([], $client), BatchResponse::class],
         ];

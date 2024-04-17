@@ -4,9 +4,10 @@
 namespace Pranju\Bitrix24\Contracts;
 
 
+use Illuminate\Support\Enumerable;
 use Pranju\Bitrix24\Contracts\Responses\BatchResponse;
 
-interface Batch extends Command
+interface Batch extends Command, Enumerable
 {
     /**
      * Calls action on client

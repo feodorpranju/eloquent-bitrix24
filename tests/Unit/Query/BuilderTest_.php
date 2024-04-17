@@ -14,7 +14,7 @@ use Pranju\Bitrix24\Query\Processor;
 use Pranju\Bitrix24\Tests\TestCase;
 use Mockery;
 
-class BuilderTest0 extends TestCase
+class BuilderTest extends TestCase
 {
     /**
      * @param array $expected

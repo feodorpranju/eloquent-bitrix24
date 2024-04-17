@@ -1,19 +1,19 @@
 <?php
 
 
-namespace Feodorpranju\Eloquent\Bitrix24\Tests\Unit\Core;
+namespace Pranju\Bitrix24\Tests\Unit\Core;
 
 
-use Feodorpranju\Eloquent\Bitrix24\Core\Client;
-use Feodorpranju\Eloquent\Bitrix24\Core\Cmd;
-use Feodorpranju\Eloquent\Bitrix24\Core\Responses\Response;
-use Feodorpranju\Eloquent\Bitrix24\Tests\TestCase;
+use Pranju\Bitrix24\Core\Client;
+use Pranju\Bitrix24\Core\Cmd;
+use Pranju\Bitrix24\Core\Responses\Response;
+use Pranju\Bitrix24\Tests\TestCase;
 use Illuminate\Support\Facades\DB;
 use Mockery\MockInterface;
 
 /**
  * Class CmdTest
- * @package Feodorpranju\Eloquent\Bitrix24\Tests\Unit\Core
+ * @package Pranju\Bitrix24\Tests\Unit\Core
  * @tag core
  * @author Fiodor Pranju
  */
@@ -30,7 +30,7 @@ class CmdTest extends TestCase
         $cmd2 = new Cmd($this->action, $this->data);
 
         $this->assertEquals($cmd2, $cmd, '__construct() vs make()');
-        $this->assertEquals($this->action, $cmd->getAction(), 'Get on make set action');
+        $this->assertEquals($this->action, $cmd->getMethod(), 'Get on make set action');
         $this->assertEquals($this->data, $cmd->getData(), 'Get on make set data');
         $this->assertEquals($client, $cmd->getClient(), 'Get set on make client');
         $this->assertEquals($client, Cmd::make('')->getClient(), 'Get automatic set client');
@@ -53,9 +53,9 @@ class CmdTest extends TestCase
     public function testSetAction()
     {
         $cmd = Cmd::make('');
-        $cmd->setAction($this->action);
+        $cmd->setMethod($this->action);
 
-        $this->assertEquals($this->action, $cmd->getAction(), 'Set action & get action');
+        $this->assertEquals($this->action, $cmd->getMethod(), 'Set action & get action');
     }
 
     public function testSetData()

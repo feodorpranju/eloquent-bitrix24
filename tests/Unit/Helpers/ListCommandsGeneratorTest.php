@@ -3,6 +3,8 @@
 namespace Helpers;
 
 use InvalidArgumentException;
+use Pranju\Bitrix24\Contracts\Command;
+use Pranju\Bitrix24\Core\Cmd;
 use Pranju\Bitrix24\Helpers\ListCommandsGenerator;
 use Pranju\Bitrix24\Tests\TestCase;
 
@@ -52,6 +54,27 @@ class ListCommandsGeneratorTest extends TestCase
             fn() => $this->getGenerator()->generateFilters(50, 0, '[ID]'),
             InvalidArgumentException::class,
             'Pattern must contain "{index}" substring',
+        );
+    }
+
+    /**
+     * @param Command[] $expectedCommands
+     * @param mixed ...$arguments
+     * @return void
+     * @see          ListCommandsGenerator::generateBatch()
+     * @dataProvider getGenerateBatchData
+     */
+    public function testGenerateBatch(array $expectedCommands, ...$arguments): void
+    {
+        $this->assertEquals(
+            array_map(
+                fn ($command) => $command->getData(),
+                $expectedCommands
+            ),
+            array_map(
+                fn ($command) => $command->getData(),
+                $this->getGenerator()->generateBatch(...$arguments)->all()
+            ),
         );
     }
 
@@ -116,6 +139,102 @@ class ListCommandsGeneratorTest extends TestCase
                     'q1' => '$result[q0][49][items][ID]'
                 ],
             ]
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function getGenerateBatchData(): array
+    {
+        return [
+             'one command without start id argument' => [
+                 [
+                     'q0' => Cmd::make('crm.lead.list', [
+                         'filter' => [],
+                         'order' => ['ID' => 'ASC'],
+                         'start' => -1,
+                         'limit' => 50,
+                     ])
+                 ],
+                 Cmd::make('crm.lead.list'),
+                 1,
+             ],
+             'one command with start id argument' => [
+                 [
+                     'q0' => Cmd::make('crm.lead.list', [
+                         'filter' => ['>ID' => 4],
+                         'order' => ['ID' => 'ASC'],
+                         'start' => -1,
+                         'limit' => 50,
+                     ])
+                 ],
+                 Cmd::make('crm.lead.list'),
+                 1,
+                 4,
+             ],
+             'one command with start id' => [
+                 [
+                     'q0' => Cmd::make('crm.lead.list', [
+                         'filter' => ['>ID' => 5],
+                         'order' => ['ID' => 'ASC'],
+                         'start' => -1,
+                         'limit' => 50,
+                     ])
+                 ],
+                 Cmd::make('crm.lead.list', [
+                     'filter' => ['>ID' => 5]
+                 ]),
+                 1,
+             ],
+             'start id in command greater than in argument' => [
+                 [
+                     'q0' => Cmd::make('crm.lead.list', [
+                         'filter' => ['>ID' => 6],
+                         'order' => ['ID' => 'ASC'],
+                         'start' => -1,
+                         'limit' => 50,
+                     ])
+                 ],
+                 Cmd::make('crm.lead.list', [
+                     'filter' => ['>ID' => 5]
+                 ]),
+                 1,
+                 6,
+             ],
+             'start id in command lower than in argument' => [
+                 [
+                     'q0' => Cmd::make('crm.lead.list', [
+                         'filter' => ['>ID' => 5],
+                         'order' => ['ID' => 'ASC'],
+                         'start' => -1,
+                         'limit' => 50,
+                     ])
+                 ],
+                 Cmd::make('crm.lead.list', [
+                     'filter' => ['>ID' => 5]
+                 ]),
+                 1,
+                 3,
+             ],
+             'two commands' => [
+                 [
+                     'q0' => Cmd::make('crm.lead.list', [
+                         'filter' => [],
+                         'order' => ['ID' => 'ASC'],
+                         'start' => -1,
+                         'limit' => 50,
+                     ]),
+                     'q1' => Cmd::make('crm.lead.list', [
+                         'filter' => ['>ID' => '$result[q0][49][ID]'],
+                         'order' => ['ID' => 'ASC'],
+                         'start' => -1,
+                         'limit' => 50,
+                     ])
+                 ],
+                 Cmd::make('crm.lead.list', []),
+                 51,
+             ]
         ];
     }
 

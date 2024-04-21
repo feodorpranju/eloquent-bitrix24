@@ -7,6 +7,7 @@ use DateTimeInterface;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\Grammars\Grammar as BaseGrammar;
+use Illuminate\Support\Enumerable;
 use Illuminate\Support\Str;
 use Pranju\Bitrix24\Bitrix24Exception;
 use Pranju\Bitrix24\Contracts\Command;
@@ -20,6 +21,20 @@ use Stringable;
 
 class Grammar extends BaseGrammar
 {
+    public const INVERSE_OPERATORS = [
+        '' => '',
+        '=' => '=',
+        '<' => '<',
+        '>' => '>',
+        '<=' => '<=',
+        '>=' => '>=',
+        '<>' => '!=',
+        '!=' => '!=',
+        '!' => '!',
+        'like' => '',
+        'ilike' => '',
+    ];
+
     /**
      * @inheritDoc
      * @return Command
@@ -99,7 +114,7 @@ class Grammar extends BaseGrammar
      */
     public function compileInsert(Builder $query, array $values): Batch
     {
-        $batch = new Batch();
+        $batch = new Batch([], $query->connection->getClient(), false);
 
         foreach ($values as $attributes) {
             $batch->push(
@@ -139,7 +154,7 @@ class Grammar extends BaseGrammar
             );
         }
 
-        throw new Bitrix24Exception($query->from.' has no create action');
+        throw new Bitrix24Exception($query->from.' has no select action');
     }
 
     /**
@@ -178,18 +193,8 @@ class Grammar extends BaseGrammar
     {
         $negative = $where['not'] ?? Str::endsWith($where['boolean'] ?? '', 'not');
 
-        $map = [
-            '' => '!',
-            'like' => '!',
-            '=' => '!=',
-            '>' => '<=',
-            '<' => '>=',
-            '>=' => '<',
-            '<=' => '>',
-        ];
-
         $operator = $negative
-            ? $map[$where['operator']]
+            ? static::INVERSE_OPERATORS[$where['operator']]
             : $where['operator'];
 
         return [$operator.$where['column'] => $this->parameter($where['value'])];
@@ -255,7 +260,7 @@ class Grammar extends BaseGrammar
         $filters = [];
 
         foreach ($where['columns'] as $column) {
-            $filters[$column] = $where['value'];
+            $filters[$column] = $this->parameter($where['value']);
         }
 
         return $filters;
@@ -267,6 +272,15 @@ class Grammar extends BaseGrammar
      */
     protected function whereYear(Builder $query, $where): array
     {
+        if ($where['operator'] !== '=') {
+            $where['value'] = match ($where['operator']) {
+                '>', '<=' => $where['value'].'-12-31 23:59:59',
+                default => $where['value'].'-01-01',
+            };
+
+            return $this->whereBasic($query, $where);
+        }
+
         $where['values'] = [
             $where['value'].'-01-01',
             $where['value'].'-12-31 23:59:59'
@@ -282,6 +296,15 @@ class Grammar extends BaseGrammar
      */
     protected function whereDate(Builder $query, $where): array
     {
+        if ($where['operator'] !== '=') {
+            $where['value'] = match ($where['operator']) {
+                '>', '<=' => Carbon::make($where['value'])->endOfDay(),
+                default => Carbon::make($where['value'])->startOfDay(),
+            };
+
+            return $this->whereBasic($query, $where);
+        }
+
         $where['values'] = [
             Carbon::make($where['value'])->startOfDay(),
             Carbon::make($where['value'])->endOfDay()
@@ -314,9 +337,9 @@ class Grammar extends BaseGrammar
      * @inheritDoc
      * @return array
      */
-    public function compileOrders(Builder $query, $orders): array
+    protected function compileOrders(Builder $query, $orders): array
     {
-        return $this->compileOrdersToArray($query, (array)$orders);
+        return $this->compileOrdersToArray($query, $orders);
     }
 
     /**
@@ -325,7 +348,7 @@ class Grammar extends BaseGrammar
      */
     protected function compileOrdersToArray(Builder $query, $orders): array
     {
-        return $orders;
+        return $orders ?? [];
     }
 
     /**
@@ -360,7 +383,7 @@ class Grammar extends BaseGrammar
      * @inheritDoc
      * @return int
      */
-    public function compileLimit(Builder $query, $limit): int
+    protected function compileLimit(Builder $query, $limit): int
     {
         $limit += $query->offset - $this->compileOffset($query, $query->offset);
 
@@ -376,7 +399,7 @@ class Grammar extends BaseGrammar
     }
 
     /**
-     * @param $expression
+     * @param mixed $expression
      * @return float|\Illuminate\Contracts\Database\Query\Expression|int|string
      */
     public function getValue($expression): mixed
@@ -389,12 +412,12 @@ class Grammar extends BaseGrammar
             return $expression->format('Y-m-d H:i:s');
         }
 
-        if ($expression instanceof Arrayable) {
-            return $expression->toArray();
+        if ($expression instanceof Stringable && !$expression instanceof Enumerable) {
+            return $expression->__toString();
         }
 
-        if ($expression instanceof Stringable) {
-            return $expression->__toString();
+        if ($expression instanceof Arrayable) {
+            return $expression->toArray();
         }
 
         return parent::getValue($expression);

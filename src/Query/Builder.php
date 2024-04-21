@@ -80,7 +80,6 @@ class Builder extends BaseBuilder implements Arrayable
         '!=',
         '!',
         'like',
-        'not like',
         'between',
         'ilike',
     ];
@@ -91,9 +90,9 @@ class Builder extends BaseBuilder implements Arrayable
      * @var array
      */
     protected array $conversion = [
+        '<>' => '!=',
         'like' => '',
         'ilike' => '',
-        'not like' => '!',
     ];
 
 
@@ -204,11 +203,39 @@ class Builder extends BaseBuilder implements Arrayable
         return null;
     }
 
+    /**
+     * Inserts and gets inserted items
+     *
+     * @param array $values
+     * @return array
+     */
+    public function insertAndGetIds(array $values): array
+    {
+        $this->applyBeforeQueryCallbacks();
+
+        return $this->processor->processInsertGetIds(
+            $this,
+            $this->grammar->compileInsert($this, $values)
+        );
+    }
+
     public function insert(array $values)
     {
         $this->applyBeforeQueryCallbacks();
 
         return $this->grammar->compileInsert($this, $values)->call()->successful();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function where($column, $operator = null, $value = null, $boolean = 'and'): static
+    {
+        if (is_string($operator) && !is_null($value)) {
+            $operator = $this->conversion[$operator] ?? $operator;
+        }
+
+        return parent::where($column, $operator, $value, $boolean);
     }
 
     /**

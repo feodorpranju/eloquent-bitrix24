@@ -57,6 +57,6 @@ abstract class AbstractToken implements Token
      */
     public function getHost(): string
     {
-        return $this->host ??= parse_url($this->getUrl(), PHP_URL_HOST);
+        return $this->host ??= (string)parse_url($this->getUrl(), PHP_URL_HOST);
     }
 }

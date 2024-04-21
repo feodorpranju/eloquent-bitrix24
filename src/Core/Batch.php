@@ -69,12 +69,12 @@ class Batch extends Collection implements BatchInterface
 
         foreach ($this->chunkData() as $data) {
             if (!empty($responses)) {
-                $key = array_key_first($data['cmd']);
-
-                try {
-                    $data['cmd'][$key] = $this->interpolateCommand($responses, $data['cmd'][$key]);
-                } catch (Bitrix24Exception $e) {
-                    //
+                foreach ($data['cmd'] as $key => $command) {
+                    try {
+                        $data['cmd'][$key] = $this->interpolateCommand($responses, $command);
+                    } catch (Bitrix24Exception $e) {
+                        //
+                    }
                 }
             }
 

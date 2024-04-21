@@ -6,6 +6,7 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\Processors\Processor as BaseProcessor;
 use Illuminate\Support\Arr;
 use Pranju\Bitrix24\Bitrix24Exception;
+use Pranju\Bitrix24\Contracts\Batch;
 use Pranju\Bitrix24\Contracts\Command;
 use Pranju\Bitrix24\Contracts\Repositories\CanCreateItem;
 use Pranju\Bitrix24\Contracts\Repositories\CanGetItem;
@@ -26,6 +27,26 @@ class Processor extends BaseProcessor
 
         if ($repository instanceof CanCreateItem) {
             return $repository->getCreatedItemId($sql->call());
+        }
+
+        throw new Bitrix24Exception($query->from.' has no create action');
+    }
+
+    /**
+     * @param Builder $query
+     * @param Batch $batch
+     * @return array
+     * @throws Bitrix24Exception
+     */
+    public function processInsertGetIds(Builder $query, Batch $batch): array
+    {
+        $repository = $query->getConnection()->getRepository($query->from);
+
+        if ($repository instanceof CanCreateItem) {
+            return array_map(
+                fn($response) => $repository->getCreatedItemId($response),
+                $batch->call()->responses()
+            );
         }
 
         throw new Bitrix24Exception($query->from.' has no create action');

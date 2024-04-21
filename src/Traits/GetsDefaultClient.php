@@ -17,6 +17,7 @@ trait GetsDefaultClient
      */
     protected function getDefaultClient(): ?Client
     {
+        return new \Pranju\Bitrix24\Core\Client('');
         $connection = config('database.defaultB24', static::$defaultConnection);
 
         if (

@@ -357,6 +357,8 @@ class Grammar extends BaseGrammar
      */
     protected function compileColumns(Builder $query, $columns): array
     {
+        $columns ??= [];
+
         if (!empty($columns) || !in_array('*', $columns)) {
             return $columns;
         }

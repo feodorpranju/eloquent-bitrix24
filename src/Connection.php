@@ -4,7 +4,6 @@ namespace Pranju\Bitrix24;
 
 use Composer\InstalledVersions;
 use Pranju\Bitrix24\Core\Authorization\Webhook;
-use Pranju\Bitrix24\Concerns\ManagesTransactions;
 use Illuminate\Database\Connection as BaseConnection;
 use InvalidArgumentException;
 use JetBrains\PhpStorm\Pure;
@@ -20,7 +19,6 @@ use Pranju\Bitrix24\Contracts\Client as ClientInterface;
  */
 class Connection extends BaseConnection
 {
-    use ManagesTransactions;
 
     private static ?string $version = null;
 

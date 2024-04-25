@@ -5,12 +5,14 @@ namespace Pranju\Bitrix24\Query;
 use BadMethodCallException;
 use Closure;
 use Illuminate\Contracts\Support\Arrayable;
+use Pranju\Bitrix24\Bitrix24Exception;
 use Pranju\Bitrix24\Connection;
 use Illuminate\Database\Query\Builder as BaseBuilder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
 use Pranju\Bitrix24\Contracts\Command;
+use Pranju\Bitrix24\Contracts\Repositories\CanSelectItems;
 use Pranju\Bitrix24\Contracts\Repositories\Repository;
 use Pranju\Bitrix24\Traits\Dumps;
 use RuntimeException;
@@ -162,7 +164,7 @@ class Builder extends BaseBuilder implements Arrayable
     }
 
     /** @inheritdoc */
-    public function get($columns = [])
+    public function get($columns = []): Collection
     {
         $results = $this->processor->processSelect(
             $this,
@@ -219,11 +221,30 @@ class Builder extends BaseBuilder implements Arrayable
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function insert(array $values)
     {
         $this->applyBeforeQueryCallbacks();
 
         return $this->grammar->compileInsert($this, $values)->call()->successful();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function count($columns = '*'): int
+    {
+        $repository = $this->getRepository();
+
+        if (! $repository instanceof CanSelectItems) {
+            throw new Bitrix24Exception("Item $this->from has no select action");
+        }
+
+        return $repository->count(
+            (array)$this->grammar->compileWheres($this)
+        );
     }
 
     /**
@@ -237,6 +258,8 @@ class Builder extends BaseBuilder implements Arrayable
 
         return parent::where($column, $operator, $value, $boolean);
     }
+
+
 
     /**
      * Generate the unique cache key for the current query.
@@ -265,7 +288,7 @@ class Builder extends BaseBuilder implements Arrayable
     {
         $this->applyBeforeQueryCallbacks();
 
-        return $this->first() !== null;
+        return $this->count() > 0;
     }
 
     /** @inheritdoc */

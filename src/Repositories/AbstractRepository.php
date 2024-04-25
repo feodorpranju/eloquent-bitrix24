@@ -19,9 +19,17 @@ abstract class AbstractRepository implements Repository
      */
     protected string $name;
 
-    public function __construct(protected Client $client)
+    public function __construct(protected readonly Client $client, protected readonly string $table)
     {
 
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPrimaryKey(): string
+    {
+        return 'ID';
     }
 
     /**

@@ -234,6 +234,40 @@ class ListCommandsGeneratorTest extends TestCase
                  ],
                  Cmd::make('crm.lead.list', []),
                  51,
+             ],
+             'one command start 50' => [
+                 [
+                     'q0' => Cmd::make('crm.lead.list', [
+                         'filter' => [],
+                         'order' => ['ID' => 'ASC'],
+                         'start' => 50,
+                         'limit' => 50,
+                     ]),
+                     'q1' => Cmd::make('crm.lead.list', [
+                         'filter' => ['>ID' => '$result[q0][49][ID]'],
+                         'order' => ['ID' => 'ASC'],
+                         'start' => -1,
+                         'limit' => 50,
+                     ])
+                 ],
+                 Cmd::make('crm.lead.list', [
+                     'start' => 50
+                 ]),
+                 51,
+             ],
+             'two commands start 50' => [
+                 [
+                     'q0' => Cmd::make('crm.lead.list', [
+                         'filter' => [],
+                         'order' => ['ID' => 'ASC'],
+                         'start' => 50,
+                         'limit' => 50,
+                     ])
+                 ],
+                 Cmd::make('crm.lead.list', [
+                     'start' => 50
+                 ]),
+                 1,
              ]
         ];
     }

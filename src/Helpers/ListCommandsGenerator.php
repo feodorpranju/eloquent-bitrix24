@@ -30,30 +30,31 @@ class ListCommandsGenerator
     ): BatchInterface
     {
         $data = $command->getData();
-        $data['start'] = -1;
         $data['limit'] = 50;
         $data['order'] = array_replace(['ID' => 'ASC'], $data['order'] ?? []);
         $condition = ">$primaryKey";
 
         return Batch::make(
-            array_map(
-                fn ($filter) => Cmd::make(
+            collect(
+                $this->generateFilters(
+                    $limit,
+                    max($data['filter'][$condition] ?? 0, $startId),
+                    $pattern."[$primaryKey]"
+                )
+            )->map(
+                fn ($filter, $key) => Cmd::make(
                     $command->getMethod(),
                     array_replace_recursive(
                         $data,
                         [
                             'filter' => $filter === 0
                                 ? []
-                                : [$condition => $filter]
+                                : [$condition => $filter],
+                            'start' => $key === 'q0' ? $data['start'] ?? -1 : -1
                         ],
                     ),
-                ),
-                $this->generateFilters(
-                    $limit,
-                    max($data['filter'][$condition] ?? 0, $startId),
-                    $pattern."[$primaryKey]"
                 )
-            ),
+            )->all(),
             $command->getClient(),
         );
     }

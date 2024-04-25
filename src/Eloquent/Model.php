@@ -64,6 +64,14 @@ class Model extends BaseModel
     }
 
     /**
+     * @return string
+     */
+    public function getPrimaryKey(): string
+    {
+        return $this->primaryKey ??= $this->getConnection()->getRepository($this->getTable())->getPrimaryKey();
+    }
+
+    /**
      * Retrieves new model factory
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory

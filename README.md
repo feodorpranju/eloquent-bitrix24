@@ -1,6 +1,8 @@
 # Eloquent SDK for Bitrix24
 
-Supported conditional methods:
+## Basics
+
+### Supported conditional methods:
 
 - where
 - whereNot
@@ -13,3 +15,10 @@ Supported conditional methods:
 - whereNull
 - whereNotNull
 - whereFullText
+
+### Supported limiters
+- offset (not only multiples of 50)
+- limit (not only multiples of 50)
+
+>**_NOTICE:_** Only order by ID ASC is supported now. Any other will be overwritten. It will be fixed in next versions
+

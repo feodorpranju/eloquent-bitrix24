@@ -163,7 +163,13 @@ abstract class AbstractCrmRepository extends AbstractRepository implements CanCr
      */
     public function count(array $filter): int
     {
-        return $this->cmd('list', ['filter' => $filter])->call()?->pagination()->total() ?? 0;
+        return $this->cmd(
+            'list',
+            [
+                'filter' => $filter,
+                'select' => [$this->getPrimaryKey()]
+            ]
+        )->call()?->pagination()->total() ?? 0;
     }
 
     /**

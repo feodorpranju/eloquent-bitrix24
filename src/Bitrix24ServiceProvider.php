@@ -23,7 +23,7 @@ class Bitrix24ServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Add database driver.
+        /** Add database driver. */
         $this->app->resolving('db', function ($db) {
             $db->extend('bitrix24', function ($config, $name) {
                 $config['name'] = $name;
@@ -32,6 +32,7 @@ class Bitrix24ServiceProvider extends ServiceProvider
             });
         });
 
+        /** Register macros */
         DB::macro('call', fn() => DB::connection()->call(...func_get_args()));
         DB::macro('cmd', fn() => DB::connection()->cmd(...func_get_args()));
         DB::macro('batch', fn() => DB::connection()->batch(...func_get_args()));

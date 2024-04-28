@@ -1,6 +1,6 @@
 <?php
 
-namespace Factories;
+namespace Fabrics;
 
 use Mockery;
 use Mockery\Mock;
@@ -12,11 +12,11 @@ use Pranju\Bitrix24\Contracts\Responses\Response;
 use Pranju\Bitrix24\Core\Batch;
 use Pranju\Bitrix24\Core\Client;
 use Pranju\Bitrix24\Core\Cmd;
-use Pranju\Bitrix24\Factories\ResponseFactory;
+use Pranju\Bitrix24\Fabrics\ResponseFabric;
 use Pranju\Bitrix24\Tests\TestCase;
 use \Illuminate\Http\Client\Response as HttpResponse;
 
-class ResponseFactoryTest extends TestCase
+class ResponseFabricTest extends TestCase
 {
     /**
      * @param Command $command
@@ -28,7 +28,7 @@ class ResponseFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             $class,
-            ResponseFactory::make(
+            ResponseFabric::make(
                 $response ?? $this->mock(HttpResponse::class, function (MockInterface $mock) {
                     $mock->shouldReceive('json')->andReturn(false);
                 }),

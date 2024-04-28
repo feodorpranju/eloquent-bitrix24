@@ -1,6 +1,6 @@
 <?php
 
-namespace Pranju\Bitrix24\Factories;
+namespace Pranju\Bitrix24\Fabrics;
 
 use Illuminate\Support\Str;
 use Pranju\Bitrix24\Bitrix24Exception;
@@ -8,7 +8,7 @@ use Pranju\Bitrix24\Contracts\Client;
 use Pranju\Bitrix24\Contracts\Repositories\Repository;
 use Pranju\Bitrix24\Repositories\Crm\ItemRepository;
 
-class RepositoryFactory
+class RepositoryFabric
 {
     /**
      * Repositories cache

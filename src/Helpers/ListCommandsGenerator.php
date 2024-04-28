@@ -12,6 +12,29 @@ use Pranju\Bitrix24\Core\Cmd;
 class ListCommandsGenerator
 {
     /**
+     * Generates batch with paginated command due to limit
+     *
+     * @param Command $command
+     * @param int $limit
+     * @return BatchInterface
+     */
+    public function generatePaginatedBatch(Command $command, int $limit): BatchInterface
+    {
+        $batch = Batch::make([], $command->getClient());
+        $data = $command->getData();
+        $data['limit'] = 50;
+
+        for ($start = $data['start'] ?? 0; $start < $limit; $start += 50) {
+            $batch->push(Cmd::make(
+                $command->getMethod(),
+                array_replace($data, ['start' => $start]),
+            ));
+        }
+
+        return $batch;
+    }
+
+    /**
      * Generates Batch command with list commands
      *
      * @param Command $command

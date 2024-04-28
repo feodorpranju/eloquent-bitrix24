@@ -15,8 +15,8 @@ use Pranju\Bitrix24\Contracts\Responses\ListResponse as ListResponseInterface;
 use Pranju\Bitrix24\Contracts\Responses\Response as ResponseInterface;
 use Pranju\Bitrix24\Contracts\Token;
 use Pranju\Bitrix24\Core\Authorization\Webhook;
-use Pranju\Bitrix24\Factories\RepositoryFactory;
-use Pranju\Bitrix24\Factories\ResponseFactory;
+use Pranju\Bitrix24\Fabrics\RepositoryFabric;
+use Pranju\Bitrix24\Fabrics\ResponseFabric;
 use Pranju\Bitrix24\Traits\HasStaticMake;
 
 /**
@@ -39,9 +39,9 @@ class Client implements ClientInterface
     /**
      * Repository factory
      *
-     * @var RepositoryFactory
+     * @var RepositoryFabric
      */
-    protected RepositoryFactory $repositoryFactory;
+    protected RepositoryFabric $repositoryFabric;
 
     /**
      * @param string|Token $token Auth Token
@@ -68,7 +68,7 @@ class Client implements ClientInterface
         ?CommandInterface $command = null
     ): ResponseInterface|ListResponseInterface|BatchResponseInterface
     {
-        return ResponseFactory::make(
+        return ResponseFabric::make(
             Http::asJson()->post($this->getMethodUrl($method), $data),
             $command ?? $this->cmd($method, $data),
         );
@@ -99,9 +99,9 @@ class Client implements ClientInterface
      */
     public function getRepository(string $table): Repository
     {
-        $this->repositoryFactory ??= new RepositoryFactory($this);
+        $this->repositoryFabric ??= new RepositoryFabric($this);
 
-        return $this->repositoryFactory->make($table);
+        return $this->repositoryFabric->make($table);
     }
 
     /**

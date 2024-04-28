@@ -1,6 +1,6 @@
 <?php
 
-namespace Pranju\Bitrix24\Factories;
+namespace Pranju\Bitrix24\Fabrics;
 
 use Illuminate\Http\Client\Response as HttpResponse;
 use Illuminate\Support\Str;
@@ -12,7 +12,7 @@ use Pranju\Bitrix24\Core\Responses\BatchResponse;
 use Pranju\Bitrix24\Core\Responses\ListResponse;
 use Pranju\Bitrix24\Core\Responses\Response;
 
-class ResponseFactory
+class ResponseFabric
 {
     public static function make(HttpResponse $response, ?Command $command): ResponseInterface|ListResponseInterface|BatchResponseInterface
     {

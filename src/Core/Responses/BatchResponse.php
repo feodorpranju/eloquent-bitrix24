@@ -27,7 +27,7 @@ class BatchResponse extends Response implements BatchResponseInterface
      */
     protected function getResponseKeys(): array
     {
-        return array_keys($this->result('result'));
+        return array_keys($this->result('result', []));
     }
 
     /**

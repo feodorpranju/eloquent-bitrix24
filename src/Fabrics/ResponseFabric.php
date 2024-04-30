@@ -22,7 +22,10 @@ class ResponseFabric
             return new BatchResponse($response, $command);
         }
 
-        if (Str::endsWith($method, 'list') || $response->json('total', false)) {
+        if (
+            Str::endsWith($method, 'list')
+            || !is_null($response->json('total'))
+        ) {
             return new ListResponse($response, $command);
         }
 

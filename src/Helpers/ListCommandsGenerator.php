@@ -11,6 +11,10 @@ use Pranju\Bitrix24\Core\Cmd;
 
 class ListCommandsGenerator
 {
+    public function __construct(protected readonly string $filterField = 'filter')
+    {
+    }
+
     /**
      * Generates batch with paginated command due to limit
      *
@@ -61,7 +65,7 @@ class ListCommandsGenerator
             collect(
                 $this->generateFilters(
                     $limit,
-                    max($data['filter'][$condition] ?? 0, $startId),
+                    max($data[$this->filterField][$condition] ?? 0, $startId),
                     $pattern."[$primaryKey]"
                 )
             )->map(
@@ -70,7 +74,7 @@ class ListCommandsGenerator
                     array_replace_recursive(
                         $data,
                         [
-                            'filter' => $filter === 0
+                            $this->filterField => $filter === 0
                                 ? []
                                 : [$condition => $filter],
                             'start' => $key === 'q0' ? $data['start'] ?? -1 : -1

@@ -3,6 +3,7 @@
 namespace Pranju\Bitrix24\Repositories\Crm;
 
 use Pranju\Bitrix24\Contracts\Repositories\HasDynamicId;
+use Pranju\Bitrix24\Enums\Crm\EntityTypeIdEnum;
 
 class LeadRepository extends AbstractCrmRepository implements HasDynamicId
 {
@@ -11,6 +12,6 @@ class LeadRepository extends AbstractCrmRepository implements HasDynamicId
      */
     public function getDynamicId(): int
     {
-        return 1;
+        return EntityTypeIdEnum::LEAD->value;
     }
 }

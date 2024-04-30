@@ -13,7 +13,7 @@ class ItemRepository extends AbstractCrmRepository implements HasDynamicId
      *
      * @var int $dynamicId
      */
-    protected $dynamicId;
+    protected int $dynamicId;
 
     /**
      * @inheritDoc
@@ -31,7 +31,10 @@ class ItemRepository extends AbstractCrmRepository implements HasDynamicId
         return ["id", "uf_*"];
     }
 
-    protected function cmd(string $action, array $data = []): Command
+    /**
+     * @inheritDoc
+     */
+    public function cmd(string $action, array $data = []): Command
     {
         return parent::cmd($action, array_replace($data, ['entityTypeId' => $this->getDynamicId()]));
     }

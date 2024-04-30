@@ -17,16 +17,12 @@ use Pranju\Bitrix24\Repositories\Traits\UpdatesItem;
 
 class UserRepository extends AbstractRepository implements CanCreateItem, CanUpdateItem, CanSelectItems, CanGetItem
 {
-    use
-        CreatesItem,
-        UpdatesItem,
-        GetsItem,
-        SelectsItems;
+    use CreatesItem, UpdatesItem, GetsItem, SelectsItems;
 
     /**
      * @inheritDoc
      */
-    protected function getItemName(): string
+    public function getItemName(): string
     {
         return 'user';
     }
@@ -46,24 +42,16 @@ class UserRepository extends AbstractRepository implements CanCreateItem, CanUpd
     {
         $count = $this->count($filter);
 
-        return (new ListCommandsGenerator())->generateBatch(
+        return (new ListCommandsGenerator('FILTER'))->generateBatch(
             $this->cmd(
                 'get',
                 [
-                    'filter' => $filter,
+                    'FILTER' => $filter,
                     'start' => $offset,
                 ]
             ),
             min($count, $limit ?: $count),
         );
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getAllColumnsSelect(): array
-    {
-        return [];
     }
 
     /**

@@ -37,7 +37,7 @@ abstract class AbstractRepository implements Repository
      *
      * @return mixed
      */
-    protected function getItemName(): string
+    public function getItemName(): string
     {
         return $this->name ??= Str::replace('\\', '', Str::dot(
             Str::after(
@@ -56,7 +56,7 @@ abstract class AbstractRepository implements Repository
      * @return Command
      * @see AbstractRepository::getItemName()
      */
-    protected function cmd(string $action, array $data = []): Command
+    public function cmd(string $action, array $data = []): Command
     {
         return $this->getClient()->cmd(
             $this->getItemName().'.'.$action,

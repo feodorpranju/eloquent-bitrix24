@@ -67,6 +67,15 @@ class Batch extends Collection implements BatchInterface
 
         $responses = [];
 
+        if ($this->count() === 1) {
+            $command = $this->first();
+            $command->setClient($this->getClient());
+
+            return new UnlimitedBatchResponse([
+                $this->keys()[0] => $command->call(),
+            ]);
+        }
+
         foreach ($this->chunkData() as $data) {
             if (!empty($responses)) {
                 foreach ($data['cmd'] as $key => $command) {

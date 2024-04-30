@@ -70,8 +70,8 @@ class Client implements ClientInterface
     {
         return ResponseFabric::make(
             Http::asJson()->post($this->getMethodUrl($method), $data),
-            $command ?? $this->cmd($method, $data),
-        );
+            ($command ?? $this->cmd($method, $data))->dump(),
+        )->dump();
     }
 
     /**

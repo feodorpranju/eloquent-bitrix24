@@ -21,12 +21,7 @@ use Pranju\Bitrix24\Repositories\Traits\UpdatesItem;
 
 abstract class AbstractCrmRepository extends AbstractRepository implements CanCreateItem, CanGetItem, CanDeleteItem, CanSelectItems, CanUpdateItem
 {
-    use
-        CreatesItem,
-        UpdatesItem,
-        GetsItem,
-        SelectsItems,
-        DeletesItem;
+    use CreatesItem, UpdatesItem, GetsItem, SelectsItems, DeletesItem;
 
     /**
      * @inheritDoc

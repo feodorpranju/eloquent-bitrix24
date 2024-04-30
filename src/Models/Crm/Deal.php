@@ -6,7 +6,7 @@ use Pranju\Bitrix24\Eloquent\Model;
 
 class Deal extends Model
 {
-    protected $connection = 'bitrix24';
+    use HasEntityTypeIdAttribute;
 
     protected $table = 'crm_deal';
 }

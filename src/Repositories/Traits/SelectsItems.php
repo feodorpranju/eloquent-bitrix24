@@ -4,6 +4,7 @@ namespace Pranju\Bitrix24\Repositories\Traits;
 
 use Pranju\Bitrix24\Contracts\Command;
 use Pranju\Bitrix24\Contracts\Responses\Response;
+use Pranju\Bitrix24\Core\Batch;
 use Pranju\Bitrix24\Core\Responses\BatchResponse;
 use Pranju\Bitrix24\Helpers\ListCommandsGenerator;
 
@@ -28,6 +29,10 @@ trait SelectsItems
     {
         $count = $this->count($filter);
 
+        if ($count === 0) {
+            return Batch::make([], $this->getClient());
+        }
+
         return (new ListCommandsGenerator())->generateBatch(
             $this->cmd(
                 'list',
@@ -49,7 +54,7 @@ trait SelectsItems
     {
         if ($response instanceof BatchResponse) {
             return collect($response->responses())
-                ->map(fn(Response $response) => $response->result())
+                ->map(fn(Response $response) => $this->getSelectedItems($response))
                 ->flatten(1)
                 ->all();
         }
@@ -69,5 +74,13 @@ trait SelectsItems
                 'select' => [$this->getPrimaryKey()]
             ]
         )->call()?->pagination()->total() ?? 0;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAllColumnsSelect(): array
+    {
+        return [];
     }
 }

@@ -19,17 +19,12 @@ use Pranju\Bitrix24\Repositories\Traits\UpdatesItem;
 
 class DepartmentRepository extends AbstractRepository implements CanCreateItem, CanUpdateItem, CanSelectItems, CanGetItem, CanDeleteItem
 {
-    use
-        CreatesItem,
-        UpdatesItem,
-        GetsItem,
-        SelectsItems,
-        DeletesItem;
+    use CreatesItem, UpdatesItem, GetsItem, SelectsItems, DeletesItem;
 
     /**
      * @inheritDoc
      */
-    protected function getItemName(): string
+    public function getItemName(): string
     {
         return 'department';
     }
@@ -54,7 +49,7 @@ class DepartmentRepository extends AbstractRepository implements CanCreateItem, 
                 'get',
                 [
                     'start' => $offset,
-                    ...$filter
+                    ...$this->prepareFilter($filter),
                 ]
             ),
             min($count, $limit ?: $count)
@@ -64,17 +59,9 @@ class DepartmentRepository extends AbstractRepository implements CanCreateItem, 
     /**
      * @inheritDoc
      */
-    public function getAllColumnsSelect(): array
-    {
-        return [];
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function count(array $filter): int
     {
-        return $this->cmd('get', $filter)->call()?->pagination()->total() ?? 0;
+        return $this->cmd('get', $this->prepareFilter($filter))->call()?->pagination()->total() ?? 0;
     }
 
     /**
@@ -107,5 +94,22 @@ class DepartmentRepository extends AbstractRepository implements CanCreateItem, 
     public function getReceivedItemAttributes(Response $response): array
     {
         return $response->result(0, []);
+    }
+
+    /**
+     * Removes leading '=' from keys
+     *
+     * @param array $filter
+     * @return array
+     */
+    private function prepareFilter(array $filter): array
+    {
+        $tFilter = [];
+
+        foreach ($filter as $key => $value) {
+            $tFilter[trim($key, '=')] = $value;
+        }
+
+        return $tFilter;
     }
 }

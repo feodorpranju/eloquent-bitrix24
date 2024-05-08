@@ -10,6 +10,15 @@ use Pranju\Bitrix24\Contracts\Responses\BatchResponse;
 interface Batch extends Command, Enumerable
 {
     /**
+     * Batch constructor
+     *
+     * @param array|mixed $items
+     * @param Client|null $client
+     * @param bool $halt
+     */
+    public function __construct($items = [], ?Client $client = null, bool $halt = true);
+
+    /**
      * Calls action on client
      *
      * @return BatchResponse

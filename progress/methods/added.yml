@@ -1,0 +1,116 @@
+Basic:
+	Batch:
+		- batch
+User:
+	User:
+		- user.access
+		- user.get
+		- user.add
+		- user.update
+Department:
+	Department:
+		- department.get
+		- department.add
+		- department.update
+		- department.delete
+Crm:
+	Status:
+		- crm.status.add
+		- crm.status.get
+		- crm.status.list
+		- crm.status.update
+		- crm.status.delete
+	Lead:
+		- crm.lead.add
+		- crm.lead.get
+		- crm.lead.list
+		- crm.lead.update
+		- crm.lead.delete
+	LeadContact:
+		- crm.lead.contact.fields
+		- crm.lead.contact.add
+		- crm.lead.contact.delete
+	LeadContactItems:
+		- crm.lead.contact.items.get
+	Deal:
+		- crm.deal.add
+		- crm.deal.get
+		- crm.deal.list
+		- crm.deal.update
+		- crm.deal.delete
+	DealContact:
+		- crm.deal.contact.fields
+		- crm.deal.contact.add
+		- crm.deal.contact.delete
+	DealContactItems:
+		- crm.deal.contact.items.get
+	Company:
+		- crm.company.add
+		- crm.company.get
+		- crm.company.list
+		- crm.company.update
+		- crm.company.delete
+	CompanyContact:
+		- crm.company.contact.fields
+		- crm.company.contact.add
+		- crm.company.contact.delete
+	CompanyContactItems:
+		- crm.company.contact.items.get
+	Contact:
+		- crm.contact.add
+		- crm.contact.get
+		- crm.contact.list
+		- crm.contact.update
+		- crm.contact.delete
+	ContactCompany:
+		- crm.contact.company.fields
+		- crm.contact.company.add
+		- crm.contact.company.delete
+	ContactCompanyItems:
+		- crm.contact.company.items.get
+	Quote:
+		- crm.quote.add
+		- crm.quote.get
+		- crm.quote.list
+		- crm.quote.update
+		- crm.quote.delete
+	QuoteContact:
+		- crm.quote.contact.fields
+		- crm.quote.contact.add
+		- crm.quote.contact.delete
+	QuoteContactItems:
+		- crm.quote.contact.items.get
+	Requisite:
+		- crm.requisite.add
+		- crm.requisite.get
+		- crm.requisite.list
+		- crm.requisite.update
+		- crm.requisite.delete
+	TimelineLogmessage:
+		- crm.timeline.logmessage.get
+		- crm.timeline.logmessage.list
+		- crm.timeline.logmessage.add
+		- crm.timeline.logmessage.delete
+	Category:
+		- crm.category.add
+		- crm.category.delete
+		- crm.category.fields
+		- crm.category.get
+		- crm.category.list
+		- crm.category.update
+	Type:
+		- crm.type.add
+		- crm.type.delete
+		- crm.type.fields
+		- crm.type.get
+		- crm.type.list
+		- crm.type.update
+	Item:
+		- crm.item.add
+		- crm.item.delete
+		- crm.item.fields
+		- crm.item.get
+		- crm.item.list
+		- crm.item.update
+		- crm.item.import
+		- crm.item.batchImport

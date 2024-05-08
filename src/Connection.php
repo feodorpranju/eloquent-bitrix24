@@ -3,7 +3,7 @@
 namespace Pranju\Bitrix24;
 
 use Composer\InstalledVersions;
-use Pranju\Bitrix24\Core\Authorization\Webhook;
+use Pranju\Bitrix24\Core\Auth\Webhook;
 use Illuminate\Database\Connection as BaseConnection;
 use InvalidArgumentException;
 use JetBrains\PhpStorm\Pure;

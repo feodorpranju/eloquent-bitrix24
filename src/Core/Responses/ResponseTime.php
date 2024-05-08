@@ -40,7 +40,7 @@ class ResponseTime implements \Pranju\Bitrix24\Contracts\Responses\ResponseTime
     /**
      * @inheritDoc
      */
-    public function satrtTime(): float
+    public function startTime(): float
     {
         return $this->start;
     }
@@ -56,7 +56,7 @@ class ResponseTime implements \Pranju\Bitrix24\Contracts\Responses\ResponseTime
     /**
      * @inheritDoc
      */
-    public function satrtDate(): Carbon
+    public function startDate(): Carbon
     {
         return Carbon::make($this->date_start);
     }

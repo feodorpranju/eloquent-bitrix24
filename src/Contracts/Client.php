@@ -8,7 +8,7 @@ use Pranju\Bitrix24\Contracts\Repositories\Repository;
 use Pranju\Bitrix24\Contracts\Responses\BatchResponse;
 use Pranju\Bitrix24\Contracts\Responses\ListResponse;
 use Pranju\Bitrix24\Contracts\Responses\Response;
-use Pranju\Bitrix24\Core\Authorization\Webhook;
+use Pranju\Bitrix24\Core\Auth\Webhook;
 
 interface Client
 {

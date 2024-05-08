@@ -18,9 +18,9 @@ class ResponseTimeTest extends \Pranju\Bitrix24\Tests\TestCase
 
         $this->assertEquals($diff, $time->duration(), 'duration');
         $this->assertEquals($diff, $time->processing(), 'processing');
-        $this->assertEquals($dateFrom->unix(), $time->satrtTime(), 'start time');
+        $this->assertEquals($dateFrom->unix(), $time->startTime(), 'start time');
         $this->assertEquals($dateTo->unix(), $time->finishTime(), 'finish time');
-        $this->assertEquals($dateFrom, $time->satrtDate(), 'start date');
+        $this->assertEquals($dateFrom, $time->startDate(), 'start date');
         $this->assertEquals($dateTo, $time->finishDate(), 'finish date');
     }
 

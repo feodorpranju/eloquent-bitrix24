@@ -87,13 +87,25 @@ class Batch extends Collection implements BatchInterface
                 }
             }
 
-            $responses = array_merge(
-                $responses,
-                $this->client->call($this->getMethod(), $data, $this)->responses(),
-            );
+            $response = $this->client->call($this->getMethod(), $data, $this);
+
+            /** If it is the only batch, we return base batch response */
+            if ($this->count() <= 50) {
+                return $response;
+            }
+
+            $responses += $response->responses();
         }
 
         return new UnlimitedBatchResponse($responses);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function first(callable $callback = null, $default = null): Command
+    {
+        return $this->clear()->first();
     }
 
     /**

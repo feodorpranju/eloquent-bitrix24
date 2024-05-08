@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Pranju\Bitrix24\Core\Authorization;
+namespace Pranju\Bitrix24\Core\Auth;
 
 
 use Pranju\Bitrix24\Contracts\Token;

@@ -1,0 +1,1930 @@
+Scope:
+  Scope:
+    - scope
+Methods:
+  Methods:
+    - methods
+Method:
+  Method:
+    - method.get
+Server:
+  Server:
+    - server.time
+App:
+  Option:
+    - app.option.get
+    - app.option.set
+  App:
+    - app.info
+User:
+  Option:
+    - user.option.get
+    - user.option.set
+    - user.option.*
+  User:
+    - user.admin
+    - user.access
+    - user.fields
+    - user.current
+    - user.search
+    - user.online
+    - user.counters
+  History:
+    - user.history.list
+  HistoryFields:
+    - user.history.fields.list
+  Userfield:
+    - user.userfield.add
+    - user.userfield.update
+    - user.userfield.delete
+    - user.userfield.list
+  UserfieldFile:
+    - user.userfield.file.get
+Feature:
+  Feature:
+    - feature.get
+Events:
+  Events:
+    - events
+Event:
+  Event:
+    - event.bind
+    - event.unbind
+    - event.get
+    - event.test
+  Offline:
+    - event.offline.get
+    - event.offline.clear
+    - event.offline.error
+    - event.offline.list
+Access:
+  Access:
+    - access.name
+Profile:
+  Profile:
+    - profile
+Rpa:
+  Rpa:
+    - rpa.stub
+Ai:
+  Engine:
+    - ai.engine.register
+    - ai.engine.unregister
+    - ai.engine.list
+  Prompt:
+    - ai.prompt.register
+    - ai.prompt.unregister
+  History:
+    - ai.history.enable
+    - ai.history.disable
+    - ai.history.list
+Imbot:
+  Support24QuestionConfig:
+    - imbot.support24.question.config.get
+  Support24Question:
+    - imbot.support24.question.add
+    - imbot.support24.question.list
+    - imbot.support24.question.search
+  NetworkQuestion:
+    - imbot.network.question.add
+    - imbot.network.question.list
+    - imbot.network.question.search
+  Imbot:
+    - imbot.register
+    - imbot.unregister
+    - imbot.update
+  Dialog:
+    - imbot.dialog.get
+    - imbot.dialog.vote
+  Chat:
+    - imbot.chat.add
+    - imbot.chat.get
+    - imbot.chat.setowner
+    - imbot.chat.setmanager
+    - imbot.chat.updatecolor
+    - imbot.chat.updatetitle
+    - imbot.chat.updateavatar
+    - imbot.chat.leave
+    - imbot.chat.sendtyping
+  ChatUser:
+    - imbot.chat.user.add
+    - imbot.chat.user.delete
+    - imbot.chat.user.list
+  Bot:
+    - imbot.bot.list
+  Message:
+    - imbot.message.add
+    - imbot.message.delete
+    - imbot.message.update
+    - imbot.message.like
+  Command:
+    - imbot.command.register
+    - imbot.command.unregister
+    - imbot.command.update
+    - imbot.command.answer
+  App:
+    - imbot.app.register
+    - imbot.app.unregister
+    - imbot.app.update
+Sale:
+  CashboxHandler:
+    - sale.cashbox.handler.add
+    - sale.cashbox.handler.update
+    - sale.cashbox.handler.delete
+    - sale.cashbox.handler.list
+  Cashbox:
+    - sale.cashbox.add
+    - sale.cashbox.update
+    - sale.cashbox.delete
+    - sale.cashbox.list
+  CashboxSettings:
+    - sale.cashbox.settings.get
+    - sale.cashbox.settings.update
+  CashboxOfdSettings:
+    - sale.cashbox.ofd.settings.get
+    - sale.cashbox.ofd.settings.update
+  CashboxCheck:
+    - sale.cashbox.check.apply
+  Ofd:
+    - sale.ofd.list
+  OfdSettings:
+    - sale.ofd.settings.get
+  DeliveryHandler:
+    - sale.delivery.handler.add
+    - sale.delivery.handler.update
+    - sale.delivery.handler.delete
+    - sale.delivery.handler.list
+  Delivery:
+    - sale.delivery.add
+    - sale.delivery.update
+    - sale.delivery.delete
+    - sale.delivery.getlist
+    - sale.delivery.getList
+  DeliveryConfig:
+    - sale.delivery.config.get
+    - sale.delivery.config.update
+  DeliveryRequest:
+    - sale.delivery.request.update
+    - sale.delivery.request.delete
+    - sale.delivery.request.sendmessage
+  DeliveryExtraService:
+    - sale.delivery.extra.service.add
+    - sale.delivery.extra.service.update
+    - sale.delivery.extra.service.delete
+    - sale.delivery.extra.service.get
+  PaysystemHandler:
+    - sale.paysystem.handler.add
+    - sale.paysystem.handler.update
+    - sale.paysystem.handler.delete
+    - sale.paysystem.handler.list
+  Paysystem:
+    - sale.paysystem.add
+    - sale.paysystem.update
+    - sale.paysystem.delete
+    - sale.paysystem.list
+  PaysystemSettings:
+    - sale.paysystem.settings.get
+    - sale.paysystem.settings.update
+  PaysystemSettingsInvoice:
+    - sale.paysystem.settings.invoice.get
+  PaysystemSettingsPayment:
+    - sale.paysystem.settings.payment.get
+  PaysystemPay:
+    - sale.paysystem.pay.invoice
+    - sale.paysystem.pay.payment
+  PropertyVariant:
+    - sale.propertyVariant.add
+    - sale.propertyVariant.delete
+    - sale.propertyVariant.get
+    - sale.propertyVariant.getFields
+    - sale.propertyVariant.list
+    - sale.propertyVariant.update
+  Propertygroup:
+    - sale.propertygroup.add
+    - sale.propertygroup.delete
+    - sale.propertygroup.get
+    - sale.propertygroup.getFields
+    - sale.propertygroup.list
+    - sale.propertygroup.update
+  Order:
+    - sale.order.add
+    - sale.order.delete
+    - sale.order.get
+    - sale.order.getFields
+    - sale.order.list
+    - sale.order.tryadd
+    - sale.order.tryupdate
+    - sale.order.update
+  TradeBinding:
+    - sale.tradeBinding.getFields
+    - sale.tradeBinding.list
+  Propertyvalue:
+    - sale.propertyvalue.delete
+    - sale.propertyvalue.get
+    - sale.propertyvalue.getFields
+    - sale.propertyvalue.list
+    - sale.propertyvalue.modify
+  Basketitem:
+    - sale.basketitem.add
+    - sale.basketitem.getFields
+    - sale.basketitem.addCatalogProduct
+    - sale.basketitem.delete
+    - sale.basketitem.get
+    - sale.basketitem.update
+  BasketItem:
+    - sale.basketItem.getCatalogProductFields
+    - sale.basketItem.list
+  StatusLang:
+    - sale.statusLang.add
+    - sale.statusLang.deleteByFilter
+    - sale.statusLang.getFields
+    - sale.statusLang.getListLangs
+    - sale.statusLang.list
+  Payment:
+    - sale.payment.add
+    - sale.payment.delete
+    - sale.payment.get
+    - sale.payment.getFields
+    - sale.payment.list
+    - sale.payment.update
+  Shipment:
+    - sale.shipment.add
+    - sale.shipment.delete
+    - sale.shipment.get
+    - sale.shipment.getFields
+    - sale.shipment.list
+    - sale.shipment.update
+  PaymentItemBasket:
+    - sale.paymentItemBasket.add
+    - sale.paymentItemBasket.delete
+    - sale.paymentItemBasket.get
+    - sale.paymentItemBasket.getFields
+    - sale.paymentItemBasket.list
+    - sale.paymentItemBasket.update
+  PaymentItemShipment:
+    - sale.paymentItemShipment.add
+    - sale.paymentItemShipment.delete
+    - sale.paymentItemShipment.get
+    - sale.paymentItemShipment.getFields
+    - sale.paymentItemShipment.list
+    - sale.paymentItemShipment.update
+  PropertyRelation:
+    - sale.propertyRelation.add
+    - sale.propertyRelation.deleteByFilter
+    - sale.propertyRelation.getFields
+    - sale.propertyRelation.list
+  Property:
+    - sale.property.add
+    - sale.property.delete
+    - sale.property.get
+    - sale.property.getFieldsByType
+    - sale.property.list
+    - sale.property.update
+  BasketProperties:
+    - sale.basketProperties.get
+  Basketproperties:
+    - sale.basketproperties.add
+    - sale.basketproperties.delete
+    - sale.basketproperties.getFields
+    - sale.basketproperties.list
+    - sale.basketproperties.update
+  Shipmentproperty:
+    - sale.shipmentproperty.add
+    - sale.shipmentproperty.delete
+    - sale.shipmentproperty.get
+    - sale.shipmentproperty.getFieldsByType
+    - sale.shipmentproperty.list
+    - sale.shipmentproperty.update
+  BusinessValuePersonDomain:
+    - sale.businessValuePersonDomain.add
+    - sale.businessValuePersonDomain.deleteByFilter
+    - sale.businessValuePersonDomain.getFields
+    - sale.businessValuePersonDomain.list
+  Status:
+    - sale.status.add
+    - sale.status.delete
+    - sale.status.get
+    - sale.status.getFields
+    - sale.status.list
+    - sale.status.update
+  Shipmentitem:
+    - sale.shipmentitem.add
+    - sale.shipmentitem.delete
+    - sale.shipmentitem.get
+    - sale.shipmentitem.getFields
+    - sale.shipmentitem.list
+    - sale.shipmentitem.update
+  Persontype:
+    - sale.persontype.add
+    - sale.persontype.delete
+    - sale.persontype.get
+    - sale.persontype.getFields
+    - sale.persontype.list
+    - sale.persontype.update
+  TradePlatform:
+    - sale.tradePlatform.getFields
+    - sale.tradePlatform.list
+Imconnector:
+  Imconnector:
+    - imconnector.list
+    - imconnector.activate
+    - imconnector.status
+    - imconnector.register
+    - imconnector.unregister
+  ConnectorData:
+    - imconnector.connector.data.set
+  Send:
+    - imconnector.send.messages
+  Update:
+    - imconnector.update.messages
+  Delete:
+    - imconnector.delete.messages
+  SendStatus:
+    - imconnector.send.status.delivery
+    - imconnector.send.status.reading
+  Set:
+    - imconnector.set.error
+Imopenlines:
+  Revision:
+    - imopenlines.revision.get
+  Dialog:
+    - imopenlines.dialog.get
+  DialogForm:
+    - imopenlines.dialog.form.send
+  DialogMulti:
+    - imopenlines.dialog.multi.get
+  Operator:
+    - imopenlines.operator.answer
+    - imopenlines.operator.skip
+    - imopenlines.operator.spam
+    - imopenlines.operator.transfer
+    - imopenlines.operator.finish
+  OperatorAnother:
+    - imopenlines.operator.another.finish
+  OperatorPause:
+    - imopenlines.operator.pause.start
+    - imopenlines.operator.pause.stop
+    - imopenlines.operator.pause.get
+    - imopenlines.operator.pause.getall
+    - imopenlines.operator.pause.gethistory
+  Session:
+    - imopenlines.session.intercept
+    - imopenlines.session.open
+    - imopenlines.session.join
+    - imopenlines.session.start
+  SessionMode:
+    - imopenlines.session.mode.silent
+    - imopenlines.session.mode.pin
+    - imopenlines.session.mode.unpin
+    - imopenlines.session.mode.pinall
+    - imopenlines.session.mode.unpinall
+    - imopenlines.session.mode.pinAll
+    - imopenlines.session.mode.unpinAll
+  SessionHead:
+    - imopenlines.session.head.vote
+  SessionHistory:
+    - imopenlines.session.history.get
+  MessageSession:
+    - imopenlines.message.session.start
+  MessageQuick:
+    - imopenlines.message.quick.save
+  BotSession:
+    - imopenlines.bot.session.operator
+    - imopenlines.bot.session.transfer
+    - imopenlines.bot.session.finish
+  BotSessionMessage:
+    - imopenlines.bot.session.message.send
+  BotSessionDialog:
+    - imopenlines.bot.session.dialog.new
+  Network:
+    - imopenlines.network.join
+  NetworkMessage:
+    - imopenlines.network.message.add
+  WidgetConfig:
+    - imopenlines.widget.config.get
+  WidgetDialog:
+    - imopenlines.widget.dialog.get
+    - imopenlines.widget.dialog.list
+  WidgetUser:
+    - imopenlines.widget.user.register
+    - imopenlines.widget.user.get
+  WidgetChat:
+    - imopenlines.widget.chat.create
+  WidgetUserConsent:
+    - imopenlines.widget.user.consent.apply
+  WidgetOperator:
+    - imopenlines.widget.operator.get
+  WidgetVote:
+    - imopenlines.widget.vote.send
+  WidgetAction:
+    - imopenlines.widget.action.send
+  WidgetCrmBindings:
+    - imopenlines.widget.crm.bindings.get
+  ConfigPath:
+    - imopenlines.config.path.get
+  Config:
+    - imopenlines.config.get
+    - imopenlines.config.update
+    - imopenlines.config.add
+    - imopenlines.config.delete
+  ConfigList:
+    - imopenlines.config.list.get
+  CrmChatUser:
+    - imopenlines.crm.chat.user.add
+    - imopenlines.crm.chat.user.delete
+  CrmChat:
+    - imopenlines.crm.chat.getlastid
+    - imopenlines.crm.chat.get
+    - imopenlines.crm.chat.getLastId
+  CrmMessage:
+    - imopenlines.crm.message.add
+  CrmLead:
+    - imopenlines.crm.lead.create
+Voximplant:
+  Url:
+    - voximplant.url.get
+  Sip:
+    - voximplant.sip.get
+    - voximplant.sip.add
+    - voximplant.sip.update
+    - voximplant.sip.delete
+    - voximplant.sip.status
+  SipConnector:
+    - voximplant.sip.connector.status
+  Statistic:
+    - voximplant.statistic.get
+  LineOutgoing:
+    - voximplant.line.outgoing.set
+    - voximplant.line.outgoing.get
+  LineOutgoingSip:
+    - voximplant.line.outgoing.sip.set
+  Line:
+    - voximplant.line.get
+  TtsVoices:
+    - voximplant.tts.voices.get
+  User:
+    - voximplant.user.get
+    - voximplant.user.getdefaultlineid
+    - voximplant.user.activatephone
+    - voximplant.user.deactivatephone
+    - voximplant.user.activatePhone
+    - voximplant.user.deactivatePhone
+  Callback:
+    - voximplant.callback.start
+  Infocall:
+    - voximplant.infocall.startwithtext
+    - voximplant.infocall.startwithsound
+Telephony:
+  Externalcall:
+    - telephony.externalcall.searchcrmentities
+    - telephony.externalcall.register
+    - telephony.externalcall.finish
+    - telephony.externalcall.show
+    - telephony.externalcall.hide
+    - telephony.externalcall.attachrecord
+  Call:
+    - telephony.call.attachtranscription
+    - telephony.call.attachTranscription
+  Externalline:
+    - telephony.externalline.add
+    - telephony.externalline.update
+    - telephony.externalline.delete
+    - telephony.externalline.get
+  ExternalCall:
+    - telephony.externalCall.attachRecord
+    - telephony.externalCall.searchCrmEntities
+  ExternalLine:
+    - telephony.externalLine.add
+    - telephony.externalLine.delete
+    - telephony.externalLine.get
+    - telephony.externalLine.update
+Timeman:
+  Timeman:
+    - timeman.settings
+    - timeman.status
+    - timeman.open
+    - timeman.close
+    - timeman.pause
+  Networkrange:
+    - timeman.networkrange.get
+    - timeman.networkrange.set
+    - timeman.networkrange.check
+  TimecontrolSettings:
+    - timeman.timecontrol.settings.get
+    - timeman.timecontrol.settings.set
+  TimecontrolReport:
+    - timeman.timecontrol.report.add
+  TimecontrolReportsSettings:
+    - timeman.timecontrol.reports.settings.get
+  TimecontrolReportsUsers:
+    - timeman.timecontrol.reports.users.get
+  TimecontrolReports:
+    - timeman.timecontrol.reports.get
+Task:
+  Ctaskitem:
+    - task.ctaskitem.getmanifest
+    - task.ctaskitem.getlist
+    - task.ctaskitem.list
+    - task.ctaskitem.add
+    - task.ctaskitem.getexecutiveuserid
+    - task.ctaskitem.getdata
+    - task.ctaskitem.getdescription
+    - task.ctaskitem.getfiles
+    - task.ctaskitem.addfile
+    - task.ctaskitem.deletefile
+    - task.ctaskitem.gettags
+    - task.ctaskitem.getdependson
+    - task.ctaskitem.getallowedtaskactions
+    - task.ctaskitem.getallowedactions
+    - task.ctaskitem.getallowedtaskactionsasstrings
+    - task.ctaskitem.isactionallowed
+    - task.ctaskitem.delete
+    - task.ctaskitem.delegate
+    - task.ctaskitem.startexecution
+    - task.ctaskitem.pauseexecution
+    - task.ctaskitem.defer
+    - task.ctaskitem.complete
+    - task.ctaskitem.update
+    - task.ctaskitem.renew
+    - task.ctaskitem.approve
+    - task.ctaskitem.disapprove
+    - task.ctaskitem.addtofavorite
+    - task.ctaskitem.deletefromfavorite
+  Item:
+    - task.item.getmanifest
+    - task.item.getlist
+    - task.item.list
+    - task.item.add
+    - task.item.getexecutiveuserid
+    - task.item.getdata
+    - task.item.getdescription
+    - task.item.getfiles
+    - task.item.addfile
+    - task.item.deletefile
+    - task.item.gettags
+    - task.item.getdependson
+    - task.item.getallowedtaskactions
+    - task.item.getallowedactions
+    - task.item.getallowedtaskactionsasstrings
+    - task.item.isactionallowed
+    - task.item.delete
+    - task.item.delegate
+    - task.item.startexecution
+    - task.item.pauseexecution
+    - task.item.defer
+    - task.item.complete
+    - task.item.update
+    - task.item.renew
+    - task.item.approve
+    - task.item.disapprove
+    - task.item.addtofavorite
+    - task.item.deletefromfavorite
+  Ctaskelapseditem:
+    - task.ctaskelapseditem.getmanifest
+    - task.ctaskelapseditem.getlist
+    - task.ctaskelapseditem.get
+    - task.ctaskelapseditem.add
+    - task.ctaskelapseditem.update
+    - task.ctaskelapseditem.delete
+    - task.ctaskelapseditem.isactionallowed
+  Elapseditem:
+    - task.elapseditem.getmanifest
+    - task.elapseditem.getlist
+    - task.elapseditem.get
+    - task.elapseditem.add
+    - task.elapseditem.update
+    - task.elapseditem.delete
+    - task.elapseditem.isactionallowed
+  Ctaskcommentitem:
+    - task.ctaskcommentitem.getmanifest
+    - task.ctaskcommentitem.getlist
+    - task.ctaskcommentitem.get
+    - task.ctaskcommentitem.add
+    - task.ctaskcommentitem.update
+    - task.ctaskcommentitem.delete
+    - task.ctaskcommentitem.isactionallowed
+  Commentitem:
+    - task.commentitem.getmanifest
+    - task.commentitem.getlist
+    - task.commentitem.get
+    - task.commentitem.add
+    - task.commentitem.update
+    - task.commentitem.delete
+    - task.commentitem.isactionallowed
+  Ctaskchecklistitem:
+    - task.ctaskchecklistitem.getmanifest
+    - task.ctaskchecklistitem.get
+    - task.ctaskchecklistitem.getlist
+    - task.ctaskchecklistitem.add
+    - task.ctaskchecklistitem.update
+    - task.ctaskchecklistitem.delete
+    - task.ctaskchecklistitem.complete
+    - task.ctaskchecklistitem.renew
+    - task.ctaskchecklistitem.moveafteritem
+    - task.ctaskchecklistitem.isactionallowed
+  Checklistitem:
+    - task.checklistitem.getmanifest
+    - task.checklistitem.get
+    - task.checklistitem.getlist
+    - task.checklistitem.add
+    - task.checklistitem.update
+    - task.checklistitem.delete
+    - task.checklistitem.complete
+    - task.checklistitem.renew
+    - task.checklistitem.moveafteritem
+    - task.checklistitem.isactionallowed
+  Ctaskplannermaintance:
+    - task.ctaskplannermaintance.getcurrenttaskslist
+    - task.ctaskplannermaintance.getlist
+  Planner:
+    - task.planner.getcurrenttaskslist
+    - task.planner.getlist
+  Ctasklogitem:
+    - task.ctasklogitem.getmanifest
+    - task.ctasklogitem.list
+  Logitem:
+    - task.logitem.getmanifest
+    - task.logitem.list
+  Ctaskcomments:
+    - task.ctaskcomments.getmanifest
+    - task.ctaskcomments.add
+  Comment:
+    - task.comment.getmanifest
+    - task.comment.add
+  Ctasks:
+    - task.ctasks.getlist
+  Items:
+    - task.items.getlist
+  ItemUserfield:
+    - task.item.userfield.get
+    - task.item.userfield.getlist
+    - task.item.userfield.add
+    - task.item.userfield.update
+    - task.item.userfield.delete
+    - task.item.userfield.getfields
+    - task.item.userfield.gettypes
+  Dependence:
+    - task.dependence.add
+    - task.dependence.delete
+  Stages:
+    - task.stages.add
+    - task.stages.canmovetask
+    - task.stages.delete
+    - task.stages.get
+    - task.stages.movetask
+    - task.stages.update
+TasksExtended:
+  Meta:
+    - tasks_extended.meta.setanystatus
+    - tasks_extended.meta.occurinlogsas
+Log:
+  Blogpost:
+    - log.blogpost.get
+    - log.blogpost.add
+    - log.blogpost.update
+    - log.blogpost.share
+    - log.blogpost.delete
+  BlogpostGetusers:
+    - log.blogpost.getusers.important
+  Blogcomment:
+    - log.blogcomment.add
+    - log.blogcomment.delete
+  Comment:
+    - log.comment.delete
+SonetGroup:
+  SonetGroup:
+    - sonet_group.get
+    - sonet_group.create
+    - sonet_group.update
+    - sonet_group.delete
+    - sonet_group.setowner
+  User:
+    - sonet_group.user.get
+    - sonet_group.user.invite
+    - sonet_group.user.request
+    - sonet_group.user.add
+    - sonet_group.user.update
+    - sonet_group.user.delete
+    - sonet_group.user.groups
+  Feature:
+    - sonet_group.feature.access
+SonetGroupSubject:
+  SonetGroupSubject:
+    - sonet_group_subject.get
+    - sonet_group_subject.add
+    - sonet_group_subject.update
+    - sonet_group_subject.delete
+Userfieldtype:
+  Userfieldtype:
+    - userfieldtype.list
+    - userfieldtype.add
+    - userfieldtype.update
+    - userfieldtype.delete
+Placement:
+  Placement:
+    - placement.list
+    - placement.bind
+    - placement.unbind
+    - placement.get
+Entity:
+  Entity:
+    - entity.add
+    - entity.get
+    - entity.update
+    - entity.delete
+    - entity.rights
+  Section:
+    - entity.section.add
+    - entity.section.get
+    - entity.section.update
+    - entity.section.delete
+  Item:
+    - entity.item.add
+    - entity.item.get
+    - entity.item.update
+    - entity.item.delete
+  ItemProperty:
+    - entity.item.property.add
+    - entity.item.property.get
+    - entity.item.property.update
+    - entity.item.property.delete
+Pull:
+  ApplicationConfig:
+    - pull.application.config.get
+  ApplicationEvent:
+    - pull.application.event.add
+  ApplicationPush:
+    - pull.application.push.add
+  Watch:
+    - pull.watch.extend
+  Config:
+    - pull.config.get
+  ChannelPublic:
+    - pull.channel.public.get
+    - pull.channel.public.list
+Mobile:
+  CounterTypes:
+    - mobile.counter.types.get
+  Counter:
+    - mobile.counter.get
+  CounterConfig:
+    - mobile.counter.config.get
+    - mobile.counter.config.set
+  PushTypes:
+    - mobile.push.types.get
+  PushConfig:
+    - mobile.push.config.get
+    - mobile.push.config.set
+  PushStatus:
+    - mobile.push.status.get
+    - mobile.push.status.set
+  PushSmartfilterStatus:
+    - mobile.push.smartfilter.status.get
+    - mobile.push.smartfilter.status.set
+  User:
+    - mobile.user.get
+    - mobile.user.update
+    - mobile.user.canusetelephony
+    - mobile.user.caneditusers
+    - mobile.user.setadminrights
+    - mobile.user.removeadminrights
+    - mobile.user.fireuser
+    - mobile.user.hireuser
+  Form:
+    - mobile.form.profile
+  DiskFolder:
+    - mobile.disk.folder.getchildren
+  Disk:
+    - mobile.disk.getattachmentsdata
+    - mobile.disk.getuploadedfilesfolder
+  SettingsTabs:
+    - mobile.settings.tabs.set
+  SettingsEnergy:
+    - mobile.settings.energy.set
+    - mobile.settings.energy.get
+  SettingsOther:
+    - mobile.settings.other.set
+    - mobile.settings.other.get
+  IntranetDepartments:
+    - mobile.intranet.departments.get
+  IntranetStresslevelSharedata:
+    - mobile.intranet.stresslevel.sharedata.get
+  TasksDeadlines:
+    - mobile.tasks.deadlines.get
+  TasksGroup:
+    - mobile.tasks.group.getcancreatetask
+  TaskLinkParams:
+    - mobile.task.link.params.get
+  ComponentCustomparams:
+    - mobile.component.customparams.set
+Messageservice:
+  Sender:
+    - messageservice.sender.add
+    - messageservice.sender.delete
+    - messageservice.sender.list
+  MessageStatus:
+    - messageservice.message.status.update
+    - messageservice.message.status.get
+Mailservice:
+  Mailservice:
+    - mailservice.fields
+    - mailservice.list
+    - mailservice.get
+    - mailservice.add
+    - mailservice.update
+    - mailservice.delete
+Lists:
+  GetIblockType:
+    - lists.get.iblock.type.id
+  Lists:
+    - lists.add
+    - lists.get
+    - lists.update
+    - lists.delete
+  Section:
+    - lists.section.add
+    - lists.section.get
+    - lists.section.update
+    - lists.section.delete
+  Field:
+    - lists.field.add
+    - lists.field.get
+    - lists.field.update
+    - lists.field.delete
+  FieldType:
+    - lists.field.type.get
+  Element:
+    - lists.element.add
+    - lists.element.get
+    - lists.element.update
+    - lists.element.delete
+  ElementGetFile:
+    - lists.element.get.file.url
+Landing:
+  Block:
+    - landing.block.clonecard
+    - landing.block.addcard
+    - landing.block.removecard
+    - landing.block.updatecards
+    - landing.block.changenodename
+    - landing.block.changeanchor
+    - landing.block.updatenodes
+    - landing.block.updatestyles
+    - landing.block.updateattrs
+    - landing.block.getcontent
+    - landing.block.updatecontent
+    - landing.block.publication
+    - landing.block.getlist
+    - landing.block.getbyid
+    - landing.block.getmanifest
+    - landing.block.getmanifestfile
+    - landing.block.getcontentfromrepository
+    - landing.block.getrepository
+    - landing.block.uploadfile
+  Site:
+    - landing.site.getadditionalfields
+    - landing.site.getpublicurl
+    - landing.site.getpreview
+    - landing.site.getlist
+    - landing.site.add
+    - landing.site.update
+    - landing.site.delete
+    - landing.site.markdelete
+    - landing.site.markundelete
+    - landing.site.addfolder
+    - landing.site.updatefolder
+    - landing.site.movefolder
+    - landing.site.publicationfolder
+    - landing.site.unpublicfolder
+    - landing.site.getfolders
+    - landing.site.markfolderdelete
+    - landing.site.markfolderundelete
+    - landing.site.publication
+    - landing.site.unpublic
+    - landing.site.fullexport
+    - landing.site.setrights
+    - landing.site.getrights
+    - landing.site.setscope
+    - landing.site.bindingtomenu
+    - landing.site.unbindingfrommenu
+    - landing.site.bindingtogroup
+    - landing.site.unbindingfromgroup
+    - landing.site.getmenubindings
+    - landing.site.getgroupbindings
+  Landing:
+    - landing.landing.getpreview
+    - landing.landing.getpublicurl
+    - landing.landing.resolveidbypublicurl
+    - landing.landing.getadditionalfields
+    - landing.landing.publication
+    - landing.landing.unpublic
+    - landing.landing.addblock
+    - landing.landing.deleteblock
+    - landing.landing.markdeletedblock
+    - landing.landing.markundeletedblock
+    - landing.landing.upblock
+    - landing.landing.downblock
+    - landing.landing.favoriteblock
+    - landing.landing.unfavoriteblock
+    - landing.landing.showblock
+    - landing.landing.hideblock
+    - landing.landing.copyblock
+    - landing.landing.moveblock
+    - landing.landing.removeentities
+    - landing.landing.getlist
+    - landing.landing.add
+    - landing.landing.addbytemplate
+    - landing.landing.update
+    - landing.landing.delete
+    - landing.landing.move
+    - landing.landing.copy
+    - landing.landing.markdelete
+    - landing.landing.markundelete
+  Repo:
+    - landing.repo.checkcontent
+    - landing.repo.register
+    - landing.repo.unregister
+    - landing.repo.getappinfo
+    - landing.repo.bind
+    - landing.repo.unbind
+    - landing.repo.getlist
+  Template:
+    - landing.template.getlist
+    - landing.template.setsiteref
+    - landing.template.setlandingref
+    - landing.template.getsiteref
+    - landing.template.getlandingref
+  Demos:
+    - landing.demos.getsitelist
+    - landing.demos.getpagelist
+    - landing.demos.geturlpreview
+    - landing.demos.register
+    - landing.demos.unregister
+    - landing.demos.getlist
+  Role:
+    - landing.role.getlist
+    - landing.role.getrights
+    - landing.role.setrights
+    - landing.role.setaccesscodes
+    - landing.role.isenabled
+    - landing.role.enable
+  Syspage:
+    - landing.syspage.set
+    - landing.syspage.get
+    - landing.syspage.deleteforsite
+    - landing.syspage.deleteforlanding
+    - landing.syspage.getspecialpage
+LandingCloud:
+  Cloud:
+    - landing_cloud.cloud.getrepository
+    - landing_cloud.cloud.getdemositelist
+    - landing_cloud.cloud.getdemopagelist
+    - landing_cloud.cloud.geturlpreview
+    - landing_cloud.cloud.getappitems
+    - landing_cloud.cloud.getappitemmanifest
+Department:
+  Department:
+    - department.fields
+Crm:
+  Webform:
+    - crm.webform.list
+  WebformResult:
+    - crm.webform.result.add
+  Button:
+    - crm.button.list
+  ButtonWidgets:
+    - crm.button.widgets.get
+  ButtonGuest:
+    - crm.button.guest.register
+  Invoice:
+    - crm.invoice.fields
+    - crm.invoice.list
+    - crm.invoice.get
+    - crm.invoice.add
+    - crm.invoice.update
+    - crm.invoice.delete
+    - crm.invoice.getexternallink
+  Vat:
+    - crm.vat.fields
+    - crm.vat.list
+    - crm.vat.get
+    - crm.vat.add
+    - crm.vat.update
+    - crm.vat.delete
+  SettingsMode:
+    - crm.settings.mode.get
+  Status:
+    - crm.status.fields
+  StatusEntity:
+    - crm.status.entity.types
+    - crm.status.entity.items
+  StatusExtra:
+    - crm.status.extra.fields
+  InvoiceStatus:
+    - crm.invoice.status.fields
+    - crm.invoice.status.add
+    - crm.invoice.status.get
+    - crm.invoice.status.list
+    - crm.invoice.status.update
+    - crm.invoice.status.delete
+  EnumSettings:
+    - crm.enum.settings.mode
+  Enum:
+    - crm.enum.fields
+    - crm.enum.ownertype
+    - crm.enum.addresstype
+    - crm.enum.contenttype
+    - crm.enum.activitytype
+    - crm.enum.activitypriority
+    - crm.enum.activitydirection
+    - crm.enum.activitynotifytype
+    - crm.enum.activitystatus
+    - crm.enum.getorderownertypes
+  EnumEntityeditorConfiguration:
+    - crm.enum.entityeditor.configuration.scope
+  Lead:
+    - crm.lead.fields
+  LeadProductrows:
+    - crm.lead.productrows.set
+    - crm.lead.productrows.get
+  LeadContactItems:
+    - crm.lead.contact.items.set
+    - crm.lead.contact.items.delete
+  Deal:
+    - crm.deal.fields
+  DealProductrows:
+    - crm.deal.productrows.set
+    - crm.deal.productrows.get
+  DealContactItems:
+    - crm.deal.contact.items.set
+    - crm.deal.contact.items.delete
+  Dealcategory:
+    - crm.dealcategory.fields
+    - crm.dealcategory.list
+    - crm.dealcategory.add
+    - crm.dealcategory.get
+    - crm.dealcategory.update
+    - crm.dealcategory.delete
+    - crm.dealcategory.status
+  DealcategoryStage:
+    - crm.dealcategory.stage.list
+  DealcategoryDefault:
+    - crm.dealcategory.default.get
+    - crm.dealcategory.default.set
+  DealRecurring:
+    - crm.deal.recurring.fields
+    - crm.deal.recurring.list
+    - crm.deal.recurring.add
+    - crm.deal.recurring.get
+    - crm.deal.recurring.update
+    - crm.deal.recurring.delete
+    - crm.deal.recurring.expose
+  InvoiceRecurring:
+    - crm.invoice.recurring.fields
+    - crm.invoice.recurring.list
+    - crm.invoice.recurring.add
+    - crm.invoice.recurring.get
+    - crm.invoice.recurring.update
+    - crm.invoice.recurring.delete
+    - crm.invoice.recurring.expose
+  Company:
+    - crm.company.fields
+  CompanyContactItems:
+    - crm.company.contact.items.set
+    - crm.company.contact.items.delete
+  Contact:
+    - crm.contact.fields
+  ContactCompanyItems:
+    - crm.contact.company.items.set
+    - crm.contact.company.items.delete
+  Currency:
+    - crm.currency.fields
+    - crm.currency.add
+    - crm.currency.get
+    - crm.currency.list
+    - crm.currency.update
+    - crm.currency.delete
+  CurrencyLocalizations:
+    - crm.currency.localizations.fields
+    - crm.currency.localizations.get
+    - crm.currency.localizations.set
+    - crm.currency.localizations.delete
+  CurrencyBase:
+    - crm.currency.base.set
+    - crm.currency.base.get
+  Catalog:
+    - crm.catalog.fields
+    - crm.catalog.get
+    - crm.catalog.list
+  Product:
+    - crm.product.fields
+    - crm.product.add
+    - crm.product.get
+    - crm.product.list
+    - crm.product.update
+    - crm.product.delete
+  ProductProperty:
+    - crm.product.property.types
+    - crm.product.property.fields
+    - crm.product.property.add
+    - crm.product.property.get
+    - crm.product.property.list
+    - crm.product.property.update
+    - crm.product.property.delete
+  ProductPropertySettings:
+    - crm.product.property.settings.fields
+  ProductPropertyEnumeration:
+    - crm.product.property.enumeration.fields
+  Productsection:
+    - crm.productsection.fields
+    - crm.productsection.add
+    - crm.productsection.get
+    - crm.productsection.list
+    - crm.productsection.update
+    - crm.productsection.delete
+  Productrow:
+    - crm.productrow.fields
+    - crm.productrow.add
+    - crm.productrow.get
+    - crm.productrow.list
+    - crm.productrow.update
+    - crm.productrow.delete
+  Activity:
+    - crm.activity.fields
+    - crm.activity.add
+    - crm.activity.get
+    - crm.activity.list
+    - crm.activity.update
+    - crm.activity.delete
+  ActivityCommunication:
+    - crm.activity.communication.fields
+  ActivityType:
+    - crm.activity.type.add
+    - crm.activity.type.list
+    - crm.activity.type.delete
+  Quote:
+    - crm.quote.fields
+  QuoteProductrows:
+    - crm.quote.productrows.set
+    - crm.quote.productrows.get
+  QuoteContactItems:
+    - crm.quote.contact.items.set
+    - crm.quote.contact.items.delete
+  Requisite:
+    - crm.requisite.fields
+    - crm.requisite.add
+    - crm.requisite.get
+    - crm.requisite.list
+    - crm.requisite.update
+    - crm.requisite.delete
+  RequisiteUserfield:
+    - crm.requisite.userfield.add
+    - crm.requisite.userfield.get
+    - crm.requisite.userfield.list
+    - crm.requisite.userfield.update
+    - crm.requisite.userfield.delete
+  RequisitePreset:
+    - crm.requisite.preset.fields
+    - crm.requisite.preset.add
+    - crm.requisite.preset.get
+    - crm.requisite.preset.list
+    - crm.requisite.preset.update
+    - crm.requisite.preset.delete
+    - crm.requisite.preset.countries
+  RequisitePresetField:
+    - crm.requisite.preset.field.fields
+    - crm.requisite.preset.field.availabletoadd
+    - crm.requisite.preset.field.add
+    - crm.requisite.preset.field.get
+    - crm.requisite.preset.field.list
+    - crm.requisite.preset.field.update
+    - crm.requisite.preset.field.delete
+  RequisiteBankdetail:
+    - crm.requisite.bankdetail.fields
+    - crm.requisite.bankdetail.add
+    - crm.requisite.bankdetail.get
+    - crm.requisite.bankdetail.list
+    - crm.requisite.bankdetail.update
+    - crm.requisite.bankdetail.delete
+  RequisiteLink:
+    - crm.requisite.link.fields
+    - crm.requisite.link.list
+    - crm.requisite.link.get
+    - crm.requisite.link.register
+    - crm.requisite.link.unregister
+  Address:
+    - crm.address.fields
+    - crm.address.add
+    - crm.address.update
+    - crm.address.list
+    - crm.address.delete
+    - crm.address.getzoneid
+    - crm.address.setzoneid
+  Addresstype:
+    - crm.addresstype.getavailable
+    - crm.addresstype.getzonemap
+    - crm.addresstype.getdefaultbyzone
+    - crm.addresstype.getbyzonesorvalues
+  Measure:
+    - crm.measure.fields
+    - crm.measure.add
+    - crm.measure.get
+    - crm.measure.list
+    - crm.measure.update
+    - crm.measure.delete
+  LeadUserfield:
+    - crm.lead.userfield.add
+    - crm.lead.userfield.get
+    - crm.lead.userfield.list
+    - crm.lead.userfield.update
+    - crm.lead.userfield.delete
+  DealUserfield:
+    - crm.deal.userfield.add
+    - crm.deal.userfield.get
+    - crm.deal.userfield.list
+    - crm.deal.userfield.update
+    - crm.deal.userfield.delete
+  CompanyUserfield:
+    - crm.company.userfield.add
+    - crm.company.userfield.get
+    - crm.company.userfield.list
+    - crm.company.userfield.update
+    - crm.company.userfield.delete
+  ContactUserfield:
+    - crm.contact.userfield.add
+    - crm.contact.userfield.get
+    - crm.contact.userfield.list
+    - crm.contact.userfield.update
+    - crm.contact.userfield.delete
+  QuoteUserfield:
+    - crm.quote.userfield.add
+    - crm.quote.userfield.get
+    - crm.quote.userfield.list
+    - crm.quote.userfield.update
+    - crm.quote.userfield.delete
+  InvoiceUserfield:
+    - crm.invoice.userfield.add
+    - crm.invoice.userfield.get
+    - crm.invoice.userfield.list
+    - crm.invoice.userfield.update
+    - crm.invoice.userfield.delete
+  Userfield:
+    - crm.userfield.fields
+    - crm.userfield.types
+  UserfieldEnumeration:
+    - crm.userfield.enumeration.fields
+  UserfieldSettings:
+    - crm.userfield.settings.fields
+  ExternalchannelConnector:
+    - crm.externalchannel.connector.fields
+    - crm.externalchannel.connector.list
+    - crm.externalchannel.connector.register
+    - crm.externalchannel.connector.unregister
+  Multifield:
+    - crm.multifield.fields
+  Duplicate:
+    - crm.duplicate.findbycomm
+  Livefeedmessage:
+    - crm.livefeedmessage.add
+  Externalchannel:
+    - crm.externalchannel.company
+    - crm.externalchannel.contact
+  ExternalchannelActivity:
+    - crm.externalchannel.activity.company
+    - crm.externalchannel.activity.contact
+  WebformConfiguration:
+    - crm.webform.configuration.get
+  SitebuttonConfiguration:
+    - crm.sitebutton.configuration.get
+  Persontype:
+    - crm.persontype.fields
+    - crm.persontype.list
+  Paysystem:
+    - crm.paysystem.fields
+    - crm.paysystem.list
+  Automation:
+    - crm.automation.trigger
+  AutomationTrigger:
+    - crm.automation.trigger.add
+    - crm.automation.trigger.list
+    - crm.automation.trigger.delete
+    - crm.automation.trigger.execute
+  TimelineComment:
+    - crm.timeline.comment.fields
+    - crm.timeline.comment.list
+    - crm.timeline.comment.get
+    - crm.timeline.comment.add
+    - crm.timeline.comment.delete
+    - crm.timeline.comment.update
+  TimelineBindings:
+    - crm.timeline.bindings.fields
+    - crm.timeline.bindings.list
+    - crm.timeline.bindings.bind
+    - crm.timeline.bindings.unbind
+  LeadDetailsConfiguration:
+    - crm.lead.details.configuration.get
+    - crm.lead.details.configuration.set
+    - crm.lead.details.configuration.reset
+    - crm.lead.details.configuration.forcecommonscopeforall
+    - crm.lead.details.configuration.forceCommonScopeForAll
+  DealDetailsConfiguration:
+    - crm.deal.details.configuration.get
+    - crm.deal.details.configuration.set
+    - crm.deal.details.configuration.reset
+    - crm.deal.details.configuration.forcecommonscopeforall
+    - crm.deal.details.configuration.forceCommonScopeForAll
+  ContactDetailsConfiguration:
+    - crm.contact.details.configuration.get
+    - crm.contact.details.configuration.set
+    - crm.contact.details.configuration.reset
+    - crm.contact.details.configuration.forcecommonscopeforall
+    - crm.contact.details.configuration.forceCommonScopeForAll
+  CompanyDetailsConfiguration:
+    - crm.company.details.configuration.get
+    - crm.company.details.configuration.set
+    - crm.company.details.configuration.reset
+    - crm.company.details.configuration.forcecommonscopeforall
+    - crm.company.details.configuration.forceCommonScopeForAll
+  ItemDetailsConfiguration:
+    - crm.item.details.configuration.get
+    - crm.item.details.configuration.set
+    - crm.item.details.configuration.reset
+    - crm.item.details.configuration.forcecommonscopeforall
+  TrackingTrace:
+    - crm.tracking.trace.add
+    - crm.tracking.trace.delete
+  SiteForm:
+    - crm.site.form.fill
+  SiteFormUser:
+    - crm.site.form.user.get
+  Calllist:
+    - crm.calllist.list
+    - crm.calllist.get
+    - crm.calllist.add
+    - crm.calllist.update
+    - crm.calllist.statuslist
+  CalllistItems:
+    - crm.calllist.items.get
+  Category:
+    - crm.category.fields
+  Type:
+    - crm.type.fields
+  Item:
+    - crm.item.fields
+    - crm.item.import
+    - crm.item.batchImport
+  TimelineNote:
+    - crm.timeline.note.delete
+    - crm.timeline.note.get
+    - crm.timeline.note.save
+  ActivityTodo:
+    - crm.activity.todo.add
+    - crm.activity.todo.updateDeadline
+    - crm.activity.todo.updateDescription
+  ActivityBinding:
+    - crm.activity.binding.add
+    - crm.activity.binding.delete
+    - crm.activity.binding.list
+  DocumentgeneratorDocument:
+    - crm.documentgenerator.document.add
+    - crm.documentgenerator.document.delete
+    - crm.documentgenerator.document.enablepublicurl
+    - crm.documentgenerator.document.get
+    - crm.documentgenerator.document.getfields
+    - crm.documentgenerator.document.list
+    - crm.documentgenerator.document.update
+    - crm.documentgenerator.document.upload
+  DocumentgeneratorTemplate:
+    - crm.documentgenerator.template.add
+    - crm.documentgenerator.template.delete
+    - crm.documentgenerator.template.get
+    - crm.documentgenerator.template.getfields
+    - crm.documentgenerator.template.list
+    - crm.documentgenerator.template.update
+  DocumentgeneratorNumerator:
+    - crm.documentgenerator.numerator.add
+    - crm.documentgenerator.numerator.delete
+    - crm.documentgenerator.numerator.get
+    - crm.documentgenerator.numerator.list
+    - crm.documentgenerator.numerator.update
+  ItemProductrow:
+    - crm.item.productrow.fields
+    - crm.item.productrow.get
+    - crm.item.productrow.add
+    - crm.item.productrow.update
+    - crm.item.productrow.set
+    - crm.item.productrow.delete
+    - crm.item.productrow.list
+    - crm.item.productrow.getAvailableForPayment
+  ItemPayment:
+    - crm.item.payment.add
+    - crm.item.payment.delete
+    - crm.item.payment.get
+    - crm.item.payment.list
+    - crm.item.payment.pay
+    - crm.item.payment.unpay
+    - crm.item.payment.update
+  ItemPaymentProduct:
+    - crm.item.payment.product.add
+    - crm.item.payment.product.delete
+    - crm.item.payment.product.list
+    - crm.item.payment.product.setQuantity
+  ItemPaymentDelivery:
+    - crm.item.payment.delivery.add
+    - crm.item.payment.delivery.delete
+    - crm.item.payment.delivery.setDelivery
+  ItemDelivery:
+    - crm.item.delivery.get
+    - crm.item.delivery.list
+  Entity:
+    - crm.entity.mergeBatch
+  DuplicateVolatileType:
+    - crm.duplicate.volatileType.fields
+    - crm.duplicate.volatileType.list
+    - crm.duplicate.volatileType.register
+    - crm.duplicate.volatileType.unregister
+  Orderentity:
+    - crm.orderentity.add
+    - crm.orderentity.getFields
+    - crm.orderentity.deleteByFilter
+    - crm.orderentity.list
+Im:
+  User:
+    - im.user.get
+  UserList:
+    - im.user.list.get
+  UserBusiness:
+    - im.user.business.list
+  UserStatus:
+    - im.user.status.get
+    - im.user.status.set
+  UserStatusIdle:
+    - im.user.status.idle.start
+    - im.user.status.idle.end
+  Recent:
+    - im.recent.get
+    - im.recent.list
+    - im.recent.pin
+    - im.recent.hide
+    - im.recent.unread
+  Department:
+    - im.department.get
+  DepartmentColleagues:
+    - im.department.colleagues.list
+  DepartmentManagers:
+    - im.department.managers.get
+  DepartmentEmployees:
+    - im.department.employees.get
+  Chat:
+    - im.chat.add
+    - im.chat.getentitychat
+    - im.chat.get
+    - im.chat.setowner
+    - im.chat.setmanager
+    - im.chat.updatecolor
+    - im.chat.updatetitle
+    - im.chat.updateavatar
+    - im.chat.leave
+    - im.chat.mute
+  ChatUser:
+    - im.chat.user.add
+    - im.chat.user.delete
+    - im.chat.user.list
+  Dialog:
+    - im.dialog.get
+    - im.dialog.read
+    - im.dialog.unread
+    - im.dialog.writing
+  DialogMessages:
+    - im.dialog.messages.get
+  DialogUsers:
+    - im.dialog.users.list
+  DialogRead:
+    - im.dialog.read.all
+  Message:
+    - im.message.add
+    - im.message.delete
+    - im.message.update
+    - im.message.like
+    - im.message.command
+    - im.message.share
+  Im:
+    - im.notify
+  NotifyPersonal:
+    - im.notify.personal.add
+  NotifySystem:
+    - im.notify.system.add
+  Notify:
+    - im.notify.delete
+    - im.notify.read
+    - im.notify.confirm
+    - im.notify.answer
+  NotifyRead:
+    - im.notify.read.list
+    - im.notify.read.all
+  DiskFolder:
+    - im.disk.folder.get
+  DiskFile:
+    - im.disk.file.commit
+    - im.disk.file.delete
+    - im.disk.file.save
+  DiskRecord:
+    - im.disk.record.share
+  Counters:
+    - im.counters.get
+  SearchUser:
+    - im.search.user.list
+  SearchChat:
+    - im.search.chat.list
+  SearchDepartment:
+    - im.search.department.list
+  SearchLast:
+    - im.search.last.get
+    - im.search.last.add
+    - im.search.last.delete
+Forum:
+  Message:
+    - forum.message.delete
+Face:
+  Client:
+    - face.client.identify
+    - face.client.add
+  User:
+    - face.user.identify
+    - face.user.add
+    - face.user.delete
+Documentgenerator:
+  Documentgenerator:
+    - documentgenerator.stub
+Disk:
+  Storage:
+    - disk.storage.getfields
+    - disk.storage.get
+    - disk.storage.rename
+    - disk.storage.getlist
+    - disk.storage.gettypes
+    - disk.storage.addfolder
+    - disk.storage.getchildren
+    - disk.storage.uploadfile
+    - disk.storage.getforapp
+  Folder:
+    - disk.folder.getfields
+    - disk.folder.get
+    - disk.folder.getchildren
+    - disk.folder.addsubfolder
+    - disk.folder.copyto
+    - disk.folder.moveto
+    - disk.folder.rename
+    - disk.folder.deletetree
+    - disk.folder.markdeleted
+    - disk.folder.restore
+    - disk.folder.uploadfile
+    - disk.folder.getexternallink
+    - disk.folder.sharetouser
+    - disk.folder.listallowedoperations
+  File:
+    - disk.file.getfields
+    - disk.file.get
+    - disk.file.copyto
+    - disk.file.moveto
+    - disk.file.rename
+    - disk.file.delete
+    - disk.file.markdeleted
+    - disk.file.restore
+    - disk.file.uploadversion
+    - disk.file.getexternallink
+    - disk.file.getversions
+    - disk.file.restorefromversion
+    - disk.file.listallowedoperations
+  Version:
+    - disk.version.get
+  Rights:
+    - disk.rights.gettasks
+  Attachedobject:
+    - disk.attachedobject.get
+Calendar:
+  Event:
+    - calendar.event.get
+    - calendar.event.add
+    - calendar.event.update
+    - calendar.event.delete
+    - calendar.event.getbyid
+  EventGet:
+    - calendar.event.get.nearest
+  Section:
+    - calendar.section.get
+    - calendar.section.add
+    - calendar.section.update
+    - calendar.section.delete
+  Resource:
+    - calendar.resource.list
+    - calendar.resource.add
+    - calendar.resource.update
+    - calendar.resource.delete
+  ResourceBooking:
+    - calendar.resource.booking.list
+  MeetingStatus:
+    - calendar.meeting.status.set
+    - calendar.meeting.status.get
+  MeetingParams:
+    - calendar.meeting.params.set
+  Accessibility:
+    - calendar.accessibility.get
+  Settings:
+    - calendar.settings.get
+  UserSettings:
+    - calendar.user.settings.get
+    - calendar.user.settings.set
+Bizproc:
+  Activity:
+    - bizproc.activity.add
+    - bizproc.activity.update
+    - bizproc.activity.delete
+    - bizproc.activity.log
+    - bizproc.activity.list
+  Event:
+    - bizproc.event.send
+  Task:
+    - bizproc.task.list
+    - bizproc.task.complete
+  Workflow:
+    - bizproc.workflow.terminate
+    - bizproc.workflow.kill
+    - bizproc.workflow.start
+    - bizproc.workflow.instances
+  WorkflowInstance:
+    - bizproc.workflow.instance.list
+  WorkflowTemplate:
+    - bizproc.workflow.template.list
+    - bizproc.workflow.template.add
+    - bizproc.workflow.template.update
+    - bizproc.workflow.template.delete
+  Robot:
+    - bizproc.robot.add
+    - bizproc.robot.update
+    - bizproc.robot.delete
+    - bizproc.robot.list
+  Provider:
+    - bizproc.provider.add
+    - bizproc.provider.delete
+    - bizproc.provider.list
+Userconsent:
+  Consent:
+    - userconsent.consent.add
+  Agreement:
+    - userconsent.agreement.list
+    - userconsent.agreement.text
+Like:
+  Like:
+    - like.list
+    - like.reactions
+Smile:
+  Smile:
+    - smile.get
+Tasks:
+  Task:
+    - tasks.task.add
+    - tasks.task.approve
+    - tasks.task.complete
+    - tasks.task.defer
+    - tasks.task.delegate
+    - tasks.task.delete
+    - tasks.task.disapprove
+    - tasks.task.get
+    - tasks.task.getFields
+    - tasks.task.getaccess
+    - tasks.task.list
+    - tasks.task.pause
+    - tasks.task.renew
+    - tasks.task.start
+    - tasks.task.startwatch
+    - tasks.task.stopwatch
+    - tasks.task.update
+  TaskCounters:
+    - tasks.task.counters.get
+  TaskFavorite:
+    - tasks.task.favorite.add
+    - tasks.task.favorite.remove
+  TaskFiles:
+    - tasks.task.files.attach
+  TaskHistory:
+    - tasks.task.history.list
+  TaskMuteИTasksTask:
+    - tasks.task.mute и tasks.task.unmute
+  TaskResult:
+    - tasks.task.result.addFromComment
+    - tasks.task.result.deleteFromComment
+    - tasks.task.result.list
+  ApiScrumBacklog:
+    - tasks.api.scrum.backlog.add
+    - tasks.api.scrum.backlog.delete
+    - tasks.api.scrum.backlog.get
+    - tasks.api.scrum.backlog.getFields
+    - tasks.api.scrum.backlog.update
+  ApiScrumSprint:
+    - tasks.api.scrum.sprint.add
+    - tasks.api.scrum.sprint.complete
+    - tasks.api.scrum.sprint.delete
+    - tasks.api.scrum.sprint.get
+    - tasks.api.scrum.sprint.getFields
+    - tasks.api.scrum.sprint.list
+    - tasks.api.scrum.sprint.start
+    - tasks.api.scrum.sprint.update
+  ApiScrumEpic:
+    - tasks.api.scrum.epic.add
+    - tasks.api.scrum.epic.delete
+    - tasks.api.scrum.epic.get
+    - tasks.api.scrum.epic.getFields
+    - tasks.api.scrum.epic.list
+    - tasks.api.scrum.epic.update
+  ApiScrumTask:
+    - tasks.api.scrum.task.get
+    - tasks.api.scrum.task.getFields
+    - tasks.api.scrum.task.update
+  ApiScrumKanban:
+    - tasks.api.scrum.kanban.addStage
+    - tasks.api.scrum.kanban.addTask
+    - tasks.api.scrum.kanban.deleteStage
+    - tasks.api.scrum.kanban.deleteTask
+    - tasks.api.scrum.kanban.getFields
+    - tasks.api.scrum.kanban.getStages
+    - tasks.api.scrum.kanban.updateStage
+Configuration:
+  Import:
+    - configuration.import.register
+    - configuration.import.unregister
+    - configuration.import.get
+Socialnetwork:
+  ApiWorkgroup:
+    - socialnetwork.api.workgroup.get
+    - socialnetwork.api.workgroup.list
+Catalog:
+  Catalog:
+    - catalog.catalog.add
+    - catalog.catalog.delete
+    - catalog.catalog.get
+    - catalog.catalog.getFields
+    - catalog.catalog.isOffers
+    - catalog.catalog.list
+    - catalog.catalog.update
+  Enum:
+    - catalog.enum.getRoundTypes
+    - catalog.enum.getStoreDocumentTypes
+  Extra:
+    - catalog.extra.get
+    - catalog.extra.getFields
+    - catalog.extra.list
+  Measure:
+    - catalog.measure.add
+    - catalog.measure.delete
+    - catalog.measure.get
+    - catalog.measure.getFields
+    - catalog.measure.list
+    - catalog.measure.update
+  Price:
+    - catalog.price.add
+    - catalog.price.delete
+    - catalog.price.get
+    - catalog.price.getFields
+    - catalog.price.list
+    - catalog.price.modify
+    - catalog.price.update
+  PriceType:
+    - catalog.priceType.add
+    - catalog.priceType.delete
+    - catalog.priceType.get
+    - catalog.priceType.getFields
+    - catalog.priceType.list
+    - catalog.priceType.update
+  PriceTypeGroup:
+    - catalog.priceTypeGroup.add
+    - catalog.priceTypeGroup.delete
+    - catalog.priceTypeGroup.getFields
+    - catalog.priceTypeGroup.list
+  PriceTypeLang:
+    - catalog.priceTypeLang.add
+    - catalog.priceTypeLang.delete
+    - catalog.priceTypeLang.get
+    - catalog.priceTypeLang.getFields
+    - catalog.priceTypeLang.getLanguages
+    - catalog.priceTypeLang.list
+    - catalog.priceTypeLang.update
+  Product:
+    - catalog.product.add
+    - catalog.product.delete
+    - catalog.product.download
+    - catalog.product.get
+    - catalog.product.getFieldsByFilter
+    - catalog.product.list
+    - catalog.product.update
+  ProductSku:
+    - catalog.product.sku.add
+    - catalog.product.sku.delete
+    - catalog.product.sku.get
+    - catalog.product.sku.getFieldsByFilter
+    - catalog.product.sku.list
+    - catalog.product.sku.update
+  ProductOffer:
+    - catalog.product.offer.add
+    - catalog.product.offer.delete
+    - catalog.product.offer.get
+    - catalog.product.offer.getFieldsByFilter
+    - catalog.product.offer.list
+    - catalog.product.offer.update
+  ProductService:
+    - catalog.product.service.add
+    - catalog.product.service.delete
+    - catalog.product.service.get
+    - catalog.product.service.getFieldsByFilter
+    - catalog.product.service.list
+    - catalog.product.service.update
+  ProductProperty:
+    - catalog.productProperty.add
+    - catalog.productProperty.delete
+    - catalog.productProperty.get
+    - catalog.productProperty.getFields
+    - catalog.productProperty.list
+    - catalog.productProperty.update
+  ProductPropertyEnum:
+    - catalog.productPropertyEnum.add
+    - catalog.productPropertyEnum.delete
+    - catalog.productPropertyEnum.get
+    - catalog.productPropertyEnum.getFields
+    - catalog.productPropertyEnum.list
+    - catalog.productPropertyEnum.update
+  ProductPropertyFeature:
+    - catalog.productPropertyFeature.add
+    - catalog.productPropertyFeature.get
+    - catalog.productPropertyFeature.getAvailableFeaturesByProperty
+    - catalog.productPropertyFeature.getFields
+    - catalog.productPropertyFeature.update
+  ProductPropertySection:
+    - catalog.productPropertySection.get
+    - catalog.productPropertySection.list
+    - catalog.productPropertySection.set
+  ProductImage:
+    - catalog.productImage.add
+    - catalog.productImage.delete
+    - catalog.productImage.get
+    - catalog.productImage.getFields
+    - catalog.productImage.list
+  Ratio:
+    - catalog.ratio.get
+    - catalog.ratio.getFields
+    - catalog.ratio.list
+  RoundingRule:
+    - catalog.roundingRule.add
+    - catalog.roundingRule.delete
+    - catalog.roundingRule.get
+    - catalog.roundingRule.getFields
+    - catalog.roundingRule.list
+    - catalog.roundingRule.update
+  Section:
+    - catalog.section.add
+    - catalog.section.delete
+    - catalog.section.get
+    - catalog.section.getFields
+    - catalog.section.list
+    - catalog.section.update
+  Store:
+    - catalog.store.add
+    - catalog.store.delete
+    - catalog.store.get
+    - catalog.store.getFields
+    - catalog.store.list
+    - catalog.store.update
+  Storeproduct:
+    - catalog.storeproduct.get
+    - catalog.storeproduct.getFields
+    - catalog.storeproduct.list
+  Document:
+    - catalog.document.add
+    - catalog.document.cancel
+    - catalog.document.cancelList
+    - catalog.document.conduct
+    - catalog.document.conductList
+    - catalog.document.confirm
+    - catalog.document.delete
+    - catalog.document.deleteList
+    - catalog.document.fields
+    - catalog.document.getFields
+    - catalog.document.list
+    - catalog.document.unconfirm
+    - catalog.document.update
+  DocumentMode:
+    - catalog.document.mode.status
+  UserfieldDocument:
+    - catalog.userfield.document.list
+    - catalog.userfield.document.update
+  Documentcontractor:
+    - catalog.documentcontractor.add
+    - catalog.documentcontractor.delete
+    - catalog.documentcontractor.getFields
+    - catalog.documentcontractor.list
+  Vat:
+    - catalog.vat.add
+    - catalog.vat.delete
+    - catalog.vat.get
+    - catalog.vat.getFields
+    - catalog.vat.list
+    - catalog.vat.update

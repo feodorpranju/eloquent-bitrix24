@@ -14,7 +14,7 @@ use Pranju\Bitrix24\Contracts\Responses\BatchResponse as BatchResponseInterface;
 use Pranju\Bitrix24\Contracts\Responses\ListResponse as ListResponseInterface;
 use Pranju\Bitrix24\Contracts\Responses\Response as ResponseInterface;
 use Pranju\Bitrix24\Contracts\Token;
-use Pranju\Bitrix24\Core\Authorization\Webhook;
+use Pranju\Bitrix24\Core\Auth\Webhook;
 use Pranju\Bitrix24\Fabrics\RepositoryFabric;
 use Pranju\Bitrix24\Fabrics\ResponseFabric;
 use Pranju\Bitrix24\Traits\HasStaticMake;
@@ -70,8 +70,8 @@ class Client implements ClientInterface
     {
         return ResponseFabric::make(
             Http::asJson()->post($this->getMethodUrl($method), $data),
-            ($command ?? $this->cmd($method, $data))->dump(),
-        )->dump();
+            ($command ?? $this->cmd($method, $data)),
+        );
     }
 
     /**

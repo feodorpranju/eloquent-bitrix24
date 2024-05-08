@@ -47,7 +47,7 @@ interface ResponseTime
      *
      * @return float
      */
-    public function satrtTime(): float;
+    public function startTime(): float;
 
     /**
      * Get operation remote finish time in seconds (UNIX)
@@ -57,14 +57,14 @@ interface ResponseTime
     public function finishTime(): float;
 
     /**
-     * Get operation remote start DatetTime
+     * Get operation remote start DateTime
      *
      * @return Carbon
      */
-    public function satrtDate(): Carbon;
+    public function startDate(): Carbon;
 
     /**
-     * Get operation remote finish DatetTime
+     * Get operation remote finish DateTime
      *
      * @return Carbon
      */

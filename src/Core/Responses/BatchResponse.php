@@ -14,10 +14,15 @@ class BatchResponse extends Response implements BatchResponseInterface
      */
     public function responses(): array
     {
-        return $this->responses ??= array_map(
-            fn($key) => $this->getResponseByKey($key),
-            $this->getResponseKeys()
-        );
+        if ($this->responses ??= []) {
+            return $this->responses;
+        }
+
+        foreach ($this->getResponseKeys() as $key) {
+            $this->responses[$key] = $this->getResponseByKey($key);
+        }
+
+        return $this->responses;
     }
 
     /**

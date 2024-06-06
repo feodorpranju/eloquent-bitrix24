@@ -13,7 +13,7 @@ use Pranju\Bitrix24\Helpers\ListCommandsGenerator;
 use Pranju\Bitrix24\Repositories\AbstractRepository;
 use Pranju\Bitrix24\Repositories\Traits\SelectsItems;
 
-class Stagehistory extends AbstractRepository implements CanSelectItems
+class StagehistoryRepository extends AbstractRepository implements CanSelectItems
 {
     use SelectsItems {
         SelectsItems::getSelectedItems as baseGetSelectedItems;
@@ -31,13 +31,14 @@ class Stagehistory extends AbstractRepository implements CanSelectItems
         }
 
         return (new ListCommandsGenerator())->generateBatch(
-            $this->cmd('list', [
+            command: $this->cmd('list', [
                 'entityTypeId' => $filter['entityTypeId'] ?? $filter['=entityTypeId'] ?? null,
                 'filter' => Arr::except($filter, 'entityTypeId'),
                 'order' => $order,
                 'select' => $select,
             ]),
-            min($count, $limit ?: $count),
+            limit: min($count, $limit ?: $count),
+            pattern: '[items][{index}]'
         );
     }
 
@@ -50,7 +51,7 @@ class Stagehistory extends AbstractRepository implements CanSelectItems
             return $this->baseGetSelectedItems($response);
         }
 
-        return (array)$response->result('logMessages', []);
+        return (array)$response->result('items', []);
     }
 
     /**

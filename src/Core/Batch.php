@@ -79,11 +79,7 @@ class Batch extends Collection implements BatchInterface
         foreach ($this->chunkData() as $data) {
             if (!empty($responses)) {
                 foreach ($data['cmd'] as $key => $command) {
-                    try {
-                        $data['cmd'][$key] = $this->interpolateCommand($responses, $command);
-                    } catch (Bitrix24Exception $e) {
-                        //
-                    }
+                    $data['cmd'][$key] = $this->interpolateCommand($responses, $command);
                 }
             }
 
@@ -321,7 +317,6 @@ class Batch extends Collection implements BatchInterface
      * @param Response[] $responses
      * @param string $command
      * @return string
-     * @throws Bitrix24Exception
      */
     private function interpolateCommand(array $responses, string $command): string
     {
@@ -345,15 +340,16 @@ class Batch extends Collection implements BatchInterface
      * @param string $search
      * @param string $command
      * @return string
-     * @throws Bitrix24Exception
      */
     private function interpolateResult(array $responses, string $search, string $command): string
     {
-        return Str::replace(
-            $search,
-            $this->getInterpolationValue($responses, $search),
-            $command
-        );
+        $value = $this->getInterpolationValue($responses, $search);
+
+        if (!$value) {
+            return $command;
+        }
+
+        return Str::replace($search, $value, $command);
     }
 
     /**
@@ -361,17 +357,16 @@ class Batch extends Collection implements BatchInterface
      *
      * @param Response[] $responses
      * @param string $search
-     * @return string
-     * @throws Bitrix24Exception
+     * @return string|null
      */
-    private function getInterpolationValue(array $responses, string $search): string
+    private function getInterpolationValue(array $responses, string $search): ?string
     {
         preg_match_all('/\[([a-zA-Z0-9_]*)/', $search, $data);
 
         $key = array_shift($data[1]);
 
         if (!$key || !isset($responses[$key])) {
-            throw new Bitrix24Exception("Undefined response '$key' on batch interpolation");
+            return null;
         }
 
         $value = Arr::get((array)$responses[$key]->result(), join('.', $data[1]));

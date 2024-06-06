@@ -17,6 +17,13 @@ class Builder extends \Illuminate\Database\Eloquent\Builder
         return $this->query->toCmd();
     }
 
+    public function find($id, $columns = ['*'])
+    {
+        $attributes = $this->query->find($id, $columns);
+
+        return $this->getModel()->newInstance($attributes, true);
+    }
+
     /**
      * Inserts items and gets as array
      *

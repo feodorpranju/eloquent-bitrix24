@@ -37,5 +37,6 @@ class Bitrix24ServiceProvider extends ServiceProvider
         DB::macro('cmd', fn() => DB::connection()->cmd(...func_get_args()));
         DB::macro('batch', fn() => DB::connection()->batch(...func_get_args()));
         Str::macro('dot', fn(string $string) => Str::replace('-', '.', Str::kebab($string)));
+        Str::macro('screaming', fn(string $string) => Str::upper(Str::snake($string)));
     }
 }

@@ -359,7 +359,7 @@ class Grammar extends BaseGrammar
     {
         $columns ??= [];
 
-        if (!empty($columns) || !in_array('*', $columns)) {
+        if (!empty($columns) && !in_array('*', $columns)) {
             return $columns;
         }
 

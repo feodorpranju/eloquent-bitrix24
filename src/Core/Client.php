@@ -68,10 +68,11 @@ class Client implements ClientInterface
         ?CommandInterface $command = null
     ): ResponseInterface|ListResponseInterface|BatchResponseInterface
     {
+        dump($data);
         return ResponseFabric::make(
             Http::asJson()->post($this->getMethodUrl($method), $data),
             ($command ?? $this->cmd($method, $data)),
-        );
+        )->dump();
     }
 
     /**

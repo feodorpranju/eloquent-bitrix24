@@ -5,6 +5,8 @@ namespace Pranju\Bitrix24\Repositories\Crm;
 use Illuminate\Support\Str;
 use Pranju\Bitrix24\Contracts\Command;
 use Pranju\Bitrix24\Contracts\Repositories\HasDynamicId;
+use Pranju\Bitrix24\Contracts\Responses\Response;
+use Pranju\Bitrix24\Core\Responses\BatchResponse;
 
 class ItemRepository extends AbstractCrmRepository implements HasDynamicId
 {
@@ -28,7 +30,7 @@ class ItemRepository extends AbstractCrmRepository implements HasDynamicId
      */
     public function getAllColumnsSelect(): array
     {
-        return ["id", "uf_*"];
+        return ["*", "uf_*"];
     }
 
     /**
@@ -45,5 +47,17 @@ class ItemRepository extends AbstractCrmRepository implements HasDynamicId
     public function getDynamicId(): int
     {
         return $this->dynamicId ??= (int)Str::afterLast($this->table, '_');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSelectedItems(Response $response): array
+    {
+        if ($response instanceof BatchResponse) {
+            return parent::getSelectedItems($response);
+        }
+
+        return (array)$response->result('items', []);
     }
 }

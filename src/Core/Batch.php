@@ -105,7 +105,9 @@ class Batch extends Collection implements BatchInterface
      */
     public function first(callable $callback = null, $default = null): Command
     {
-        return $this->clear()->first();
+        $this->clear();
+
+        return parent::first();
     }
 
     /**

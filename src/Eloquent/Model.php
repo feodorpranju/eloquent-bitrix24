@@ -3,7 +3,7 @@
 namespace Pranju\Bitrix24\Eloquent;
 
 
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model as BaseModel;
@@ -23,7 +23,6 @@ use Pranju\Bitrix24\Eloquent\Factories\Factory;
  * @method static static first()
  * @method static static[]|Collection get()
  * @method static static find(int $value)
- * @mixin Model
  * @mixin Builder
  */
 class Model extends BaseModel
@@ -34,6 +33,14 @@ class Model extends BaseModel
      * @inheritDoc
      */
     protected $primaryKey = 'ID';
+
+    /**
+     * Default connection name for bitrix24
+     * May be useful when using both database and bitrix24 and you do not extend models
+     *
+     * @inheritDoc
+     */
+    protected $connection = 'bitrix24';
 
     /**
      * @inheritDoc
@@ -86,10 +93,10 @@ class Model extends BaseModel
     /**
      * Perform a model update operation.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  EloquentBuilder  $query
      * @return bool
      */
-    protected function performUpdate(Builder $query): bool
+    protected function performUpdate(EloquentBuilder $query): bool
     {
         // If the updating event returns false, we will cancel the update operation so
         // developers can hook Validation systems into their models and cancel this

@@ -114,3 +114,9 @@ Crm:
 		- crm.item.update
 		- crm.item.import
 		- crm.item.batchImport
+	TimelineComment:
+		- crm.timeline.comment.list
+		- crm.timeline.comment.get
+		- crm.timeline.comment.add
+		- crm.timeline.comment.delete
+		- crm.timeline.comment.update

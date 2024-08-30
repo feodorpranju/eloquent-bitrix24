@@ -58,7 +58,7 @@ class ListCommandsGenerator
     {
         $data = $command->getData();
         $data['limit'] = 50;
-        $data['order'] = array_replace(['ID' => 'ASC'], $data['order'] ?? []);
+        $data['order'] = array_replace([$primaryKey => 'ASC'], $data['order'] ?? []);
         $condition = ">$primaryKey";
 
         return Batch::make(

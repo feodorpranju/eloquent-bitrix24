@@ -44,6 +44,8 @@ trait SelectsItems
                 ]
             ),
             min($count, $limit ?: $count),
+            0,
+            $this->getPrimaryKey(),
         );
     }
 

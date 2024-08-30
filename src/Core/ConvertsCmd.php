@@ -11,7 +11,7 @@ trait ConvertsCmd
      */
     public function toString(): string
     {
-        return $this->getMethod().(empty($this->getData()) ? "" : "?".urldecode(http_build_query($this->getData())));
+        return $this->getMethod().(empty($this->getData()) ? "" : "?".http_build_query($this->getData()));
     }
 
     /**

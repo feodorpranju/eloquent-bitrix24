@@ -10,8 +10,6 @@ use Pranju\Bitrix24\Helpers\ListCommandsGenerator;
 
 trait SelectsItems
 {
-
-
     /**
      * @inheritDoc
      */
@@ -44,6 +42,9 @@ trait SelectsItems
                 ]
             ),
             min($count, $limit ?: $count),
+            0,
+            $this->getPrimaryKey(),
+            $this->selectPattern ?? '[{index}]'
         );
     }
 

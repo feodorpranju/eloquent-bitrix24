@@ -83,6 +83,7 @@ class Builder extends BaseBuilder implements Arrayable
         '!',
         'like',
         'between',
+        '><',
         'ilike',
     ];
 
@@ -95,6 +96,7 @@ class Builder extends BaseBuilder implements Arrayable
         '<>' => '!=',
         'like' => '',
         'ilike' => '',
+        'between' => '><',
     ];
 
 

@@ -996,14 +996,6 @@ Crm:
     - crm.button.widgets.get
   ButtonGuest:
     - crm.button.guest.register
-  Invoice:
-    - crm.invoice.fields
-    - crm.invoice.list
-    - crm.invoice.get
-    - crm.invoice.add
-    - crm.invoice.update
-    - crm.invoice.delete
-    - crm.invoice.getexternallink
   Vat:
     - crm.vat.fields
     - crm.vat.list
@@ -1020,13 +1012,6 @@ Crm:
     - crm.status.entity.items
   StatusExtra:
     - crm.status.extra.fields
-  InvoiceStatus:
-    - crm.invoice.status.fields
-    - crm.invoice.status.add
-    - crm.invoice.status.get
-    - crm.invoice.status.list
-    - crm.invoice.status.update
-    - crm.invoice.status.delete
   EnumSettings:
     - crm.enum.settings.mode
   Enum:
@@ -1058,19 +1043,6 @@ Crm:
   DealContactItems:
     - crm.deal.contact.items.set
     - crm.deal.contact.items.delete
-  Dealcategory:
-    - crm.dealcategory.fields
-    - crm.dealcategory.list
-    - crm.dealcategory.add
-    - crm.dealcategory.get
-    - crm.dealcategory.update
-    - crm.dealcategory.delete
-    - crm.dealcategory.status
-  DealcategoryStage:
-    - crm.dealcategory.stage.list
-  DealcategoryDefault:
-    - crm.dealcategory.default.get
-    - crm.dealcategory.default.set
   DealRecurring:
     - crm.deal.recurring.fields
     - crm.deal.recurring.list
@@ -1079,14 +1051,6 @@ Crm:
     - crm.deal.recurring.update
     - crm.deal.recurring.delete
     - crm.deal.recurring.expose
-  InvoiceRecurring:
-    - crm.invoice.recurring.fields
-    - crm.invoice.recurring.list
-    - crm.invoice.recurring.add
-    - crm.invoice.recurring.get
-    - crm.invoice.recurring.update
-    - crm.invoice.recurring.delete
-    - crm.invoice.recurring.expose
   Company:
     - crm.company.fields
   CompanyContactItems:
@@ -1262,12 +1226,6 @@ Crm:
     - crm.quote.userfield.list
     - crm.quote.userfield.update
     - crm.quote.userfield.delete
-  InvoiceUserfield:
-    - crm.invoice.userfield.add
-    - crm.invoice.userfield.get
-    - crm.invoice.userfield.list
-    - crm.invoice.userfield.update
-    - crm.invoice.userfield.delete
   Userfield:
     - crm.userfield.fields
     - crm.userfield.types
@@ -1284,8 +1242,6 @@ Crm:
     - crm.multifield.fields
   Duplicate:
     - crm.duplicate.findbycomm
-  Livefeedmessage:
-    - crm.livefeedmessage.add
   Externalchannel:
     - crm.externalchannel.company
     - crm.externalchannel.contact
@@ -1311,11 +1267,6 @@ Crm:
     - crm.automation.trigger.execute
   TimelineComment:
     - crm.timeline.comment.fields
-    - crm.timeline.comment.list
-    - crm.timeline.comment.get
-    - crm.timeline.comment.add
-    - crm.timeline.comment.delete
-    - crm.timeline.comment.update
   TimelineBindings:
     - crm.timeline.bindings.fields
     - crm.timeline.bindings.list

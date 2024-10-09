@@ -70,7 +70,7 @@ class Client implements ClientInterface
     {
 //        dump($data);
         return ResponseFabric::make(
-            Http::asJson()->post($this->getMethodUrl($method), $data),
+            Http::asJson()->timeout(300)->post($this->getMethodUrl($method), $data),
             ($command ?? $this->cmd($method, $data)),
         );
     }

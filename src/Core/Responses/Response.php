@@ -94,7 +94,7 @@ class Response implements ResponseInterface
      */
     public function successful(): bool
     {
-        return $this->httpResponse()?->successful() ?? !empty($this->result());
+        return empty($this['error']) && $this->httpResponse()?->successful();
     }
 
     /**

@@ -1006,7 +1006,7 @@ Crm:
 		- crm.button.widgets.get
 	ButtonGuest:
 		- crm.button.guest.register
-	Invoice:
+	Invoice [deprecated]:
 		- crm.invoice.fields
 		- crm.invoice.list
 		- crm.invoice.get
@@ -1035,7 +1035,7 @@ Crm:
 		- crm.status.entity.items
 	StatusExtra:
 		- crm.status.extra.fields
-	InvoiceStatus:
+	InvoiceStatus [deprecated]:
 		- crm.invoice.status.fields
 		- crm.invoice.status.add
 		- crm.invoice.status.get
@@ -1093,7 +1093,7 @@ Crm:
 		- crm.deal.contact.items.get
 		- crm.deal.contact.items.set
 		- crm.deal.contact.items.delete
-	Dealcategory:
+	Dealcategory [deprecated]:
 		- crm.dealcategory.fields
 		- crm.dealcategory.list
 		- crm.dealcategory.add
@@ -1101,9 +1101,9 @@ Crm:
 		- crm.dealcategory.update
 		- crm.dealcategory.delete
 		- crm.dealcategory.status
-	DealcategoryStage:
+	DealcategoryStage [deprecated]:
 		- crm.dealcategory.stage.list
-	DealcategoryDefault:
+	DealcategoryDefault [deprecated]:
 		- crm.dealcategory.default.get
 		- crm.dealcategory.default.set
 	DealRecurring:
@@ -1114,7 +1114,7 @@ Crm:
 		- crm.deal.recurring.update
 		- crm.deal.recurring.delete
 		- crm.deal.recurring.expose
-	InvoiceRecurring:
+	InvoiceRecurring [deprecated]:
 		- crm.invoice.recurring.fields
 		- crm.invoice.recurring.list
 		- crm.invoice.recurring.add
@@ -1327,7 +1327,7 @@ Crm:
 		- crm.quote.userfield.list
 		- crm.quote.userfield.update
 		- crm.quote.userfield.delete
-	InvoiceUserfield:
+	InvoiceUserfield [deprecated]:
 		- crm.invoice.userfield.add
 		- crm.invoice.userfield.get
 		- crm.invoice.userfield.list
@@ -1349,7 +1349,7 @@ Crm:
 		- crm.multifield.fields
 	Duplicate:
 		- crm.duplicate.findbycomm
-	Livefeedmessage:
+	Livefeedmessage [deprecated]:
 		- crm.livefeedmessage.add
 	Externalchannel:
 		- crm.externalchannel.company

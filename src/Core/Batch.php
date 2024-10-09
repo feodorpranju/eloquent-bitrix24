@@ -6,7 +6,6 @@ namespace Pranju\Bitrix24\Core;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Pranju\Bitrix24\Bitrix24Exception;
 use Pranju\Bitrix24\Contracts\Client;
 use Pranju\Bitrix24\Contracts\Command;
 use Pranju\Bitrix24\Contracts\Responses\BatchResponse;
@@ -76,7 +75,7 @@ class Batch extends Collection implements BatchInterface
             ]);
         }
 
-        foreach ($this->chunkData() as $data) {
+        foreach ($this->chunkData() as $idx => $data) {
             if (!empty($responses)) {
                 foreach ($data['cmd'] as $key => $command) {
                     $data['cmd'][$key] = $this->interpolateCommand($responses, $command);
@@ -117,7 +116,7 @@ class Batch extends Collection implements BatchInterface
         $count = $this->count();
         $result = [];
 
-        for ($i = 1; $i <= $count; $i++) {
+        for ($i = 1; $i <= ceil($count/50); $i++) {
             $result[] = $this->getData($i);
         }
 

@@ -32,7 +32,12 @@ class BatchResponse extends Response implements BatchResponseInterface
      */
     protected function getResponseKeys(): array
     {
-        return array_keys($this->result('result', []));
+        return array_unique(
+            array_merge(
+                array_keys($this->result('result', [])),
+                array_keys($this->result('result_error', [])),
+            )
+        );
     }
 
     /**
@@ -62,5 +67,13 @@ class BatchResponse extends Response implements BatchResponseInterface
         }
 
         return new Response($response);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function successful(): bool
+    {
+        return empty($this->result('result_error'));
     }
 }

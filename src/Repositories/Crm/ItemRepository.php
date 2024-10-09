@@ -10,6 +10,8 @@ use Pranju\Bitrix24\Core\Responses\BatchResponse;
 
 class ItemRepository extends AbstractCrmRepository implements HasDynamicId
 {
+    protected string $selectPattern = '[items][{index}]';
+
     /**
      * CRM entity type id
      *

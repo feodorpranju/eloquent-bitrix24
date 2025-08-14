@@ -1,6 +1,6 @@
 # Docs
 
-https://pranju.ru/docs/sdk/bitrix24
+Документация: [https://docs.pranju.ru/eloquent-bitrix24/](https://docs.pranju.ru/eloquent-bitrix24/)
 
 # Eloquent SDK for Bitrix24
 

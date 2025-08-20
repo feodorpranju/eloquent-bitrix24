@@ -163,19 +163,19 @@ class Connection extends BaseConnection
     /** @inheritdoc */
     #[Pure] protected function getDefaultPostProcessor(): Query\Processor
     {
-        return new Query\Processor();
+        return new Query\Processor($this);
     }
 
     /** @inheritdoc */
     #[Pure] protected function getDefaultQueryGrammar(): Query\Grammar
     {
-        return new Query\Grammar();
+        return new Query\Grammar($this);
     }
 
     /** @inheritdoc */
     #[Pure] protected function getDefaultSchemaGrammar(): Schema\Grammar
     {
-        return new Schema\Grammar();
+        return new Schema\Grammar($this);
     }
 
     /**
